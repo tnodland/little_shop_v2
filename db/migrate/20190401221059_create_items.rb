@@ -7,7 +7,7 @@ class CreateItems < ActiveRecord::Migration[5.1]
       t.integer :quantity
       t.money :current_price
       t.boolean :enabled, default: true
-      t.references :user, foreign_key: true
+      t.references :merchant, foreign_key: {to_table: :users}
 
       t.timestamps
     end

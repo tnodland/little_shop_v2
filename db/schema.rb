@@ -22,22 +22,22 @@ ActiveRecord::Schema.define(version: 20190401222222) do
     t.integer "quantity"
     t.money "current_price", scale: 2
     t.boolean "enabled", default: true
-    t.bigint "user_id"
+    t.bigint "merchant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_items_on_user_id"
+    t.index ["merchant_id"], name: "index_items_on_merchant_id"
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.bigint "orders_id"
-    t.bigint "items_id"
+    t.bigint "order_id"
+    t.bigint "item_id"
     t.integer "quantity"
     t.money "ordered_price", scale: 2
     t.boolean "fulfilled", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["items_id"], name: "index_order_items_on_items_id"
-    t.index ["orders_id"], name: "index_order_items_on_orders_id"
+    t.index ["item_id"], name: "index_order_items_on_item_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 20190401222222) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "items", "users"
-  add_foreign_key "order_items", "items", column: "items_id"
-  add_foreign_key "order_items", "orders", column: "orders_id"
+  add_foreign_key "items", "users", column: "merchant_id"
+  add_foreign_key "order_items", "items"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
 end
