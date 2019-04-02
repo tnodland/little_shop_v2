@@ -58,7 +58,7 @@ RSpec.describe "Items index page" do
 
       visit items_path
 
-      within "most-popular-items" do
+      within "#most-popular-items" do
         expect(page).to have_content("5 Most Popular Items:")
         expect(page.all("#item")[0]).to have_content("#{item10.name}: #{item10.total_sold} sold")
         expect(page.all("#item")[1]).to have_content("#{item9.name}: #{item9.total_sold} sold")
@@ -67,7 +67,7 @@ RSpec.describe "Items index page" do
         expect(page.all("#item")[4]).to have_content("#{item6.name}: #{item6.total_sold} sold")
       end
 
-      within "least-popular-items" do
+      within "#least-popular-items" do
         expect(page).to have_content("5 Least Popular Items:")
         expect(page.all("#item")[0]).to have_content("#{item1.name}: #{item1.total_sold} sold")
         expect(page.all("#item")[1]).to have_content("#{item2.name}: #{item2.total_sold} sold")
