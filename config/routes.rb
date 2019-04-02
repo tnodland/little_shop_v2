@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get '/cart', to: "cart#show"
   get '/merchants', to: "merchants#index"
 
+  get '/login', to: "sessions#new"
+
   resources :items, only: [:index, :show]
 
 end
