@@ -83,4 +83,26 @@ feature 'Navigation Bar' do
       end
     end
   end
+
+  context 'as a Merchant' do
+    it 'should show Merchant navigation links' do
+      user = create(:merchant)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+      visit root_path
+
+      within 'nav.main-nav' do
+        expect(page).to have_link(@home)
+        expect(page).to have_link(@items)
+        expect(page).to have_link(@merchants)
+        expect(page).to have_link(@dashboard_m)
+        expect(page).to have_link(@logout)
+
+        expect(page).to_not have_link(@profile)
+        expect(page).to_not have_link(@login)
+        expect(page).to_not have_link(@cart)
+        expect(page).to_not have_link(@dashboard_a)
+        @nav_content = page
+      end
+    end
+  end
 end
