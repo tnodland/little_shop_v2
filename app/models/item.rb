@@ -18,7 +18,7 @@ class Item < ApplicationRecord
 
   def self.sort_sold(order)
     joins(:order_items)
-    .select("items.*, sum(distinct order_items.quantity)as item_count")
+    .select("items.*, sum(order_items.quantity)as item_count")
     .where(enabled: true)
     .where("order_items.fulfilled = ?", true)
     .group(:id)
