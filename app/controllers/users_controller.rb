@@ -3,6 +3,9 @@ class UsersController <ApplicationController
   def show
   end
 
+  def new
+  end
+
   private
     def require_user
       render file: "/public/404" unless current_user?
