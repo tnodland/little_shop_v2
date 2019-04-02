@@ -30,6 +30,32 @@ feature 'Navigation Bar' do
         expect(page).to_not have_link(@logout)
         expect(page).to_not have_link(@dashboard_m)
         expect(page).to_not have_link(@dashboard_a)
+        @nav_content = page
+      end
+
+      visit items_path
+      within 'nav.main-nav' do
+        expect(page).to eq(@nav_content)
+      end
+
+      visit merchants_path
+      within 'nav.main-nav' do
+        expect(page).to eq(@nav_content)
+      end
+
+      visit cart_path
+      within 'nav.main-nav' do
+        expect(page).to eq(@nav_content)
+      end
+
+      visit login_path
+      within 'nav.main-nav' do
+        expect(page).to eq(@nav_content)
+      end
+
+      visit register_path
+      within 'nav.main-nav' do
+        expect(page).to eq(@nav_content)
       end
     end
   end
