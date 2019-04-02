@@ -9,7 +9,7 @@ RSpec.describe User do
       expect(user.admin?).to be_truthy
     end
 
-    it 'can create a merchang' do
+    it 'can create a merchant' do
       admin = create(:merchant)
 
       expect(user.role).to eq("merchant")
