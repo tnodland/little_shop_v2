@@ -28,7 +28,6 @@ class Item < ApplicationRecord
 
   def total_sold
     order_items.where("order_items.fulfilled = ?", true)
-               .pluck("sum(order_items.quantity)as sold_count")
-               .first
+               .sum('order_items.quantity')
   end
 end
