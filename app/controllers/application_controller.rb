@@ -12,4 +12,12 @@ class ApplicationController < ActionController::Base
   def current_customer?
     current_user == nil || current_user&.user?
   end
+
+  def current_admin?
+    current_user&.admin?
+  end
+
+  def current_merchant?
+    current_user&.merchant?
+  end
 end
