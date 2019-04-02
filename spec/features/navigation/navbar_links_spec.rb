@@ -2,16 +2,16 @@ require 'rails_helper'
 
 feature 'Navigation Bar' do
   background do
-    @home        = {locator: 'Home',           options: {href: '/'}}
-    @items       = {locator: 'Browse Items',   options: {href: '/items'}}
-    @merchants   = {locator: 'View Merchants', options: {href: '/merchants'}}
-    @cart        = {locator: 'Cart',           options: {href: '/cart'}}
-    @profile     = {locator: 'Profile',        options: {href: '/profile'}}
-    @dashboard_m = {locator: 'Dashboard',      options: {href: '/dashboard'}}
-    @dashboard_a = {locator: 'Dashboard',      options: {href: '/admin/dashboard'}}
-    @register    = {locator: 'Register',       options: {href: '/register'}}
-    @login       = {locator: 'Log In',         options: {href: '/login'}}
-    @logout      = {locator: 'Log Out',        options: {href: '/logout'}}
+    @home        = {exact_text: 'Home',           href: '/'}
+    @items       = {exact_text: 'Browse Items',   href: '/items'}
+    @merchants   = {exact_text: 'View Merchants', href: '/merchants'}
+    @cart        = {exact_text: 'Cart',           href: '/cart'}
+    @profile     = {exact_text: 'Profile',        href: '/profile'}
+    @dashboard_m = {exact_text: 'Dashboard',      href: '/dashboard'}
+    @dashboard_a = {exact_text: 'Dashboard',      href: '/admin/dashboard'}
+    @register    = {exact_text: 'Register',       href: '/register'}
+    @login       = {exact_text: 'Log In',         href: '/login'}
+    @logout      = {exact_text: 'Log Out',        href: '/logout'}
   end
 
   context 'as a Visitor' do
