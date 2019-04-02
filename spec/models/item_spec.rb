@@ -27,5 +27,26 @@ RSpec.describe Item, type: :model do
 
       expect(Item.enabled_items).to eq([item1, item2])
     end
+
+    it ".sort_sold" do
+      merchant  = create(:merchant)
+      item1 = create(:item, user: merchant)
+      item2 = create(:item, user: merchant)
+      item3 = create(:item, user: merchant)
+      item4 = create(:item, user: merchant)
+      item5 = create(:item, user: merchant)
+
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, order: order, item: item1, quantity: item1.quantity)
+      create(:fulfilled_order_item, order: order, item: item2, quantity: item2.quantity)
+      create(:fulfilled_order_item, order: order, item: item3, quantity: item3.quantity)
+      create(:fulfilled_order_item, order: order, item: item4, quantity: item4.quantity)
+      create(:fulfilled_order_item, order: order, item: item5, quantity: item5.quantity)
+
+      expect(Item.sort_sold("ASC")).to eq([item1, item2, item3, item4, item5])
+      expect(Item.sort_sold("DESC")).to eq([item5, item4, item3, item2, item1])
+    end
   end
 end

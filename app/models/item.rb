@@ -15,4 +15,14 @@ class Item < ApplicationRecord
   def self.enabled_items
     where(enabled: true)
   end
+
+  def self.sort_sold(order)
+    joins(:order_items)
+    .select("items.*, sum(order_items.quantity)as item_count")
+    .where(enabled: true)
+    .where("order_items.fulfilled = ?", true)
+    .group(:id)
+    .order("item_count #{order}")
+    .limit(5)
+  end
 end
