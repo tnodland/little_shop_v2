@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: "orders#index"
   end
 
-  get '/dashboard', to: "items#index"
+  get '/dashboard', to: "merchant/items#index"
   get '/profile', to: "users#show"
   get '/cart', to: "cart#show"
 end
