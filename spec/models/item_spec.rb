@@ -17,4 +17,15 @@ RSpec.describe Item, type: :model do
     it {should have_many :order_items}
     it {should have_many(:orders).through :order_items}
   end
+
+  describe 'class methods' do
+    it ".enabled_items" do
+      merchant  = create(:merchant)
+      item1 = create(:item, user: merchant)
+      item2 = create(:item, user: merchant)
+      item3 = create(:inactive_item, user: merchant)
+
+      expect(Item.enabled_items).to eq([item1, item2])
+    end
+  end
 end
