@@ -62,7 +62,7 @@ RSpec.describe 'Registration page' do
       # All previous data still filled in testing
       expect(current_path).to eq(register_path)
       expect(page).to have_content("E-Mail already in use.")
-      
+
       expect(page).to have_content(@user_info[:name])
       expect(page).to have_content(@user_info[:street_address])
       expect(page).to have_content(@user_info[:city])
@@ -80,7 +80,7 @@ RSpec.describe 'Registration page' do
 
       visit register_path
       expect(current_path).to eq(root_path)
-      expect(page).to have_content("You are already Registered")
+      expect(page).to have_content("You are already registered")
 
     end
   end
