@@ -105,4 +105,26 @@ feature 'Navigation Bar' do
       end
     end
   end
+
+  context 'as an Admin' do
+    it 'should show Admin navigation links' do
+      user = create(:admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+      visit root_path
+
+      within 'nav.main-nav' do
+        expect(page).to have_link('Home', href: '/')
+        expect(page).to have_link(@items)
+        expect(page).to have_link(@merchants)
+        expect(page).to have_link(@dashboard_a)
+        expect(page).to have_link(@logout)
+
+        expect(page).to_not have_link(@profile)
+        expect(page).to_not have_link(@login)
+        expect(page).to_not have_link(@cart)
+        expect(page).to_not have_link(@dashboard_m)
+        @nav_content = page
+      end
+    end
+  end
 end
