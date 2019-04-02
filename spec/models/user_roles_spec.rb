@@ -16,10 +16,10 @@ RSpec.describe User do
       expect(user.merchant?).to be_truthy
     end
     it 'can create an admin' do
-      admin = create(:customer)
+      admin = create(:user)
 
-      expect(user.role).to eq("customer")
-      expect(user.customer?).to be_truthy
+      expect(user.role).to eq("user")
+      expect(user.user?).to be_truthy
     end
   end
 end
