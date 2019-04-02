@@ -4,7 +4,6 @@ class Item < ApplicationRecord
                         :image_url,
                         :quantity,
                         :current_price,
-                        :enabled,
                         :merchant_id
 
   belongs_to :user, foreign_key: 'merchant_id'

@@ -6,8 +6,7 @@ class User < ApplicationRecord
                         :zip_code,
                         :email,
                         :password,
-                        :role,
-                        :enabled
+                        :role
   validates_uniqueness_of :email
 
   has_many :orders
