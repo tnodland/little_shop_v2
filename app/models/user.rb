@@ -7,7 +7,6 @@ class User < ApplicationRecord
                         :email,
                         :password,
                         :role
-                        # :enabled
   validates_uniqueness_of :email
 
   has_many :orders
