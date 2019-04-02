@@ -7,7 +7,10 @@ class User < ApplicationRecord
                         :email,
                         :password,
                         :role
+
   validates_uniqueness_of :email
+
+  validates_inclusion_of :enabled, in: [true, false]
 
   has_many :orders
   has_many :items, foreign_key: "merchant_id"
