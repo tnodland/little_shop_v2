@@ -1,5 +1,6 @@
-class UsersController <ApplicationController
+class UsersController < ApplicationController
   before_action :require_user
+  skip_before_action :require_user, only: [:new]
   def show
   end
 
