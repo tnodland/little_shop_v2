@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   validates_uniqueness_of :email
 
-  validates_inclusion_of :enabled, in: [true, false]
+  validates_exclusion_of :enabled, in: [nil]
 
   has_many :orders
   has_many :items, foreign_key: "merchant_id"

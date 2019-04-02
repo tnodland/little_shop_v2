@@ -7,5 +7,5 @@ class OrderItem < ApplicationRecord
                         :quantity,
                         :ordered_price
 
-  validates_inclusion_of :fulfilled, in: [true, false]
+  validates_exclusion_of :fulfilled, in: [nil]
 end

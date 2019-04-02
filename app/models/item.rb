@@ -6,7 +6,7 @@ class Item < ApplicationRecord
                         :current_price,
                         :merchant_id
 
-  validates_inclusion_of :enabled, in: [true, false]
+  validates_exclusion_of :enabled, in: [nil]
 
   belongs_to :user, foreign_key: 'merchant_id'
   has_many :order_items
