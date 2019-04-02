@@ -18,11 +18,17 @@ class Item < ApplicationRecord
 
   def self.sort_sold(order)
     joins(:order_items)
-    .select("items.*, sum(order_items.quantity)as item_count")
+    .select("items.*, sum(distinct order_items.quantity)as item_count")
     .where(enabled: true)
     .where("order_items.fulfilled = ?", true)
     .group(:id)
     .order("item_count #{order}")
     .limit(5)
+  end
+
+  def total_sold
+    order_items.where("order_items.fulfilled = ?", true)
+               .pluck("sum(order_items.quantity)as sold_count")
+               .first
   end
 end
