@@ -7,7 +7,8 @@ RSpec.describe "Items index page" do
       @merchant2  = create(:merchant)
       @item1 = create(:item, user: @merchant1)
       @item2 = create(:item, user: @merchant2)
-      @item3 = create(:inactive_item, user: @merchant1)
+      @item3 = create(:item, user: @merchant1)
+      @item4 = create(:inactive_item, user: @merchant1)
     end
 
     it "can see all enabled items" do
@@ -30,7 +31,7 @@ RSpec.describe "Items index page" do
         expect(page).to have_content(@item2.current_price)
       end
 
-      expect(page).to_not have_content(@item3.name)
+      expect(page).to_not have_content(@item4.name)
     end
 
     it "can see statistics about popular items" do
@@ -69,9 +70,9 @@ RSpec.describe "Items index page" do
 
       within "#least-popular-items" do
         expect(page).to have_content("5 Least Popular Items:")
-        expect(page.all("#item")[0]).to have_content("#{item1.name}: #{item1.total_sold} sold")
-        expect(page.all("#item")[1]).to have_content("#{item2.name}: #{item2.total_sold} sold")
-        expect(page.all("#item")[2]).to have_content("#{item3.name}: #{item3.total_sold} sold")
+        expect(page.all("#item")[0]).to have_content("#{@item1.name}: #{@item1.total_sold} sold")
+        expect(page.all("#item")[1]).to have_content("#{@item2.name}: #{@item2.total_sold} sold")
+        expect(page.all("#item")[2]).to have_content("#{@item3.name}: #{@item3.total_sold} sold")
         expect(page.all("#item")[3]).to have_content("#{item4.name}: #{item4.total_sold} sold")
         expect(page.all("#item")[4]).to have_content("#{item5.name}: #{item5.total_sold} sold")
       end
