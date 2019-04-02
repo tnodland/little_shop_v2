@@ -6,7 +6,7 @@ RSpec.describe OrderItem, type: :model do
     it {should validate_presence_of :item_id}
     it {should validate_presence_of :quantity}
     it {should validate_presence_of :ordered_price}
-    it {should validate_inclusion_of(:fulfilled).in_array([true,false])}
+    it {should validate_exclusion_of(:fulfilled).in_array([nil])}
   end
 
   describe 'relationships' do
