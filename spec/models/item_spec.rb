@@ -7,11 +7,11 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :image_url}
     it {should validate_presence_of :quantity}
     it {should validate_presence_of :current_price}
-    it {should validate_presence_of :enabled}
+    it {should validate_inclusion_of(:enabled).in_array([true,false])}
     it {should validate_presence_of :merchant_id}
 
   end
-  
+
   describe 'relationships' do
     it {should belong_to :user}
     it {should have_many :order_items}
