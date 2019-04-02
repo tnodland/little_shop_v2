@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     get '/merchants/:id', to: "merchants#show", as: :merchant
   end
 
+  resources :users, only: [:create]
   get '/register', to: "users#new"
   get '/dashboard', to: "merchant/items#index"
   get '/profile', to: "users#show"

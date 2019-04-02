@@ -89,7 +89,8 @@ end
 RSpec.describe 'Registration page' do
   before :each do
     @user_info = attributes_for(:user)
-
+    visit register_path
+    
     fill_in "Name", with: @user_info[:name]
     fill_in "Street Address", with: @user_info[:street_address]
     fill_in "City", with: @user_info[:city]

@@ -1,14 +1,17 @@
 class UsersController <ApplicationController
-  before_action :require_user
+  # before_action :require_user
   def show
     require_user
   end
 
+  def create
+  end
   def new
     unless current_visitor?
       flash[:info] = "You are already registered"
       redirect_to root_path
     end
+    @user = User.new
 
 
   end
