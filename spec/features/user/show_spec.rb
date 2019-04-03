@@ -11,7 +11,7 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       expect(page).to have_content("Name: #{@user.name}")
-      expect(page).to have_content("Street Address: #{@user.street_adress}")
+      expect(page).to have_content("Street Address: #{@user.street_address}")
       expect(page).to have_content("City: #{@user.city}")
       expect(page).to have_content("State: #{@user.state}")
       expect(page).to have_content("Zip Code: #{@user.zip_code}")
