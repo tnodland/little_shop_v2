@@ -5,6 +5,9 @@
   <p>Grand Total: <%= @order.total_cost %></p>
   <p>Order Placed: <%= @order.created_at.strftime("%m/%d/%Y") %></p>
   <p>Last Updated: <%= @order.updated_at.strftime("%m/%d/%Y") %></p>
+  <% if @order.pending? %>
+    <%= button_to "Cancel Order" %>
+  <% end %>
 </section>
 
 <% @line_items.each do |line| %>
