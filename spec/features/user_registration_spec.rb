@@ -129,8 +129,7 @@ RSpec.describe 'Registration page' do
       expect(user.state).to eq(@user_info[:state])
       expect(user.zip_code).to eq(@user_info[:zip_code])
       expect(user.email).to eq(@user_info[:email])
-      expect(user.authenticate(@user_info[:password])).to eq(true)
-      # expect(user.password).to eq(@user_info[:password])  SHOULD USE AUTHENTICATE METHOD?
+      expect(user.authenticate(@user_info[:password])).to eq(user)
 
     end
 
@@ -139,5 +138,8 @@ RSpec.describe 'Registration page' do
       expect(page).to have_content("You are now registered and logged in")
     end
 
+    it 'you should be logged on' do
+      
+    end
   end
 end
