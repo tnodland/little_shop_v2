@@ -5,17 +5,16 @@ class UsersController <ApplicationController
   end
 
   def create
-    binding.pry
     if passwords_dont_match
-      @user = User.new
-      flash[:info] = "Passwords do not match"
-      redirect_to register_path form_info
+      redisplay_new_form "Passwords do not match"
     end
 
     if incomplete_information
-      @user = User.new
-      flash[:info] = "Please fill in all fields"
-      redirect_to register_path form_info
+      redisplay_new_form "Please fill in all fields"
+    end
+
+    if email_in_use
+      redisplay_new_form "E-Mail already in use", form_info.except("email")
     end
 
   end
@@ -31,6 +30,16 @@ class UsersController <ApplicationController
   end
 
   private
+
+  def email_in_use
+    User.exists?(email: params[:user][:email])
+  end
+
+  def redisplay_new_form(message, pre_fill = form_info)
+    @user = User.new
+    flash[:info] = message
+    redirect_to register_path pre_fill
+  end
 
   def passwords_dont_match
     params[:user][:password] != params[:user][:password_confirmation]

@@ -76,17 +76,15 @@ RSpec.describe 'Registration page' do
 
       click_button "Register"
 
-
-      # All previous data still filled in testing
       expect(current_path).to eq(register_path)
-      expect(page).to have_content("E-Mail already in use.")
+      expect(page).to have_content("E-Mail already in use")
 
-      expect(page).to have_content(@user_info[:name])
-      expect(page).to have_content(@user_info[:street_address])
-      expect(page).to have_content(@user_info[:city])
-      expect(page).to have_content(@user_info[:state])
-      expect(page).to have_content(@user_info[:zip_code])
-      expect(page).to have_content(@user_info[:password])
+      expect(page).to have_field('Name', with:@user_info[:name])
+      expect(page).to have_field("Street Address" ,with:@user_info[:street_address])
+      expect(page).to have_field("City" ,with:@user_info[:city])
+      expect(page).to have_field("State" ,with:@user_info[:state])
+      expect(page).to have_field("Zip Code" ,with:@user_info[:zip_code])
+      expect(page).not_to have_field("E-Mail" ,with:user_2.email)
 
     end
   end
