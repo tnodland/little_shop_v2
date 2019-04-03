@@ -32,7 +32,9 @@ class UsersController < ApplicationController
       redisplay_new_form "Please fill in all fields"
 
     elsif email_in_use
-      redisplay_new_form "E-Mail already in use", form_info.except("email")
+      @user = User.new(user_info.except(:email))
+      flash[:info] = "E-Mail already in use"
+      render :new
 
     else
       @user = User.create(user_info)
