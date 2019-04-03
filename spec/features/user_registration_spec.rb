@@ -139,7 +139,9 @@ RSpec.describe 'Registration page' do
     end
 
     it 'you should be logged on' do
-      
+      # Needs to create a session and give all pertinent info
+      # and then check to be logged in
+      expect(true).to eq(false)
     end
   end
 end

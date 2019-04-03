@@ -63,7 +63,4 @@ class UsersController <ApplicationController
     render file: "/public/404" unless current_user?
   end
 
-  def require_visitor
-    redirect_to root_path unless current_visitor?
-  end
 end
