@@ -16,6 +16,10 @@ class UsersController <ApplicationController
     if email_in_use
       redisplay_new_form "E-Mail already in use", form_info.except("email")
     end
+    binding.pry
+    @user = User.create(user_info)
+
+    redirect_to profile_path(@user)
 
   end
 
@@ -60,7 +64,6 @@ class UsersController <ApplicationController
     user_info.except(:password).to_hash
   end
 
-  def
   def require_user
     render file: "/public/404" unless current_user?
   end

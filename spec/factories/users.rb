@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:street_address) { |n| "#{n} test street"}
     city { "Testville" }
     state { "Colorado" }
-    zip_code { 11111 }
+    zip_code { "11111" }
     sequence(:email) { |n| "test#{n}@mail.com"}
     password { "password" }
     enabled { true }

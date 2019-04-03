@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20190401222222) do
 
   create_table "users", force: :cascade do |t|
     t.integer "role", limit: 2, default: 0
-    t.boolean "enabled"
+    t.boolean "enabled", default: true
     t.string "name"
     t.string "street_address"
     t.string "city"
