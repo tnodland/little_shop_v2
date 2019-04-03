@@ -6,4 +6,8 @@ class Order < ApplicationRecord
   has_many :items, through: :order_items
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
+
+  def total_count
+    self.order_items.sum(:quantity)
+  end
 end
