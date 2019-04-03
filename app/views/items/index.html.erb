@@ -1,5 +1,19 @@
 <h1>All Items:</h1>
 
+<ul id="most-popular-items">
+  <h3>5 Most Popular Items: </h3>
+  <% @top_5.each do |item| %>
+    <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+  <% end %>
+</ul>
+
+<ul id="least-popular-items">
+  <h3>5 Least Popular Items: </h3>
+  <% @bottom_5.each do |item| %>
+    <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+  <% end %>
+</ul>
+
 <% @items.each do |item| %>
   <section id="item-<%= item.id %>">
     <h3><%= link_to "#{item.name}", item_path(item) %></h3>
