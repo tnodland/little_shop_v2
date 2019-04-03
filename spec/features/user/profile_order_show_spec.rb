@@ -79,7 +79,7 @@ RSpec.describe 'Profile Orders Show', type: :feature do
       order_4 = create(:order, status: 0, user_id: @user.id)
 
       visit profile_order_path(order_4)
-      
+
       expect(page).to have_button("Cancel Order")
 
       visit profile_order_path(order_1)

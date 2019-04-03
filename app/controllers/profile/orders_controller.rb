@@ -24,8 +24,6 @@ class Profile::OrdersController < Profile::BaseController
       order.save
       flash[:notice] = "Your order has been cancelled"
       redirect_to profile_path
-    else
-      redirect_to profile_order_path(params[:id])
     end
   end
 end
