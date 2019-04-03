@@ -5,14 +5,21 @@ class UsersController <ApplicationController
   end
 
   def create
-    # binding.pry
+    binding.pry
     if passwords_dont_match
       @user = User.new
       flash[:info] = "Passwords do not match"
       redirect_to register_path form_info
     end
 
+    if incomplete_information
+      @user = User.new
+      flash[:info] = "Please fill in all fields"
+      redirect_to register_path form_info
+    end
+
   end
+
   def new
     unless current_visitor?
       flash[:info] = "You are already registered"
@@ -29,6 +36,10 @@ class UsersController <ApplicationController
     params[:user][:password] != params[:user][:password_confirmation]
   end
 
+  def incomplete_information
+    user_info.to_hash.any?{|key, value| value == ""}
+
+  end
   def user_info
     params
     .require(:user)

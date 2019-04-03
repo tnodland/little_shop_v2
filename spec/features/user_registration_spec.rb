@@ -40,7 +40,6 @@ RSpec.describe 'Registration page' do
       fill_in "Confirm Password", with: "Not Password"
 
       click_button "Register"
-      save_and_open_page
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Passwords do not match")
     end
@@ -58,7 +57,7 @@ RSpec.describe 'Registration page' do
       click_button "Register"
 
       expect(current_path).to eq(register_path)
-      expect(page).to have_content("Please fill in all fields.")
+      expect(page).to have_content("Please fill in all fields")
     end
 
     it 'registration will not allow you to use an email in the database' do
