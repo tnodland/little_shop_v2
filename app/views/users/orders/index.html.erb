@@ -1,6 +1,6 @@
 <% @orders.each do |order| %>
   <section id="order-<%= order.id %>">
-  <p><%= link_to "Order ID: #{order.id}"%></p>
+  <p><%= link_to "Order ID: #{order.id}", profile_order_path(order)%></p>
   <p>Order Status: <%= order.status %></p>
   <p>QTY of Items: <%= order.total_count %></p>
   <p>Grand Total: <%= order.total_cost %></p>
