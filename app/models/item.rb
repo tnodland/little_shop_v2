@@ -3,10 +3,7 @@ class Item < ApplicationRecord
                         :description,
                         :image_url,
                         :quantity,
-                        :current_price,
-                        :merchant_id
-
-  validates_exclusion_of :enabled, in: [nil]
+                        :current_price #break out for nuericality checks
 
   belongs_to :user, foreign_key: 'merchant_id'
   has_many :order_items
@@ -28,6 +25,6 @@ class Item < ApplicationRecord
 
   def total_sold
     order_items.where("order_items.fulfilled = ?", true)
-               .sum('order_items.quantity')
+               .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
   end
 end

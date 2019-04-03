@@ -134,7 +134,7 @@ RSpec.describe 'Registration page' do
     end
 
     it 'you should be on the user profile page with a flash message about registration and logging in' do
-      expect(current_path).to eq(profile_path(User.last))
+      expect(current_path).to eq(profile_path)
       expect(page).to have_content("You are now registered and logged in")
     end
 
