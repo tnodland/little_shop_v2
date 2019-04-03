@@ -138,10 +138,8 @@ RSpec.describe 'Registration page' do
       expect(page).to have_content("You are now registered and logged in")
     end
 
-    it 'you should be logged on' do
+    it 'you should be logged on'
       # Needs to create a session and give all pertinent info
       # and then check to be logged in
-      expect(true).to eq(false)
-    end
   end
 end

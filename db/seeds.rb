@@ -22,4 +22,4 @@ order = create(:order, user: user)
 oi = create(:order_item, item: item1, order: order)
 oi2 = create(:fulfilled_order_item, item: item1, order: order)
 
-binding.pry
+# binding.pry
