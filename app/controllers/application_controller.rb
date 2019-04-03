@@ -21,6 +21,11 @@ class ApplicationController < ActionController::Base
     current_user&.merchant?
   end
 
+
+  def current_visitor?
+    current_user == nil
+  end
+  
   def viewer_category
     if current_user?
       'user'
