@@ -6,23 +6,14 @@ RSpec.describe 'as a visitor' do
     user = create(:user)
   end
 
-  it 'gives 404 at profile page' do
-    visit profile_path
-    expect(page).to have_content(@error_content)
-  end
+  scenario 'attempting to visit unauthorized pages' do
+    it 'sees 404 error' do
+      visit profile_path
+      expect(page).to have_content(@error_content)
 
-  it 'gives 404 at dashboard' do
-    visit dashboard_path
-    expect(page).to have_content(@error_content)
-  end
+      visit dashboard_path
+      expect(page).to have_content(@error_content)
 
-  it 'shows the cart' do
-    visit cart_path
-    expect(page).not_to have_content(@error_content)
-  end
-
-  context 'visit any admin path' do
-    it 'gives 404' do
       visit admin_dashboard_path
       expect(page).to have_content(@error_content)
 
@@ -34,6 +25,13 @@ RSpec.describe 'as a visitor' do
 
       visit admin_merchant_path(User.last)
       expect(page).to have_content(@error_content)
+    end
+  end
+
+  scenario 'attempting to visit authorized pages' do
+    it 'sees page content' do
+      visit cart_path
+      expect(page).not_to have_content(@error_content)
     end
   end
 end
@@ -45,23 +43,10 @@ RSpec.describe 'as a user' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
 
-  it 'shows the profile page' do
-    visit profile_path
-    expect(page).not_to have_content(@error_content)
-  end
-
-  it 'gives 404 at dashboard' do
-    visit dashboard_path
-    expect(page).to have_content(@error_content)
-  end
-
-  it 'shows the cart' do
-    visit cart_path
-    expect(page).not_to have_content(@error_content)
-  end
-
-  context 'visit any admin path' do
-    it 'gives 404' do
+  scenario 'attempting to visit unauthorized pages' do
+    it 'sees 404 error' do
+      visit dashboard_path
+      expect(page).to have_content(@error_content)
 
       visit admin_dashboard_path
       expect(page).to have_content(@error_content)
@@ -74,6 +59,16 @@ RSpec.describe 'as a user' do
 
       visit admin_merchant_path(User.last)
       expect(page).to have_content(@error_content)
+    end
+  end
+
+  scenario 'attempting to visit authorized pages' do
+    it 'sees page content' do
+      visit profile_path
+      expect(page).not_to have_content(@error_content)
+
+      visit cart_path
+      expect(page).not_to have_content(@error_content)
     end
   end
 end
@@ -85,23 +80,13 @@ RSpec.describe 'as a merchant' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
 
-  it 'gives 404 at profile page' do
-    visit profile_path
-    expect(page).to have_content(@error_content)
-  end
+  scenario 'attempting to visit unauthorized pages' do
+    it 'sees 404 error' do
+      visit profile_path
+      expect(page).to have_content(@error_content)
 
-  it 'shows the dashboard' do
-    visit dashboard_path
-    expect(page).not_to have_content(@error_content)
-  end
-
-  it 'gives 404 at the cart' do
-    visit cart_path
-    expect(page).to have_content(@error_content)
-  end
-
-  context 'visit any admin path' do
-    it 'gives 404' do
+      visit cart_path
+      expect(page).to have_content(@error_content)
 
       visit admin_dashboard_path
       expect(page).to have_content(@error_content)
@@ -116,6 +101,13 @@ RSpec.describe 'as a merchant' do
       expect(page).to have_content(@error_content)
     end
   end
+
+  scenario 'attempting to visit authorized pages' do
+    it 'sees page content' do
+      visit dashboard_path
+      expect(page).not_to have_content(@error_content)
+    end
+  end
 end
 
 RSpec.describe 'as an admin' do
@@ -125,23 +117,19 @@ RSpec.describe 'as an admin' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
   end
 
-  it 'gives 404 at profile page' do
-    visit profile_path
-    expect(page).to have_content(@error_content)
+  scenario 'attempting to visit unauthorized pages' do
+    it 'sees 404 error' do
+      visit profile_path
+      expect(page).to have_content(@error_content)
+      visit dashboard_path
+      expect(page).to have_content(@error_content)
+      visit cart_path
+      expect(page).to have_content(@error_content)
+    end
   end
 
-  it 'gives 404 at dashboard' do
-    visit dashboard_path
-    expect(page).to have_content(@error_content)
-  end
-
-  it 'give 404 at cart' do
-    visit cart_path
-    expect(page).to have_content(@error_content)
-  end
-
-  context 'visit any admin path' do
-    it 'shows page' do
+  scenario 'attempting to visit authorized pages' do
+    it 'sees page content' do
       visit admin_dashboard_path
       expect(page).not_to have_content(@error_content)
 
