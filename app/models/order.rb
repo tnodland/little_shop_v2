@@ -10,4 +10,8 @@ class Order < ApplicationRecord
   def total_count
     self.order_items.sum(:quantity)
   end
+
+  def total_cost
+    self.order_items.sum("quantity*ordered_price").to_f
+  end
 end

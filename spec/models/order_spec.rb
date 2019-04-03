@@ -34,7 +34,7 @@ RSpec.describe Order, type: :model do
         create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
         create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
 
-        expect(order.total_cost).to eq(15.0)
+        expect(order.total_cost).to eq(75.0)
       end
     end
   end
