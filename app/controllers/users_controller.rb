@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if user_info[:password] == ""
-      @user.update(user_info.except(:password))
+      @user.update(user_info.except(:password, :password_confirmation))
     elsif user_info[:password]
       @user.update(user_info)
     end
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
     params
     .require(:user)
     .permit(:name, :street_address, :city, :state, :zip_code, :email,
-      :password)
+      :password, :password_confirmation)
   end
 
   def form_info
