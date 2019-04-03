@@ -11,9 +11,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create, :update]
   get '/profile', to: "users#show"
+  get '/profile/orders', to: 'users/orders#index'
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
+
   get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
+
   get '/cart', to: "cart#show"
   get '/merchants', to: "merchants#index"
 
