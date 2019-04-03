@@ -1,0 +1,8 @@
+<h1><%= @item.name %></h1>
+<%= image_tag "#{@item.image_url}", size: "500x500" %>
+<h2><%= @item.description %></h2>
+<h3>Seller: <%= @item.user.name %></h3>
+<p>Number in stock: <%= @item.quantity %></p>
+<p>Price: <%= @item.current_price %></p>
+<p>Average Processing Time: </p>
+<p><%= link_to "Add to Cart", cart_path %></p>
