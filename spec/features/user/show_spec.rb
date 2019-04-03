@@ -33,7 +33,7 @@ RSpec.describe "User Index Page", type: :feature do
       fill_in "City", with: "ranch"
       fill_in "State", with: "co"
       fill_in "Zip Code", with: "01234"
-      fill_in "Email", with: "mail@mail.com"
+      fill_in "E-Mail", with: "mail@mail.com"
       fill_in "Password", with: "password"
       fill_in "Confirm Password", with: "password"
 
@@ -65,7 +65,7 @@ RSpec.describe "User Index Page", type: :feature do
       fill_in "City", with: "ranch"
       fill_in "State", with: "co"
       fill_in "Zip Code", with: "01234"
-      fill_in "Email", with: "mail@mail.com"
+      fill_in "E-Mail", with: "mail@mail.com"
 
       click_button "Update User"
 
@@ -91,11 +91,25 @@ RSpec.describe "User Index Page", type: :feature do
       click_link "Edit Profile"
       expect(current_path).to eq(edit_profile_path)
 
-      fill_in "Email", with: user_2.email
+      fill_in "E-Mail", with: user_2.email
 
       click_button "Update User"
 
       expect(page).to have_content("Email has already been taken")
+    end
+
+    it 'shows the form prefilled with user information' do
+      visit profile_path
+      click_link "Edit Profile"
+
+      expect(find_field('Name').value).to eq(@user.name)
+      expect(find_field('Street Address').value).to eq(@user.street_address)
+      expect(find_field('City').value).to eq(@user.city)
+      expect(find_field('State').value).to eq(@user.state)
+      expect(find_field('Zip Code').value).to eq(@user.zip_code)
+      expect(find_field('E-Mail').value).to eq(@user.email)
+      expect(find_field('Password').value).to eq(nil)
+      expect(find_field('Confirm Password').value).to eq(nil)
     end
   end
 end
