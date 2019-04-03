@@ -12,5 +12,22 @@ RSpec.describe 'Add Item to Cart' do
       expect(page).to have_content("You added #{@item.name} to your cart")
     end
   end
+  context 'Cart Total updates' do
+    it 'after adding first and second item' do
+      visit item_path(@item)
+      click_button "Add to Cart"
+
+      within "nav.main-nav" do
+        expect(page).to have_content("Cart: 1")
+      end
+
+      visit item_path(@item)
+      click_button "Add to Cart"
+
+      within "nav.main-nav" do
+        expect(page).to have_content("Cart: 2")
+      end
+    end
+  end
 
 end
