@@ -12,6 +12,7 @@
     <% flash.each do |type, message| %>
       <div class="alert alert-<%= type %>"><%= message %></div>
     <% end %>
+    <%= render partial: "shared/#{viewer_category}_nav", layout: 'shared/nav' %>
     <%= yield %>
   </body>
 </html>
