@@ -25,6 +25,7 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       click_link "Edit Profile"
+
       expect(current_path).to eq(edit_profile_path)
 
       fill_in "Name", with: "steve"
@@ -32,11 +33,11 @@ RSpec.describe "User Index Page", type: :feature do
       fill_in "City", with: "ranch"
       fill_in "State", with: "co"
       fill_in "Zip Code", with: "01234"
-      fill_in "email", with: "mail@mail.com"
+      fill_in "Email", with: "mail@mail.com"
       fill_in "Password", with: "password"
       fill_in "Confirm Password", with: "password"
 
-      click_button "Edit Profile"
+      click_button "Update User"
 
       expect(current_path).to eq(profile_path)
 
@@ -48,6 +49,53 @@ RSpec.describe "User Index Page", type: :feature do
       expect(page).to have_content("Email: mail@mail.com")
       expect(page).to have_link("Edit Profile")
       expect(page).to_not have_content("password")
+
+      expect(page).to have_content("You have updated your information.")
+    end
+
+    it 'update user info if password is left blank' do
+
+      visit profile_path
+
+      click_link "Edit Profile"
+      expect(current_path).to eq(edit_profile_path)
+
+      fill_in "Name", with: "steve"
+      fill_in "Street Address", with: "123 st"
+      fill_in "City", with: "ranch"
+      fill_in "State", with: "co"
+      fill_in "Zip Code", with: "01234"
+      fill_in "Email", with: "mail@mail.com"
+
+      click_button "Update User"
+
+      expect(current_path).to eq(profile_path)
+
+      expect(page).to have_content("Name: steve")
+      expect(page).to have_content("Street Address: 123 st")
+      expect(page).to have_content("City: ranch")
+      expect(page).to have_content("State: co")
+      expect(page).to have_content("Zip Code: 01234")
+      expect(page).to have_content("Email: mail@mail.com")
+      expect(page).to have_link("Edit Profile")
+      expect(page).to_not have_content(@user.password)
+
+      expect(page).to have_content("You have updated your information.")
+    end
+
+    it "does not let a user change their email to another user's email" do
+      user_2 = create(:user)
+
+      visit profile_path
+
+      click_link "Edit Profile"
+      expect(current_path).to eq(edit_profile_path)
+
+      fill_in "Email", with: user_2.email
+
+      click_button "Update User"
+
+      expect(page).to have_content("Email has already been taken")
     end
   end
 end
