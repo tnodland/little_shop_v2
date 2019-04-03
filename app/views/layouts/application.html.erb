@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <%= render partial: "shared/#{viewer_category}_nav", layout: 'shared/nav' %>
     <%= yield %>
   </body>
 </html>
