@@ -26,7 +26,26 @@ RSpec.describe 'Registration page' do
       click_button "Register"
     end
 
-    it 'registration page if not fully filled in redirects to register page' do
+    it 'passwords must match for submission' do
+
+      visit register_path
+
+      fill_in "Name", with: @user_info[:name]
+      fill_in "Street Address", with: @user_info[:street_address]
+      fill_in "City", with: @user_info[:city]
+      fill_in "State", with: @user_info[:state]
+      fill_in "Zip Code", with: @user_info[:zip_code]
+      fill_in "E-Mail", with: @user_info[:email]
+      fill_in "Password", with: @user_info[:password]
+      fill_in "Confirm Password", with: "Not Password"
+
+      click_button "Register"
+      save_and_open_page
+      expect(current_path).to eq(register_path)
+      expect(page).to have_content("Passwords do not match")
+    end
+
+    it 'registration page, if not fully filled in, redirects to register page' do
       visit register_path
 
       fill_in "Name", with: @user_info[:name]
@@ -90,7 +109,7 @@ RSpec.describe 'Registration page' do
   before :each do
     @user_info = attributes_for(:user)
     visit register_path
-    
+
     fill_in "Name", with: @user_info[:name]
     fill_in "Street Address", with: @user_info[:street_address]
     fill_in "City", with: @user_info[:city]
