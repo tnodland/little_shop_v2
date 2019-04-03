@@ -31,7 +31,7 @@ RSpec.describe 'Profile Orders Show', type: :feature do
         expect(page).to have_content("Grand Total: #{@order_1.total_cost}")
       end
 
-      within "#item-#{item_1.id}" do
+      within "#item-#{@item_1.id}" do
         expect(page).to have_xpath("//img[@src='https://vignette.wikia.nocookie.net/animalcrossing/images/7/72/Tom_Nook.png/revision/latest?cb=20101105231130']")
         expect(page).to have_content("Item: #{@item_1.name}")
         expect(page).to have_content("QTY: #{@order_item_1.quantity}")
