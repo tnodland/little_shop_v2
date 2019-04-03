@@ -77,7 +77,7 @@ RSpec.describe 'User' do
   describe 'visits /cart' do
     context 'as a visitor' do
       it 'shows the cart' do
-        visit cart_path
+        visit carts_path
         expect(page).not_to have_content(@error_content)
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe 'User' do
     context 'as a user' do
       it 'shows the cart' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-        visit cart_path
+        visit carts_path
         expect(page).not_to have_content(@error_content)
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe 'User' do
     context 'as a merchant' do
       it 'gives 404' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-        visit cart_path
+        visit carts_path
         expect(page).to have_content(@error_content)
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe 'User' do
     context 'as an admin' do
       it 'give 404' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
-        visit cart_path
+        visit carts_path
         expect(page).to have_content(@error_content)
       end
     end

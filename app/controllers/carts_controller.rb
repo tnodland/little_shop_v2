@@ -1,6 +1,6 @@
-class CartController < ApplicationController
+class CartsController < ApplicationController
   before_action :require_customer
-  def show
+  def index
   end
 
   private
