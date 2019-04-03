@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:create]
-  get '/register', to: "users#new"
   get '/dashboard', to: "merchant/items#index"
   get '/profile', to: "users#show"
   get '/cart', to: "cart#show"
