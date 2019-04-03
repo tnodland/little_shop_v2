@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'User Order Index', type: :feature do
+RSpec.describe 'Profile Orders Index', type: :feature do
   describe 'As a Registerd User' do
 
     before :each do
