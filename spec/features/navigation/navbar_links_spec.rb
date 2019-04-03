@@ -43,7 +43,7 @@ feature 'Navigation Bar' do
         expect(page).to eq(@nav_content)
       end
 
-      visit carts_path
+      visit cart_path
       within 'nav.main-nav' do
         expect(page).to eq(@nav_content)
       end
