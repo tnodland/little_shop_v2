@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "home#index"
-  
+
   namespace :admin do
     get '/dashboard', to: "orders#index"
     resources :users, only: [:index, :show]
@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:create]
-  get '/dashboard', to: "merchant/items#index"
+  get '/dashboard/items', to: "merchants/items#index"
+  get '/dashboard', to: 'merchants/orders#index'
   get '/profile', to: "users#show"
   get '/cart', to: "cart#show"
   get '/merchants', to: "merchants#index"

@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
-  before_action :require_user
-  skip_before_action :require_user, only: [:new, :create]
+  before_action :require_user, except: [:new, :create]
+  # skip_before_action :require_user, only: [:new, :create]
   def show
-    require_user
   end
 
   def create
@@ -18,7 +17,7 @@ class UsersController < ApplicationController
     else
       @user = User.create(user_info)
       flash[:info] = "You are now registered and logged in"
-      redirect_to profile_path(@user)
+      redirect_to profile_path
     end
   end
 
