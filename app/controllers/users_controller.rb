@@ -1,5 +1,4 @@
 class UsersController <ApplicationController
-  # before_action :require_user
   def show
     require_user
   end
@@ -7,20 +6,18 @@ class UsersController <ApplicationController
   def create
     if passwords_dont_match
       redisplay_new_form "Passwords do not match"
-    end
 
-    if incomplete_information
+    elsif incomplete_information
       redisplay_new_form "Please fill in all fields"
-    end
 
-    if email_in_use
+    elsif email_in_use
       redisplay_new_form "E-Mail already in use", form_info.except("email")
+
+    else
+      @user = User.create(user_info)
+      flash[:info] = "You are now registered and logged in"
+      redirect_to profile_path(@user)
     end
-    binding.pry
-    @user = User.create(user_info)
-
-    redirect_to profile_path(@user)
-
   end
 
   def new
@@ -29,15 +26,9 @@ class UsersController <ApplicationController
       redirect_to root_path
     end
     @user = User.new
-
-
   end
 
   private
-
-  def email_in_use
-    User.exists?(email: params[:user][:email])
-  end
 
   def redisplay_new_form(message, pre_fill = form_info)
     @user = User.new
@@ -51,8 +42,12 @@ class UsersController <ApplicationController
 
   def incomplete_information
     user_info.to_hash.any?{|key, value| value == ""}
-
   end
+
+  def email_in_use
+    User.exists?(email: params[:user][:email])
+  end
+
   def user_info
     params
     .require(:user)

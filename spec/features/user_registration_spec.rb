@@ -129,6 +129,7 @@ RSpec.describe 'Registration page' do
       expect(user.state).to eq(@user_info[:state])
       expect(user.zip_code).to eq(@user_info[:zip_code])
       expect(user.email).to eq(@user_info[:email])
+      expect(user.authenticate(@user_info[:password])).to eq(true)
       # expect(user.password).to eq(@user_info[:password])  SHOULD USE AUTHENTICATE METHOD?
 
     end

@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20190401222222) do
     t.string "state"
     t.string "zip_code"
     t.string "email"
-    t.string "password"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
