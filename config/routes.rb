@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "home#index"
+  root "home#index"
 
   namespace :admin do
     get '/dashboard', to: "orders#index"
@@ -10,9 +10,11 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:create, :update]
-  get '/profile', to: "users#show"
-  get '/profile/orders', to: 'users/orders#index'
-  get '/profile/orders/:id', to: 'users/orders#show', as: 'profile_order'
+
+  namespace :profile do
+    resources :orders, only: [:index, :show]
+  end
+  get '/profile', to: "users#show", as: 'profile'
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
 
   get '/dashboard/items', to: "merchants/items#index"
