@@ -17,7 +17,7 @@ RSpec.describe 'Cart show page' do
     visit cart_path
     expect(page).not_to have_content(@empty_cart_message)
   end
-  it 'Shows all items I have added', type: :view do
+  it 'Shows all items I have added and the grand total', type: :view do
     visit item_path(@item_1)
     click_button "Add to Cart"
 
@@ -37,9 +37,14 @@ RSpec.describe 'Cart show page' do
     expect(page).to have_selector('div', id:"cart-item-#{@item_2.id}")
     expect(page).to have_selector('div', id:"cart-item-#{@item_4.id}")
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
+
+    total = @item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4)
+    expect(page).to have_selector('div', id:"total", text:total.round(2))
   end
 
-  it
+  it 'Shows the grand total for all items' do
+
+  end
 end
 
 RSpec.describe 'partial for items in cart' ,type: :view do

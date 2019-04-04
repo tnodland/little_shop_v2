@@ -4,4 +4,5 @@ Your cart is empty
   <%@items.each do |item, quantity|%>
     <%= render 'cart_item', item:item, quantity:quantity %>
   <%end%>
+  <div id=total><%=@total%><div>
 <%end%>

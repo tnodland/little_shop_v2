@@ -5,6 +5,7 @@ class CartsController < ApplicationController
     @cart.contents.each do |item_id, quantity|
       @items[Item.find(item_id.to_i)] = quantity
     end
+    @total = @items.sum{|item,quantity| item.current_price * quantity}
   end
 
   def create
