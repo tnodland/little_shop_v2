@@ -6,9 +6,9 @@
   <p>Located in <%= merchant.city %>, <%= merchant.state %></p>
   <p>Joined the store on <%= merchant.created_at %></p>
   <% if merchant.enabled? %>
-    <%= link_to "Disable this Merchant", admin_merchant_disable_path(merchant) %>
-  <% else %>
-    <%= link_to "Enable this Merchant", admin_merchant_enable_path(merchant) %>
+    <%= link_to "Disable this Merchant", admin_merchant_change_status_path(merchant), method: :patch %>
+  <% elsif !merchant.enabled? %>
+    <%= link_to "Enable this Merchant", admin_merchant_change_status_path(merchant), method: :patch %>
   <% end %>
 </section>
 <% end %>
