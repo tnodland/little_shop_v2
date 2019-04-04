@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :require_user, except: [:new, :create]
   # skip_before_action :require_user, only: [:new, :create]
   def show
+    @user = current_user
   end
 
   def create
