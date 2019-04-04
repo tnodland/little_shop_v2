@@ -3,6 +3,21 @@ require 'rails_helper'
 RSpec.describe 'Cart show page' do
   before :each do
     @item_1, @item_2, @item_3, @item_4 = create_list(:item, 4)
+    @empty_cart_message = "Your cart is empty"
+  end
+  it 'Says the cart is empty if the cart is empty' do
+    visit cart_path
+    expect(page).to have_content(@empty_cart_message)
+  end
+
+  it 'Does not say the cart is empty if there is an item in the cart' do
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+
+    visit cart_path
+    expect(page).not_to have_content(@empty_cart_message)
+  end
+  it 'Shows all items I have added', type: :view do
     visit item_path(@item_1)
     click_button "Add to Cart"
 
@@ -16,9 +31,6 @@ RSpec.describe 'Cart show page' do
       click_button "Add to Cart"
     end
 
-  end
-
-  it 'Shows all items I have added', type: :view do
     visit cart_path
 
     expect(page).to have_selector('div', id:"cart-item-#{@item_1.id}")
@@ -26,6 +38,8 @@ RSpec.describe 'Cart show page' do
     expect(page).to have_selector('div', id:"cart-item-#{@item_4.id}")
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
   end
+
+  it
 end
 
 RSpec.describe 'partial for items in cart' ,type: :view do
