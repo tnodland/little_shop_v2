@@ -1,7 +1,9 @@
 <div id=<%="cart-item-#{item.id}"%>>
-  <div id=item-name><%=item.name%></div>
+  <div id=item-name>Item Name: <%=item.name%></div>
   <div id=item-merchant><%=item.user.name%></div>
   <div id=item-price><%=item.current_price%></div>
-  <div id=item-quantity><%=quantity%></div>
-  <div id=subtotal><%=quantity*item.current_price%></div>
+  <div id=item-quantity>
+    <%=number_field_tag("Quantity", value = quantity, min:0, max:item.quantity, step:1)%>
+  </div>
+  <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
 </div>

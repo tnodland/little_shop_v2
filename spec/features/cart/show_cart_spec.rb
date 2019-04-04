@@ -57,6 +57,32 @@ RSpec.describe 'Cart show page' do
     expect(page).to have_selector('div', id:"total", text:total.round(2))
   end
 
+  it 'can update quantities of items in the cart' do
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+    binding.pry
+    visit cart_path
+
+    fill_in "Quantity", with: 3
+    click_button "Update Cart"
+
+    expect(current_path).to eq(cart_path)
+    expect(page).to have_field('Quantity', with:3 )
+  end
+
+  it 'upon updating a quantity to 0, that item is removed from the cart' do
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+    binding.pry
+    visit cart_path
+
+    fill_in "Quantity", with: 0
+    click_button "Update Cart"
+
+    expect(current_path).to eq(cart_path)
+    expect(page).to have_content(@empty_cart_message)
+  end
+
 end
 
 RSpec.describe 'partial for items in cart' ,type: :view do
@@ -69,7 +95,7 @@ RSpec.describe 'partial for items in cart' ,type: :view do
     expect(rendered).to have_selector('div', id:"item-name", text:item.name)
     expect(rendered).to have_selector('div', id:"item-merchant", text:item.user.name)
     expect(rendered).to have_selector('div', id:"item-price", text:item.current_price)
-    expect(rendered).to have_selector('div', id:"item-quantity", text:quantity)
+    expect(rendered).to have_field('Quantity', with:quantity)
     expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.current_price * quantity}")
   end
 end
