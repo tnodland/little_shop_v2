@@ -62,5 +62,19 @@ RSpec.describe "Merchant index page" do
         expect(page).to have_link("Enable this Merchant")
       end
     end
+
+    it "can enable a merchant" do
+      visit admin_merchants_path
+
+      within "#merchant-#{@im.id}" do
+        click_link("Enable this Merchant")
+      end
+
+      expect(current_path).to eq(admin_merchants_path)
+
+      within "#merchant-#{@im.id}" do
+        expect(page).to have_link("Disable this Merchant")
+      end
+    end
   end
 end
