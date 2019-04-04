@@ -6,7 +6,7 @@ RSpec.describe 'as a visitor' do
     user = create(:user)
   end
 
-  scenario 'attempting to visit unauthorized pages' do
+  describe 'attempting to visit unauthorized pages' do
     it 'sees 404 error' do
       visit profile_path
       expect(page).to have_content(@error_content)
@@ -28,7 +28,7 @@ RSpec.describe 'as a visitor' do
     end
   end
 
-  scenario 'attempting to visit authorized pages' do
+  describe 'attempting to visit authorized pages' do
     it 'sees page content' do
       visit cart_path
       expect(page).not_to have_content(@error_content)
@@ -43,7 +43,7 @@ RSpec.describe 'as a user' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
 
-  scenario 'attempting to visit unauthorized pages' do
+  describe 'attempting to visit unauthorized pages' do
     it 'sees 404 error' do
       visit dashboard_path
       expect(page).to have_content(@error_content)
@@ -62,7 +62,7 @@ RSpec.describe 'as a user' do
     end
   end
 
-  scenario 'attempting to visit authorized pages' do
+  describe 'attempting to visit authorized pages' do
     it 'sees page content' do
       visit profile_path
       expect(page).not_to have_content(@error_content)
@@ -80,7 +80,7 @@ RSpec.describe 'as a merchant' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
 
-  scenario 'attempting to visit unauthorized pages' do
+  describe 'attempting to visit unauthorized pages' do
     it 'sees 404 error' do
       visit profile_path
       expect(page).to have_content(@error_content)
@@ -102,7 +102,7 @@ RSpec.describe 'as a merchant' do
     end
   end
 
-  scenario 'attempting to visit authorized pages' do
+  describe 'attempting to visit authorized pages' do
     it 'sees page content' do
       visit dashboard_path
       expect(page).not_to have_content(@error_content)
@@ -117,7 +117,7 @@ RSpec.describe 'as an admin' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
   end
 
-  scenario 'attempting to visit unauthorized pages' do
+  describe 'attempting to visit unauthorized pages' do
     it 'sees 404 error' do
       visit profile_path
       expect(page).to have_content(@error_content)
@@ -128,7 +128,7 @@ RSpec.describe 'as an admin' do
     end
   end
 
-  scenario 'attempting to visit authorized pages' do
+  describe 'attempting to visit authorized pages' do
     it 'sees page content' do
       visit admin_dashboard_path
       expect(page).not_to have_content(@error_content)
