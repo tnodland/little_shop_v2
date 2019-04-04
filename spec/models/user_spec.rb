@@ -43,13 +43,21 @@ RSpec.describe User, type: :model do
   end
 
   describe "class methods" do
-    it ".active_merchants" do
-      merchant1 = create(:merchant)
-      merchant2 = create(:merchant)
-      merchant3 = create(:merchant)
-      im = create(:inactive_merchant)
+    before :each do
+      @user = create(:user)
+      @merchant1 = create(:merchant)
+      @merchant2 = create(:merchant)
+      @merchant3 = create(:merchant)
+      @im = create(:inactive_merchant)
+      @admin = create(:admin)
+    end
 
-      expect(User.active_merchants).to eq([merchant1, merchant2, merchant3])
+    it ".active_merchants" do
+      expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3])
+    end
+
+    it ".all_merchants" do
+      expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im])
     end
   end
 end

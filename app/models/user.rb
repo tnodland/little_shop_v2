@@ -23,4 +23,8 @@ class User < ApplicationRecord
     User.where(role: 1)
         .where(enabled: true)
   end
+
+  def self.all_merchants
+    User.where(role: 1)
+  end
 end
