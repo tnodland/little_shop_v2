@@ -13,7 +13,7 @@ RSpec.describe 'Registration page' do
     end
     it 'registration page has fields for all information; can be submitted' do
       visit register_path
-
+      save_and_open_page
       fill_in "Name", with: @user_info[:name]
       fill_in "Street Address", with: @user_info[:street_address]
       fill_in "City", with: @user_info[:city]
