@@ -18,7 +18,7 @@ RSpec.describe 'Cart show page' do
 
   end
 
-  it 'Shows all items I have added' do
+  it 'Shows all items I have added', type: :view do
     visit cart_path
 
     expect(page).to have_content(@item_1.name)
@@ -28,12 +28,12 @@ RSpec.describe 'Cart show page' do
   end
 end
 
-RSpec.describe 'cart_item partial' do
+RSpec.describe 'partial for items in cart' ,type: :view do
   it 'shows all information' do
+
     item = create(:item)
     quantity = 3
-    render 'cart_item', item:item, quantity:quantity
-
+    render 'carts/cart_item', locals:{item:item, quantity:quantity}
     expect(rendered).to have_selector('div', id:"cart-item-#{item.id}")
     expect(rendered).to have_selector('div', id:"item-name", text:item.name)
     expect(rendered).to have_selector('div', id:"item-merchant", text:item.merchant.name)
