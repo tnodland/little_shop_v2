@@ -8,8 +8,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show]
     get '/merchants/:id', to: "merchants#show", as: :merchant
     get '/merchants', to: "merchants#index", as: :merchants
-    get '/merchant/:id/enable', to: "merchants#enable", as: :merchant_enable
-    get '/merchant/:id/disable', to: "merchants#disable", as: :merchant_disable
+    patch '/merchant/:merchant_id/', to: "merchants#update", as: :merchant_change_status
   end
 
   resources :users, only: [:create, :update]
