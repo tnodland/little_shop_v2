@@ -12,5 +12,8 @@ feature 'Logging In' do
 
     expect(page).to have_current_path(profile_path)
     expect(page).to have_http_status(200)
+    within 'div.alert' do
+      expect(page).to have_content("Welcome back, #{user.name}! You are now logged in.")
+    end
   end
 end
