@@ -8,6 +8,7 @@ RSpec.describe 'Cart show page' do
   it 'Says the cart is empty if the cart is empty' do
     visit cart_path
     expect(page).to have_content(@empty_cart_message)
+    expect(page).not_to have_button("Empty Cart")
   end
 
   it 'Does not say the cart is empty if there is an item in the cart' do
@@ -16,6 +17,7 @@ RSpec.describe 'Cart show page' do
 
     visit cart_path
     expect(page).not_to have_content(@empty_cart_message)
+    expect(page).to have_button("Empty Cart")
   end
   it 'Shows all items I have added and the grand total', type: :view do
     visit item_path(@item_1)
@@ -42,9 +44,6 @@ RSpec.describe 'Cart show page' do
     expect(page).to have_selector('div', id:"total", text:total.round(2))
   end
 
-  it 'Shows the grand total for all items' do
-
-  end
 end
 
 RSpec.describe 'partial for items in cart' ,type: :view do
