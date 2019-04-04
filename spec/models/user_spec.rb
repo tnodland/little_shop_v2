@@ -41,4 +41,15 @@ RSpec.describe User, type: :model do
       expect(user.user?).to be_truthy
     end
   end
+
+  describe "class methods" do
+    it ".active_merchants" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      im = create(:inactive_merchant)
+
+      expect(User.active_merchants).to eq([merchant1, merchant2, merchant3])
+    end
+  end
 end

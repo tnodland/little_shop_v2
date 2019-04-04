@@ -18,4 +18,9 @@ class User < ApplicationRecord
   enum role: ['user', 'merchant', 'admin']
 
   has_secure_password
+
+  def self.active_merchants
+    User.where(role: 1)
+        .where(enabled: true)
+  end
 end
