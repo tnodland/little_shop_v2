@@ -5,6 +5,6 @@ class CartController < ApplicationController
 
   private
     def require_customer
-      render status: 404 unless current_customer?
+      render_404 unless current_customer?
     end
 end

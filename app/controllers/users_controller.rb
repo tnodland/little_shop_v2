@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   end
 
   def require_user
-    render status: 404 unless current_user?
+    render_404 unless current_user?
   end
 
 end
