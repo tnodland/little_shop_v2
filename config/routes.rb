@@ -26,5 +26,4 @@ Rails.application.routes.draw do
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]
-  resources :users
 end

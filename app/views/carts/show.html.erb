@@ -1,5 +1,5 @@
 <%if @items == {} %>
-Your cart is empty
+Your cart is empty.
 <%else%>
   <%@items.each do |item, quantity|%>
     <%= render 'cart_item', item:item, quantity:quantity %>
