@@ -11,5 +11,6 @@ feature 'Logging In' do
     click_button 'Log In'
 
     expect(page).to have_current_path(profile_path)
+    expect(page).to have_http_status(200)
   end
 end
