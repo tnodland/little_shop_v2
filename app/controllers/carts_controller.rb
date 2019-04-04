@@ -1,7 +1,10 @@
 class CartsController < ApplicationController
   before_action :require_customer
   def show
-    
+    @items = {}
+    @cart.contents.each do |item_id, quantity|
+      @items[Item.find(item_id.to_i)] = quantity
+    end
   end
 
   def create
