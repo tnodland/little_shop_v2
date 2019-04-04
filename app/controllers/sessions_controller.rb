@@ -16,6 +16,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    session.clear
+    flash.alert = "You are now logged out."
+    redirect_to root_path
+  end
+
   private
 
   def login_redirect(message)
