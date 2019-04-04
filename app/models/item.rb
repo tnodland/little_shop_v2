@@ -3,10 +3,7 @@ class Item < ApplicationRecord
                         :description,
                         :image_url,
                         :quantity,
-                        :current_price,
-                        :merchant_id
-
-  validates_inclusion_of :enabled, in: [true, false]
+                        :current_price #break out for nuericality checks
 
   belongs_to :user, foreign_key: 'merchant_id'
   has_many :order_items
@@ -19,7 +16,7 @@ class Item < ApplicationRecord
   def self.sort_sold(order)
     joins(:order_items)
     .joins(:orders)
-    .select("items.*, sum(distinct order_items.quantity)as item_count")
+    .select("items.*, sum(order_items.quantity)as item_count")
     .where(enabled: true)
     .where("orders.status = ?", 2)
     .group(:id)
@@ -29,8 +26,7 @@ class Item < ApplicationRecord
 
   def total_sold
     orders.where("orders.status = ?", 2)
-               .pluck("sum(order_items.quantity)as sold_count")
-               .first
+               .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
   end
 
   def fullfillment_time
