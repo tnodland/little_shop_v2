@@ -33,12 +33,12 @@ RSpec.describe 'partial for items in cart' ,type: :view do
 
     item = create(:item)
     quantity = 3
-    render 'carts/cart_item', locals:{item:item, quantity:quantity}
+    render 'carts/cart_item', item:item, quantity:quantity
     expect(rendered).to have_selector('div', id:"cart-item-#{item.id}")
     expect(rendered).to have_selector('div', id:"item-name", text:item.name)
-    expect(rendered).to have_selector('div', id:"item-merchant", text:item.merchant.name)
-    expect(rendered).to have_selector('div', id:"item-price", text:item.price)
+    expect(rendered).to have_selector('div', id:"item-merchant", text:item.user.name)
+    expect(rendered).to have_selector('div', id:"item-price", text:item.current_price)
     expect(rendered).to have_selector('div', id:"item-quantity", text:quantity)
-    expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.price * quantity}")
+    expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.current_price * quantity}")
   end
 end
