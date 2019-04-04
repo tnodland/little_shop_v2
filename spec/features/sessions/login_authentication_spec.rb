@@ -75,4 +75,48 @@ feature 'Logging In' do
       expect(page).to have_content("Incorrect email address or password.")
     end
   end
+
+  describe 'if already logged in, should be redirected' do
+    scenario 'as a User' do
+      user = create(:user)
+      visit login_path
+      fill_in 'email', with: user.email
+      fill_in 'password', with: user.password
+      click_button 'Log In'
+      visit login_path
+
+      expect(page).to have_current_path(profile_path)
+      within 'div.alert' do
+        expect(page).to have_content("You are already logged in.")
+      end
+    end
+
+    scenario 'as a Merchant' do
+      user = create(:merchant)
+      visit login_path
+      fill_in 'email', with: user.email
+      fill_in 'password', with: user.password
+      click_button 'Log In'
+      visit login_path
+
+      expect(page).to have_current_path(dashboard_path)
+      within 'div.alert' do
+        expect(page).to have_content("You are already logged in.")
+      end
+    end
+
+    scenario 'as an Admin' do
+      user = create(:admin)
+      visit login_path
+      fill_in 'email', with: user.email
+      fill_in 'password', with: user.password
+      click_button 'Log In'
+      visit login_path
+
+      expect(page).to have_current_path(root_path)
+      within 'div.alert' do
+        expect(page).to have_content("You are already logged in.")
+      end
+    end
+  end
 end
