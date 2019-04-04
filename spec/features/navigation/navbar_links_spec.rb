@@ -5,7 +5,7 @@ feature 'Navigation Bar' do
     @home        = {exact_text: 'Home',           href: '/'}
     @items       = {exact_text: 'Browse Items',   href: '/items'}
     @merchants   = {exact_text: 'View Merchants', href: '/merchants'}
-    @cart        = {exact_text: 'Cart',           href: '/cart'}
+    @cart        = {text: 'Cart',           href: '/cart'}
     @profile     = {exact_text: 'Profile',        href: '/profile'}
     @dashboard_m = {exact_text: 'Dashboard',      href: '/dashboard'}
     @dashboard_a = {exact_text: 'Dashboard',      href: '/admin/dashboard'}

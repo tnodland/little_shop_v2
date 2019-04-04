@@ -39,7 +39,7 @@ RSpec.describe 'Add Item to Cart' do
     context 'Cart Total updates' do
       it 'after adding first and second item' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-        
+
         visit item_path(@item)
         click_button "Add to Cart"
 
