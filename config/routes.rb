@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   get '/merchants', to: "merchants#index"
 
   get '/login', to: "sessions#new"
-  get '/logout', to: "sessions#show"
+  post '/login', to: "sessions#create"
+  get '/logout', to: "sessions#destroy"
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]

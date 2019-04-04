@@ -136,10 +136,7 @@ RSpec.describe 'Registration page' do
     it 'you should be on the user profile page with a flash message about registration and logging in' do
       expect(current_path).to eq(profile_path)
       expect(page).to have_content("You are now registered and logged in")
+      expect(page).to have_http_status(200)
     end
-
-    it 'you should be logged on'
-      # Needs to create a session and give all pertinent info
-      # and then check to be logged in
   end
 end

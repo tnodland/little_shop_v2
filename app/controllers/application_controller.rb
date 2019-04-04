@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def current_visitor?
     current_user == nil
   end
-  
+
   def viewer_category
     if current_user?
       'user'
@@ -36,5 +36,9 @@ class ApplicationController < ActionController::Base
     else
       'visitor'
     end
+  end
+
+  def render_404
+    render status: 404, file: "#{Rails.root}/public/404.html"
   end
 end
