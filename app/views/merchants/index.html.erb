@@ -2,6 +2,8 @@
 
 <% @merchants.each do |merchant| %>
 <section id="merchant-<%= merchant.id %>">
-
+  <p>Name: <%= merchant.name %></p>
+  <p>Located in <%= merchant.city %>, <%= merchant.state %></p>
+  <p>Joined the store on <%= merchant.created_at %></p>
 </section>
 <% end %>
