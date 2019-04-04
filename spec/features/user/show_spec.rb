@@ -25,7 +25,6 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       click_link "Edit Profile"
-      save_and_open_page
       expect(current_path).to eq(edit_profile_path)
 
       fill_in "Name", with: "steve"
