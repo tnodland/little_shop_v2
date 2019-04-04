@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     else
       @user = User.create(user_info)
       flash[:info] = "You are now registered and logged in"
+      session[:user_id] = @user.id.to_s
       redirect_to profile_path
     end
   end
