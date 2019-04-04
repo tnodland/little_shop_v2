@@ -19,6 +19,19 @@ RSpec.describe 'Cart show page' do
     expect(page).not_to have_content(@empty_cart_message)
     expect(page).to have_button("Empty Cart")
   end
+
+  it 'Can empty the cart if there is an item in the cart and the "empty cart" is pressed' do
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+
+    visit cart_path
+    click_button "Empty Cart"
+
+    expect(current_path).to eq(cart_path)
+    expect(page).to have_content(@empty_cart_message)
+    expect(page).to have_content("Cart: 0")
+  end
+
   it 'Shows all items I have added and the grand total', type: :view do
     visit item_path(@item_1)
     click_button "Add to Cart"
