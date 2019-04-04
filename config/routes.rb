@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     get '/merchants/:id', to: "merchants#show", as: :merchant
   end
 
-  resources :users, only: [:create]
+  resources :users, only: [:create, :update]
+  get '/profile', to: "users#show"
+  get '/profile/edit', to: "users#edit", as: 'edit_profile'
   get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
   get '/profile', to: "users#show"
@@ -19,7 +21,8 @@ Rails.application.routes.draw do
   get '/merchants', to: "merchants#index"
 
   get '/login', to: "sessions#new"
-  get '/logout', to: "sessions#show"
+  post '/login', to: "sessions#create"
+  get '/logout', to: "sessions#destroy"
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]

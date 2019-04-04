@@ -1,1 +1,8 @@
-<%= button_to "Add to Cart", carts_path(item_id: @item.id) %>
+<h1><%= @item.name %></h1>
+<%= image_tag "#{@item.image_url}", size: "500x500" %>
+<h2><%= @item.description %></h2>
+<h3>Seller: <%= @item.user.name %></h3>
+<p>Number in stock: <%= @item.quantity %></p>
+<p>Price: <%= @item.current_price %></p>
+<p>Average Processing Time: <%= @item.fullfillment_time %> Day(s)</p>
+<p><%= button_to "Add to Cart", carts_path(item_id: @item.id) %></p>

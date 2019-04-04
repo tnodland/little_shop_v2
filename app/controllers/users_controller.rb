@@ -2,6 +2,26 @@ class UsersController < ApplicationController
   before_action :require_user, except: [:new, :create]
   # skip_before_action :require_user, only: [:new, :create]
   def show
+    @user = current_user
+  end
+
+  def edit
+    @user = current_user
+  end
+
+  def update
+    @user = current_user
+    if update_params[:password] == ""
+      @user.update(update_params.except(:password, :password_confirmation))
+    elsif update_params[:password]
+      @user.update(update_params)
+    end
+    if @user.save
+      flash[:notice] = "You have updated your information."
+      redirect_to profile_path
+    else
+      render :edit
+    end
   end
 
   def create
@@ -17,6 +37,7 @@ class UsersController < ApplicationController
     else
       @user = User.create(user_info)
       flash[:info] = "You are now registered and logged in"
+      session[:user_id] = @user.id.to_s
       redirect_to profile_path
     end
   end
@@ -30,6 +51,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def update_params
+    params.require(:user).permit(:name, :street_address, :city, :state, :zip_code, :email, :password, :password_confirmation)
+  end
 
   def redisplay_new_form(message, pre_fill = form_info)
     @user = User.new
@@ -61,7 +86,7 @@ class UsersController < ApplicationController
   end
 
   def require_user
-    render file: "/public/404" unless current_user?
+    render_404 unless current_user?
   end
 
 end
