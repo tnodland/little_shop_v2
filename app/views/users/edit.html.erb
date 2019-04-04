@@ -1,0 +1,45 @@
+<% if @user.errors.any? %>
+<ul>
+  <% @user.errors.full_messages.each do |msg| %>
+  <li><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<%= form_for @user do |f| %>
+<p>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+</p>
+<p>
+  <%= f.label :street_address, "Street Address" %>
+  <%= f.text_field :street_address %>
+</p>
+<p>
+  <%= f.label :city %>
+  <%= f.text_field :city %>
+</p>
+<p>
+  <%= f.label :state %>
+  <%= f.text_field :state %>
+</p>
+<p>
+  <%= f.label :zip_code, "Zip Code" %>
+  <%= f.text_field :zip_code %>
+</p>
+<p>
+  <%= f.label :email, "Email"%>
+  <%= f.text_field :email %>
+</p>
+<p>
+  <%= f.label :password%>
+  <%= f.password_field :password %>
+</p>
+<p>
+  <%= f.label :password_confirmation, "Confirm Password" %>
+  <%= f.password_field :password_confirmation %>
+</p>
+
+  <%= f.submit %>
+
+<% end %>

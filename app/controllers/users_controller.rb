@@ -5,6 +5,25 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def edit
+    @user = current_user
+  end
+
+  def update
+    @user = current_user
+    if update_params[:password] == ""
+      @user.update(update_params.except(:password, :password_confirmation))
+    elsif update_params[:password]
+      @user.update(update_params)
+    end
+    if @user.save
+      flash[:notice] = "You have updated your information."
+      redirect_to profile_path
+    else
+      render :edit
+    end
+  end
+
   def create
     if passwords_dont_match
       redisplay_new_form "Passwords do not match"
@@ -31,6 +50,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def update_params
+    params.require(:user).permit(:name, :street_address, :city, :state, :zip_code, :email, :password, :password_confirmation)
+  end
 
   def redisplay_new_form(message, pre_fill = form_info)
     @user = User.new

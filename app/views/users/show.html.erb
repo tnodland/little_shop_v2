@@ -1,3 +1,6 @@
+<% flash.each do |type, message| %>
+  <%= content_tag :div, message, class: type %>
+<% end %>
 <h1>Welcome <%= @user.name %></h1>
 
 <p>Name: <%= @user.name %></p>
@@ -6,4 +9,4 @@
 <p>City: <%= @user.city %></p>
 <p>Zip Code: <%= @user.zip_code %></p>
 <p>Email: <%= @user.email %></p>
-<%= link_to "Edit Profile" %>
+<%= link_to "Edit Profile", edit_profile_path %>
