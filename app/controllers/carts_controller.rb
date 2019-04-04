@@ -12,6 +12,6 @@ class CartsController < ApplicationController
   end
   private
     def require_customer
-      render file: "/public/404" unless current_customer?
+      render_404 unless current_customer?
     end
 end

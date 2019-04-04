@@ -42,4 +42,7 @@ class ApplicationController < ActionController::Base
       'visitor'
     end
   end
+  def render_404
+    render status: 404, file: "#{Rails.root}/public/404.html"
+  end
 end
