@@ -4,4 +4,8 @@ class ItemsController < ApplicationController
     @top_5 = Item.sort_sold("DESC")
     @bottom_5 = Item.sort_sold("ASC")
   end
+
+  def show
+    @item = Item.find(params[:id])
+  end
 end

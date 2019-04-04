@@ -15,16 +15,22 @@ class Item < ApplicationRecord
 
   def self.sort_sold(order)
     joins(:order_items)
+    .joins(:orders)
     .select("items.*, sum(order_items.quantity)as item_count")
     .where(enabled: true)
-    .where("order_items.fulfilled = ?", true)
+    .where("orders.status = ?", 2)
     .group(:id)
     .order("item_count #{order}")
     .limit(5)
   end
 
   def total_sold
-    order_items.where("order_items.fulfilled = ?", true)
+    orders.where("orders.status = ?", 2)
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
+  end
+
+  def fullfillment_time
+    order_items.where("order_items.fulfilled = true")
+               .average("order_items.updated_at - order_items.created_at")
   end
 end
