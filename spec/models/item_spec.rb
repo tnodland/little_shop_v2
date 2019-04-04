@@ -55,10 +55,11 @@ RSpec.describe Item, type: :model do
       merchant  = create(:merchant)
       item1 = create(:item, user: merchant, quantity: 100)
       shopper = create(:user)
-      order = create(:order, user: shopper)
+      order = create(:shipped_order, user: shopper)
+      order2 = create(:order, user: shopper)
       create(:fulfilled_order_item, order: order, item: item1, quantity: 10)
       create(:fulfilled_order_item, order: order, item: item1, quantity: 5)
-      create(:order_item, order: order, item: item1, quantity: 5)
+      create(:order_item, order: order2, item: item1, quantity: 5)
 
       expect(item1.total_sold).to eq(15)
     end
