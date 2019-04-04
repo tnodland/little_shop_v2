@@ -6,7 +6,11 @@ class Cart
   end
 
   def add_item(item_id)
-    @contents[item_id] +=1
+    if @contents.keys.include?(item_id)
+      @contents[item_id] +=1
+    else
+      @contents[item_id] = 1
+    end
   end
 
   def total_count
