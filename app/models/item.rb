@@ -32,4 +32,9 @@ class Item < ApplicationRecord
                .pluck("sum(order_items.quantity)as sold_count")
                .first
   end
+
+  def fullfillment_time
+    order_items.where("order_items.fulfilled = true")
+               .average("order_items.updated_at - order_items.created_at")
+  end
 end

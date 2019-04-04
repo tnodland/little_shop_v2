@@ -4,5 +4,5 @@
 <h3>Seller: <%= @item.user.name %></h3>
 <p>Number in stock: <%= @item.quantity %></p>
 <p>Price: <%= @item.current_price %></p>
-<p>Average Processing Time: </p>
+<p>Average Processing Time: <%= @item.fullfillment_time %></p>
 <p><%= link_to "Add to Cart", cart_path %></p>

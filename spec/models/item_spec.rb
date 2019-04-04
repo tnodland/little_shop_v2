@@ -51,17 +51,26 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'instance methods' do
-    it ".total_sold" do
-      merchant  = create(:merchant)
-      item1 = create(:item, user: merchant, quantity: 100)
-      shopper = create(:user)
-      order = create(:shipped_order, user: shopper)
-      order2 = create(:order, user: shopper)
-      create(:fulfilled_order_item, order: order, item: item1, quantity: 10)
-      create(:fulfilled_order_item, order: order, item: item1, quantity: 5)
-      create(:order_item, order: order2, item: item1, quantity: 5)
+    before :each do
+      @merchant  = create(:merchant)
+      @item1 = create(:item, user: @merchant, quantity: 100)
+      @item2 = create(:item, user: @merchant, quantity: 100)
+      @shopper = create(:user)
+      @order = create(:shipped_order, user: @shopper)
+      @order2 = create(:order, user: @shopper)
 
-      expect(item1.total_sold).to eq(15)
+      create(:fulfilled_order_item, order: @order, item: @item1, quantity: 10, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+      create(:fulfilled_order_item, order: @order, item: @item1, quantity: 5, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+      create(:order_item, order: @order2, item: @item1, quantity: 5)
+      create(:fulfilled_order_item, order: @order2, item: @item2, quantity: 5, created_at: "Mon, 01 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+    end
+
+    it ".total_sold" do
+      expect(@item1.total_sold).to eq(15)
+    end
+
+    it ".fullfillment_time" do
+      expect(@item1.fullfillment_time).to eq(1)
     end
   end
 end
