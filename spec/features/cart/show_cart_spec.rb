@@ -21,10 +21,10 @@ RSpec.describe 'Cart show page' do
   it 'Shows all items I have added', type: :view do
     visit cart_path
 
-    expect(page).to have_content(@item_1.name)
-    expect(page).to have_content(@item_2.name)
-    expect(page).to have_content(@item_4.name)
-    expect(page).not_to have_content(@item_3.name)
+    expect(page).to have_selector('div', id:"cart-item-#{@item_1.id}")
+    expect(page).to have_selector('div', id:"cart-item-#{@item_2.id}")
+    expect(page).to have_selector('div', id:"cart-item-#{@item_4.id}")
+    expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
   end
 end
 
