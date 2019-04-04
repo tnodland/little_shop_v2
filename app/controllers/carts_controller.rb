@@ -1,6 +1,7 @@
 class CartsController < ApplicationController
   before_action :require_customer
-  def index
+  def show
+    
   end
 
   def create
