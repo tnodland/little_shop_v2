@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'merchants/orders#index'
   get '/profile', to: "users#show"
   get '/cart', to: 'carts#show'
-  resources :carts, only: [ :create]
+  delete '/cart', to: 'carts#destroy'
+  resources :carts, only: [:create]
   get '/merchants', to: "merchants#index"
 
   get '/login', to: "sessions#new"
@@ -22,5 +23,5 @@ Rails.application.routes.draw do
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]
-
+  resources :users
 end

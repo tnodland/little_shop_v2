@@ -5,5 +5,5 @@ Your cart is empty
     <%= render 'cart_item', item:item, quantity:quantity %>
   <%end%>
   <div id=total><%=@total%><div>
-    <%= button_to "Empty Cart" %>
+    <%= button_to "Empty Cart", cart_path, method: :delete%>
 <%end%>
