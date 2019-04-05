@@ -15,7 +15,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     visit dashboard_items_path
 
     expect(page).to have_selector('div', id:"merchant-item-#{@items[0].id}")
-    expect(page).to have_selector('div', id:"merchant-item-#{@items[2].id}")
+    expect(page).to have_selector('div', id:"merchant-item-#{@items[1].id}")
     expect(page).to have_selector('div', id:"merchant-item-#{@inactive_item.id}")
   end
 
