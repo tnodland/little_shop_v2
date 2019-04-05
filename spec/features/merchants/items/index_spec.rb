@@ -31,8 +31,6 @@ RSpec.describe 'Merchant_Item partial', type: :view do
   it 'shows all item information' do
     render 'shared/merchant_item', item:@active_unordered_item
 
-    puts rendered
-
     expect(rendered).to have_selector('div', id:"merchant-item-#{@active_unordered_item.id}")
     expect(rendered).to have_selector('div', id: 'item-id', text: @active_unordered_item.id)
     expect(rendered).to have_selector('div', id: 'item-name', text: @active_unordered_item.name)
@@ -41,11 +39,29 @@ RSpec.describe 'Merchant_Item partial', type: :view do
     expect(rendered).to have_xpath("//img[@src='#{@active_unordered_item.image_url}']")
   end
 
-  it 'Correctly shows enable/disable button' do
+  it 'Correctly shows disable button' do
+    render 'shared/merchant_item', item:@active_unordered_item
 
+    expect(rendered).to have_button("Disable")
+    expect(rendered).not_to have_button("Enable")
+  end
+
+  it 'Correctly shows enable button' do
+    render 'shared/merchant_item', item:@inactive_item
+
+    expect(rendered).not_to have_button("Disable")
+    expect(rendered).to have_button("Enable")
   end
 
   it 'Shows delete button when appropriate' do
+    render 'shared/merchant_item', item:@active_unordered_item
 
+    expect(rendered).to have_button("Delete")
+  end
+
+  it 'Does not show delete button when not appropriate' do
+    render 'shared/merchant_item', item:@ordered_item
+
+    expect(rendered).not_to have_button("Delete")
   end
 end
