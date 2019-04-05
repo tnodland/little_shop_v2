@@ -25,6 +25,6 @@ RSpec.describe Cart do
 
     cart.update_quantity("3",0)
     expected = {"5"=>6}
-    expect(cart.contents.to eq(expected))
+    expect(cart.contents).to eq(expected)
   end
 end
