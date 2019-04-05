@@ -90,6 +90,20 @@ RSpec.describe 'Cart show page' do
     expect(page).to have_content(@empty_cart_message)
   end
 
+  it 'clicking remove item does not remove the other items' do
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+    visit item_path(@item_2)
+    click_button "Add to Cart"
+    visit cart_path
+    
+    within "#cart-item-#{@item_1.id}" do
+      click_button "Remove Item"
+    end
+
+    expect(page).to have_content(@item_2.name)
+    expect(page).not_to have_content(@item_1.name)
+  end
 end
 
 RSpec.describe 'partial for items in cart' ,type: :view do
