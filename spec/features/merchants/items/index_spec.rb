@@ -29,12 +29,12 @@ RSpec.describe 'Merchant_Item partial', type: :view do
     @order_item = create(:order_item, item: @ordered_item)
   end
   it 'shows all item information' do
-    render 'merchant_item', @active_unordered_item
+    render 'shared/merchant_item', item:@active_unordered_item
 
-    expect(rendered).to have_content('div', id: 'item-id', text: @active_unordered_item.id)
-    expect(rendered).to have_content('div', id: 'item-name', text: @active_unordered_item.name)
-    expect(rendered).to have_content('div', id: 'item-price', text: @active_unordered_item.current_price)
-    expect(rendered).to have_content('div', id: 'item-quantity', text: @active_unordered_item.quantity)
+    expect(rendered).to have_selector('div', id: 'item-id', text: @active_unordered_item.id)
+    expect(rendered).to have_selector('div', id: 'item-name', text: @active_unordered_item.name)
+    expect(rendered).to have_selector('div', id: 'item-price', text: @active_unordered_item.current_price)
+    expect(rendered).to have_selector('div', id: 'item-quantity', text: @active_unordered_item.quantity)
     expect(rendered).to have_xpath("//img[@src='#{@active_unordered_item.image_url}']")
   end
 
