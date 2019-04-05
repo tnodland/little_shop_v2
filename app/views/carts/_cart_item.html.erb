@@ -7,6 +7,7 @@
     <%=number_field_tag("Quantity", value = quantity, min:0, max:item.quantity, step:1)%>
     <%= submit_tag "Update Quantity"%>
     <%end%>
+    <%= button_to "Remove Item", cart_path(item_id: item.id, Quantity:0), method: :patch %>
   </div>
   <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
 </div>
