@@ -33,4 +33,8 @@ class Item < ApplicationRecord
     order_items.where("order_items.fulfilled = true")
                .average("order_items.updated_at - order_items.created_at")
   end
+
+  def ordered?
+    orders != []
+  end
 end
