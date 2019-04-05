@@ -2,7 +2,7 @@ class CartsController < ApplicationController
   before_action :require_customer
 
   def update
-    @cart.update_quantity(params[:item_id], params[:Quantity])
+    @cart.update_quantity(params[:item_id], params[:Quantity].to_i)
     redirect_to cart_path
   end
 
