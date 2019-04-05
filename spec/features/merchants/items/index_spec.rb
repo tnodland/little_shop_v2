@@ -20,3 +20,29 @@ RSpec.describe 'Merchant Item Index', type: :feature do
   end
 
 end
+
+RSpec.describe 'Merchant_Item partial', type: :view do
+  before :each do
+    @active_unordered_item = create(:item)
+    @inactive_item = create(:inactive_item)
+    @ordered_item = create(:item)
+    @order_item = create(:order_item, item: @ordered_item)
+  end
+  it 'shows all item information' do
+    render 'merchant_item', @active_unordered_item
+
+    expect(rendered).to have_content('div', id: 'item-id', text: @active_unordered_item.id)
+    expect(rendered).to have_content('div', id: 'item-name', text: @active_unordered_item.name)
+    expect(rendered).to have_content('div', id: 'item-price', text: @active_unordered_item.current_price)
+    expect(rendered).to have_content('div', id: 'item-quantity', text: @active_unordered_item.quantity)
+    expect(rendered).to have_xpath("//img[@src='#{@active_unordered_item.image_url}']")
+  end
+
+  it 'Correctly shows enable/disable button' do
+
+  end
+
+  it 'Shows delete button when appropriate' do
+
+  end
+end
