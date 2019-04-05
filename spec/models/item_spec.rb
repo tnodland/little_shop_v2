@@ -72,5 +72,12 @@ RSpec.describe Item, type: :model do
     it ".fullfillment_time" do
       expect(@item1.fullfillment_time).to eq(1)
     end
+
+    it '.ordered?' do
+      item3 = create(:item)
+
+      expect(item3.ordered?).to eq(false)
+      expect(@item2.ordered?).to eq(true)
+    end
   end
 end
