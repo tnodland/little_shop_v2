@@ -13,7 +13,6 @@ RSpec.describe 'Registration page' do
     end
     it 'registration page has fields for all information; can be submitted' do
       visit register_path
-
       fill_in "Name", with: @user_info[:name]
       fill_in "Street Address", with: @user_info[:street_address]
       fill_in "City", with: @user_info[:city]
@@ -23,7 +22,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Register New User"
+      click_button "Create User"
     end
 
     it 'passwords must match for submission' do
@@ -39,7 +38,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: "Not Password"
 
-      click_button "Register New User"
+      click_button "Create User"
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Passwords do not match")
     end
@@ -54,7 +53,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Register New User"
+      click_button "Create User"
 
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Please fill in all fields")
@@ -74,11 +73,9 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Register New User"
+      click_button "Create User"
 
-      expect(current_path).to eq(register_path)
       expect(page).to have_content("E-Mail already in use")
-
       expect(page).to have_field('Name', with:@user_info[:name])
       expect(page).to have_field("Street Address" ,with:@user_info[:street_address])
       expect(page).to have_field("City" ,with:@user_info[:city])
@@ -116,7 +113,7 @@ RSpec.describe 'Registration page' do
     fill_in "Password", with: @user_info[:password]
     fill_in "Confirm Password", with: @user_info[:password]
 
-    click_button "Register New User"
+    click_button "Create User"
 
   end
   context 'as a not-logged-in-user having filled out the registration' do
