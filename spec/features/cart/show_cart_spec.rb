@@ -60,11 +60,12 @@ RSpec.describe 'Cart show page' do
   it 'can update quantities of items in the cart' do
     visit item_path(@item_1)
     click_button "Add to Cart"
-    binding.pry
+    # binding.pry
     visit cart_path
 
     fill_in "Quantity", with: 3
-    click_button "Update Cart"
+    save_and_open_page
+    click_button "Update Quantity"
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_field('Quantity', with:3 )
@@ -73,11 +74,11 @@ RSpec.describe 'Cart show page' do
   it 'upon updating a quantity to 0, that item is removed from the cart' do
     visit item_path(@item_1)
     click_button "Add to Cart"
-    binding.pry
+    # binding.pry
     visit cart_path
 
     fill_in "Quantity", with: 0
-    click_button "Update Cart"
+    click_button "Update quantity"
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_content(@empty_cart_message)

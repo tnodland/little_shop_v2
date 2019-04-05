@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get '/profile', to: "users#show"
   get '/cart', to: 'carts#show'
   delete '/cart', to: 'carts#destroy'
+  patch '/cart', to: 'carts#update'
   resources :carts, only: [:create]
   get '/merchants', to: "merchants#index"
 

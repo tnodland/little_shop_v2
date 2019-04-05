@@ -3,7 +3,10 @@
   <div id=item-merchant><%=item.user.name%></div>
   <div id=item-price><%=item.current_price%></div>
   <div id=item-quantity>
+    <%= form_tag cart_path(item_id: item.id), method: :patch do %>
     <%=number_field_tag("Quantity", value = quantity, min:0, max:item.quantity, step:1)%>
+    <%= submit_tag "Update Quantity"%>
+    <%end%>
   </div>
   <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
 </div>
