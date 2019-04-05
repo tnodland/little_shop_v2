@@ -4,7 +4,8 @@
   <div id=item-price><%=item.current_price%></div>
   <div id=item-quantity>
     <%= form_tag cart_path(item_id: item.id), method: :patch do %>
-    <%=number_field_tag("quantity", value = quantity, min:0, max:item.quantity, step:1)%>
+    <%= select_tag "quantity", options_for_select((0..item.quantity).to_a, selected: quantity) %>
+
     <%= submit_tag "Update Quantity"%>
     <%end%>
     <%= button_to "Remove Item", cart_path(item_id: item.id, quantity:0), method: :patch %>
