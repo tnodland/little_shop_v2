@@ -127,7 +127,7 @@ RSpec.describe 'Cart show page' do
     visit item_path(@item_1)
     click_button "Add to Cart"
     visit cart_path
-
+    save_and_open_page
     within '#checkout' do
       expect(page).not_to have_content("You must register or log in to checkout")
       expect(page).not_to have_link("Log In", href: login_path)
