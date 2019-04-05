@@ -31,6 +31,9 @@ RSpec.describe 'Merchant_Item partial', type: :view do
   it 'shows all item information' do
     render 'shared/merchant_item', item:@active_unordered_item
 
+    puts rendered
+
+    expect(rendered).to have_selector('div', id:"merchant-item-#{@active_unordered_item.id}")
     expect(rendered).to have_selector('div', id: 'item-id', text: @active_unordered_item.id)
     expect(rendered).to have_selector('div', id: 'item-name', text: @active_unordered_item.name)
     expect(rendered).to have_selector('div', id: 'item-price', text: @active_unordered_item.current_price)
