@@ -26,6 +26,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     expect(current_path).to eq(dashboard_items_path)
+    expect(page).to have_content("#{@items[0].name} Disabled")
     within "#merchant-item-#{@items[0].id}" do
       expect(page).to have_button("Enable")
     end
@@ -41,11 +42,23 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     expect(current_path).to eq(dashboard_items_path)
+
+    expect(page).to have_content("#{@inactive_item.name} Enabled")
     within "#merchant-item-#{@inactive_item.id}" do
       expect(page).to have_button("Disable")
     end
 
     expect(Item.find(@inactive_item.id).enabled).to eq(true)
+  end
+
+  it 'can delete an item which has not been ordered' do
+    visit dashboard_items_path
+    withn "#merchant-item-#{@items[1].id}" do
+      click_button "Delete"
+    end
+
+    expect(page).to have_content("#{@items[1]} Deleted")
+    expect(page).not_to have_selector('div', id:"merchant-item-#{@items[1].id}")
   end
 
 end
