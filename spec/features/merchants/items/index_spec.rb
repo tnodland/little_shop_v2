@@ -19,6 +19,36 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     expect(page).to have_selector('div', id:"merchant-item-#{@inactive_item.id}")
   end
 
+  it 'can disable an item' do
+    visit dashboard_items_path
+
+    within "#merchant-item-#{@items[0].id}" do
+      click_button "Disable"
+    end
+
+    expect(current_path).to eq(dashboard_items_path)
+    within "#merchant-item-#{@items[0].id}" do
+      expect(page).to have_button("Enable")
+    end
+
+    expect(@items[0].enabled).to eq(false)
+  end
+
+  it 'can enable an item' do
+    visit dashboard_items_path
+
+    within "#merchant-item-#{@inactive_item.id}" do
+      click_button "Enable"
+    end
+
+    expect(current_path).to eq(dashboard_items_path)
+    within "#merchant-item-#{@inactive_item.id}" do
+      expect(page).to have_button("Disable")
+    end
+
+    expect(@inactive_item.enabled).to eq(true)
+  end
+
 end
 
 RSpec.describe 'Merchant_Item partial', type: :view do
