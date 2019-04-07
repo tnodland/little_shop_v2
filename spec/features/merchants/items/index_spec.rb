@@ -102,6 +102,8 @@ RSpec.describe 'Merchant Item Index', type: :feature do
       item = Item.last
       expect(item.image_url).to eq('http://www.spore.com/static/image/500/404/515/500404515704_lrg.png')
 
+      expect(page).to have_xpath("//img[@src='http://www.spore.com/static/image/500/404/515/500404515704_lrg.png']")
+
     end
     it 'cannot have a quantity of less than 0' do
       visit new_dashboard_item_path
