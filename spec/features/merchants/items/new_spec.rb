@@ -6,13 +6,10 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     @items = create_list(:item,2,  user: @merchant)
     @inactive_item = create(:inactive_item, user: @merchant)
 
-    @order_items_1 = create_list(:order_item, 3, item:@items[0])
-    @order_item_inactive = create(:order_item, item:@inactive_item)
-
     @new_item = attributes_for(:item)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
-  
+
   it 'can add a new item' do
     visit dashboard_items_path
     click_link "Add Item"
