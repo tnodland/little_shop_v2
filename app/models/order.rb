@@ -12,8 +12,8 @@ class Order < ApplicationRecord
     add_items(args[:cart]) if args && args[:cart]
   end
 
-  def self.from_cart(user, cart)
-    self.create(user: user, status: 'pending', cart: cart)
+  def self.from_cart(user, cart_contents)
+    self.create(user: user, status: 'pending', cart: cart_contents)
   end
 
   private
