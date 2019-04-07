@@ -87,6 +87,13 @@ RSpec.describe 'Merchant Item Update', type: :feature do
 
     describe 'validates information for edited items' do
 
+      it 'defaults to defalut image if field made blank' do
+        visit edit_dashboard_item_path(@inactive_item)
+        fill_in "Quantity", with:""
+        click_button "Edit Item"
+        expect(page).to have_xpath("//img[@src='http://www.spore.com/static/image/500/404/515/500404515704_lrg.png']")
+        
+      end
       it 'cannot have a quantity of less than 0' do
         visit edit_dashboard_item_path(@inactive_item)
         fill_in "Quantity", with:""
@@ -122,7 +129,7 @@ RSpec.describe 'Merchant Item Update', type: :feature do
         fill_in "Price", with: -1.00
         expect(page).to have_content("Current price must be greater than 0")
         click_button "Edit Item"
-  
+
         fill_in "Price", with: 1.00
         click_button "Edit Item"
         expect(current_path).to eq(dashboard_items_path)
