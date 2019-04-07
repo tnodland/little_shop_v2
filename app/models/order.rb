@@ -7,9 +7,9 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
 
-  def initialize(attributes = nil)
-    super(attributes.except(:cart))
-    add_items(attributes[:cart]) if attributes[:cart]
+  def initialize(args = nil)
+    super(args&.except(:cart))
+    add_items(args[:cart]) if args && args[:cart]
   end
 
   def self.from_cart(user, cart)
