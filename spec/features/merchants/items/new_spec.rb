@@ -25,6 +25,8 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     click_button "Create Item"
 
     item = Item.last
+
+    expect(page).to have_content("#{item.name} Saved")
     expect(item.name).to eq(@new_item[:name])
     expect(item.description).to eq(@new_item[:description])
     expect(item.image_url).to eq(@new_item[:image_url])

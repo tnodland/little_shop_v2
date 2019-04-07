@@ -15,6 +15,8 @@ class Merchants::ItemsController < Merchants::BaseController
     @item = current_user.items.new(item_info)
     if @item.valid?
       @item.save
+
+      flash[:info] = "#{@item.name} Saved"
       redirect_to dashboard_items_path
     else
       render :new
