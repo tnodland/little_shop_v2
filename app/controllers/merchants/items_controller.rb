@@ -24,7 +24,6 @@ class Merchants::ItemsController < Merchants::BaseController
   def update
     @item = Item.find(params[:id])
     name = @item.name
-    # binding.pry
     if params[:enabled]
       @item.update(enabled: params[:enabled])
       completed_action = params[:enabled] == "true" ? "Enabled": "Disabled"
