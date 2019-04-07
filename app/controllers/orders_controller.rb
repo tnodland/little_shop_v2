@@ -1,6 +1,9 @@
 class OrdersController < ApplicationController
 before_action :require_user
 
+  def index
+  end
+
   def create
     Order.from_cart(current_user, @cart.contents)
     flash[:notice] = "Your order was created!"
