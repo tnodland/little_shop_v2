@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
   # get '/dashboard/items', to: "merchants/items#index"
   scope :dashboard, module: :merchants, as: :dashboard do
-    resources :items, only: [:index, :destroy, :update]
+    resources :items, only: [:index, :destroy, :update, :new, :create]
 
   end
   get '/dashboard', to: 'merchants/orders#index'

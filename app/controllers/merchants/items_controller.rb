@@ -3,8 +3,20 @@ class Merchants::ItemsController < Merchants::BaseController
     @items = Item.where(user: current_user)
   end
 
-  def update
+  def new
+    # @merchant = current_user
+    @item = Item.new
+  end
+
+  def create
+    item = current_user.items.new(item_info)
+    item.save
+
     # binding.pry
+    redirect_to dashboard_items_path
+  end
+
+  def update
     @item = Item.find(params[:id])
     @item.update(enabled: params[:enabled])
     completed_action = params[:enabled] == "true" ? "Enabled": "Disabled"
@@ -18,5 +30,11 @@ class Merchants::ItemsController < Merchants::BaseController
     @item.destroy
     flash[:info] = "#{name} Deleted"
     redirect_to dashboard_items_path
+  end
+
+  private
+
+  def item_info
+    params.require(:item).permit(:name, :description, :image_url, :current_price, :quantity)
   end
 end
