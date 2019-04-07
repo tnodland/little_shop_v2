@@ -40,4 +40,6 @@ RSpec.describe 'Merchant Item Update', type: :feature do
 
     expect(Item.find(@inactive_item.id).enabled).to eq(true)
   end
+
+  it 'can edit item attributes via form'
 end

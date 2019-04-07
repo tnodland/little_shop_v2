@@ -40,6 +40,12 @@ RSpec.describe 'Merchant_Item partial', type: :view do
     expect(rendered).to have_xpath("//img[@src='#{@active_unordered_item.image_url}']")
   end
 
+  it 'gives an edit button' do
+    render 'shared/merchant_item', item:@active_unordered_item
+
+    expect(rendered).to have_link("Edit", href:edit_dashboard_item_path)
+  end
+
   it 'Correctly shows disable button' do
     render 'shared/merchant_item', item:@active_unordered_item
 
