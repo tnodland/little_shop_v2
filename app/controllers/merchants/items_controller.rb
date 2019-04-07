@@ -9,7 +9,7 @@ class Merchants::ItemsController < Merchants::BaseController
 
   def create
     @item = current_user.items.new(item_info)
-    binding.pry
+    # binding.pry
     if @item.valid?
       @item.save
       redirect_to dashboard_items_path

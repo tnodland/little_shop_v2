@@ -8,6 +8,8 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
     @order_items_1 = create_list(:order_item, 3, item:@items[0])
     @order_item_inactive = create(:order_item, item:@inactive_item)
+
+    @new_item = attributes_for(:item)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
 
@@ -62,26 +64,25 @@ RSpec.describe 'Merchant Item Index', type: :feature do
   end
 
   it 'can add a new item' do
-    new_item = attributes_for(:item)
     visit dashboard_items_path
     click_link "Add Item"
 
     expect(current_path).to eq(new_dashboard_item_path)
 
-    fill_in "Name", with:new_item[:name]
-    fill_in "Description", with:new_item[:description]
-    fill_in "Image URL", with:new_item[:image_url]
-    fill_in "Price", with:new_item[:current_price]
-    fill_in "Quantity", with:new_item[:quantity]
+    fill_in "Name", with:@new_item[:name]
+    fill_in "Description", with:@new_item[:description]
+    fill_in "Image URL", with:@new_item[:image_url]
+    fill_in "Price", with:@new_item[:current_price]
+    fill_in "Quantity", with:@new_item[:quantity]
 
     click_button "Create Item"
 
     item = Item.last
-    expect(item.name).to eq(new_item[:name])
-    expect(item.description).to eq(new_item[:description])
-    expect(item.image_url).to eq(new_item[:image_url])
-    expect(item.current_price).to eq(new_item[:current_price])
-    expect(item.quantity).to eq(new_item[:quantity])
+    expect(item.name).to eq(@new_item[:name])
+    expect(item.description).to eq(@new_item[:description])
+    expect(item.image_url).to eq(@new_item[:image_url])
+    expect(item.current_price).to eq(@new_item[:current_price])
+    expect(item.quantity).to eq(@new_item[:quantity])
     expect(item.enabled).to eq(true)
     expect(item.merchant_id).to eq(@merchant.id)
 
@@ -92,14 +93,16 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
 
     it 'cannot have a quantity of less than 0' do
-      fill_in "Name", with:new_item[:name]
-      fill_in "Description", with:new_item[:description]
-      fill_in "Image URL", with:new_item[:image_url]
-      fill_in "Price", with:new_item[:current_price]]
+      visit new_dashboard_item_path
+
+      fill_in "Name", with:@new_item[:name]
+      fill_in "Description", with:@new_item[:description]
+      fill_in "Image URL", with:@new_item[:image_url]
+      fill_in "Price", with:@new_item[:current_price]
 
       click_button "Create Item"
 
-      expect(page).to have_content("Quantity can't be empty")
+      expect(page).to have_content("Quantity can't be blank")
 
       fill_in "Quantity", with:-10
       click_button "Create Item"
@@ -115,21 +118,23 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     it 'must have a price greater than 0.00' do
-      fill_in "Name", with:new_item[:name]
-      fill_in "Description", with:new_item[:description]
-      fill_in "Image URL", with:new_item[:image_url]
-      fill_in "Quantity", with:new_item[:quantity]
+      visit new_dashboard_item_path
+
+      fill_in "Name", with:@new_item[:name]
+      fill_in "Description", with:@new_item[:description]
+      fill_in "Image URL", with:@new_item[:image_url]
+      fill_in "Quantity", with:@new_item[:quantity]
 
       click_button "Create Item"
 
-      expect(page).to have_content("Price can't be empty")
+      expect(page).to have_content("Current price can't be blank")
 
       fill_in "Price", with:0.00
       click_button "Create Item"
-      expect(page).to have_content("Price must be greater than 0")
+      expect(page).to have_content("Current price must be greater than 0")
 
       fill_in "Price", with: -1.00
-      expect(page).to have_content("Price must be greater than 0")
+      expect(page).to have_content("Current price must be greater than 0")
       click_button "Create Item"
 
       fill_in "Price", with: 1.00
@@ -137,11 +142,13 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     it 'must have name' do
+      visit new_dashboard_item_path
 
-      fill_in "Description", with:new_item[:description]
-      fill_in "Image URL", with:new_item[:image_url]
-      fill_in "Price", with:new_item[:current_price]
-      fill_in "Quantity", with:new_item[:quantity]
+
+      fill_in "Description", with:@new_item[:description]
+      fill_in "Image URL", with:@new_item[:image_url]
+      fill_in "Price", with:@new_item[:current_price]
+      fill_in "Quantity", with:@new_item[:quantity]
 
       click_button "Create Item"
       expect(page).to have_content("Name can't be blank")
@@ -149,10 +156,10 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     it 'must have description' do
       visit new_dashboard_item_path
 
-      fill_in "Name", with:new_item[:name]
-      fill_in "Image URL", with:new_item[:image_url]
-      fill_in "Price", with:new_item[:current_price]
-      fill_in "Quantity", with:new_item[:quantity]
+      fill_in "Name", with:@new_item[:name]
+      fill_in "Image URL", with:@new_item[:image_url]
+      fill_in "Price", with:@new_item[:current_price]
+      fill_in "Quantity", with:@new_item[:quantity]
 
       click_button "Create Item"
 
