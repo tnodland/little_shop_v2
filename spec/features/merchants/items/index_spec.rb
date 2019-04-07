@@ -89,9 +89,20 @@ RSpec.describe 'Merchant Item Index', type: :feature do
   end
 
   describe 'validates information for new items, returning to form with message if incorrect' do
-    it 'can leave the url blank'
+    it 'can leave the url blank' do
 
+      visit new_dashboard_item_path
 
+      fill_in "Name", with:@new_item[:name]
+      fill_in "Description", with:@new_item[:description]
+      fill_in "Price", with:@new_item[:current_price]
+      fill_in "Quantity", with:@new_item[:quantity]
+
+      click_button "Create Item"
+      item = Item.last
+      expect(item.image_url).to eq('http://www.spore.com/static/image/500/404/515/500404515704_lrg.png')
+
+    end
     it 'cannot have a quantity of less than 0' do
       visit new_dashboard_item_path
 

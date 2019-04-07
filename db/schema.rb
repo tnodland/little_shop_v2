@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20190401222222) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.string "image_url"
+    t.string "image_url", default: "http://www.spore.com/static/image/500/404/515/500404515704_lrg.png"
     t.integer "quantity"
     t.money "current_price", scale: 2
     t.boolean "enabled", default: true
