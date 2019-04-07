@@ -89,10 +89,11 @@ RSpec.describe 'Merchant Item Update', type: :feature do
 
       it 'defaults to defalut image if field made blank' do
         visit edit_dashboard_item_path(@inactive_item)
-        fill_in "Quantity", with:""
+        fill_in "Image URL", with:""
         click_button "Edit Item"
+        save_and_open_page
         expect(page).to have_xpath("//img[@src='http://www.spore.com/static/image/500/404/515/500404515704_lrg.png']")
-        
+
       end
       it 'cannot have a quantity of less than 0' do
         visit edit_dashboard_item_path(@inactive_item)

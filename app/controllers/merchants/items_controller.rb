@@ -31,7 +31,11 @@ class Merchants::ItemsController < Merchants::BaseController
       flash[:info] = [@item.name, completed_action].join(" ")
       redirect_to dashboard_items_path
     else
-      @item.update(item_info)
+      info = item_info
+      if info[:image_url] == ''
+        info[:image_url] = 'http://www.spore.com/static/image/500/404/515/500404515704_lrg.png'
+      end
+      @item.update(info)
       if @item.valid?
         flash[:info] = "#{name} Edited"
         redirect_to dashboard_items_path
