@@ -85,5 +85,49 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       end
     end
 
+    describe 'validates information for edited items' do
+
+      it 'cannot have a quantity of less than 0' do
+        visit edit_dashboard_item_path(@inactive_item)
+        fill_in "Quantity", with:""
+        click_button "Edit Item"
+        expect(page).to have_content("Quantity can't be blank")
+
+        fill_in "Quantity", with:-10
+        click_button "Edit Item"
+        expect(page).to have_content("Quantity must be greater than or equal to 0")
+
+        # Below, this is a kludge-y test, form does not allow input of floats
+        # So this is very sad-path of a forced input
+        fill_in "Quantity", with:1.5
+        expect(page).to have_content("Quantity must be greater than or equal to 0")
+
+        fill_in "Quantity", with: 5
+        click_button "Edit Item"
+        expect(current_path).to eq(dashboard_items_path)
+
+      end
+
+      it 'must have a price greater than 0.00' do
+        visit edit_dashboard_item_path(@inactive_item)
+
+        fill_in "Price", with:""
+        click_button "Edit Item"
+        expect(page).to have_content("Current price can't be blank")
+
+        fill_in "Price", with:0.00
+        click_button "Edit Item"
+        expect(page).to have_content("Current price must be greater than 0")
+
+        fill_in "Price", with: -1.00
+        expect(page).to have_content("Current price must be greater than 0")
+        click_button "Edit Item"
+  
+        fill_in "Price", with: 1.00
+        click_button "Edit Item"
+        expect(current_path).to eq(dashboard_items_path)
+      end
+    end
+
   end
 end
