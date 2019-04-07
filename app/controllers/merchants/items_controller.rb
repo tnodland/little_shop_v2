@@ -7,9 +7,12 @@ class Merchants::ItemsController < Merchants::BaseController
     @item = Item.new
   end
 
+  def edit
+    @item = Item.find(params[:id])
+  end
+
   def create
     @item = current_user.items.new(item_info)
-    # binding.pry
     if @item.valid?
       @item.save
       redirect_to dashboard_items_path
@@ -20,10 +23,21 @@ class Merchants::ItemsController < Merchants::BaseController
 
   def update
     @item = Item.find(params[:id])
-    @item.update(enabled: params[:enabled])
-    completed_action = params[:enabled] == "true" ? "Enabled": "Disabled"
-    flash[:info] = [@item.name, completed_action].join(" ")
-    redirect_to dashboard_items_path
+    name = @item.name
+
+    if params[:enabled]
+      @item.update(enabled: params[:enabled])
+      completed_action = params[:enabled] == "true" ? "Enabled": "Disabled"
+      flash[:info] = [@item.name, completed_action].join(" ")
+      redirect_to dashboard_items_path
+    else
+      if @item.update(item_info)
+        flash[:info] = "#{name} Edited"
+        redirect_to dashboard_items_path
+      else
+        render :edit
+      end
+    end
   end
 
   def destroy

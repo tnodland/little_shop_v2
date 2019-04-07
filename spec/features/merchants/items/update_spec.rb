@@ -51,7 +51,7 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       expect(current_path).to eq(edit_dashboard_item_path(@inactive_item))
 
       expect(page).to have_field("Name", with:@inactive_item.name)
-      expect(page).to have_field("Description", with:@inactive_item.descriptions)
+      expect(page).to have_field("Description", with:@inactive_item.description)
       expect(page).to have_field("Price", with:@inactive_item.current_price)
       expect(page).to have_field("Image URL", with:@inactive_item.image_url)
       expect(page).to have_field("Quantity", with:@inactive_item.quantity)
@@ -75,16 +75,13 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       within "#merchant-item-#{@inactive_item.id}" do
         expect(page).to have_content(new_info[:name])
         expect(page).to have_content(new_info[:current_price])
-        expect(page).to have_content(new_info[:image_url])
-        expect(page).to have_content(new_info[:description])
+        expect(page).to have_xpath("//img[@src='#{new_info[:image_url]}']")
         expect(page).to have_content(new_info[:quantity])
 
         expect(page).not_to have_content(@inactive_item.name)
         expect(page).not_to have_content(@inactive_item.current_price)
-        expect(page).not_to have_content(@inactive_item.image_url)
         expect(page).not_to have_content(@inactive_item.description)
         expect(page).not_to have_content(@inactive_item.quantity)
-
       end
     end
 
