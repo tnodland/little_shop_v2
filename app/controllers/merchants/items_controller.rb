@@ -4,7 +4,6 @@ class Merchants::ItemsController < Merchants::BaseController
   end
 
   def new
-    # @merchant = current_user
     @item = Item.new
   end
 
@@ -12,7 +11,6 @@ class Merchants::ItemsController < Merchants::BaseController
     item = current_user.items.new(item_info)
     item.save
 
-    # binding.pry
     redirect_to dashboard_items_path
   end
 
