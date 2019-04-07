@@ -87,17 +87,77 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
   end
 
-  describe 'validates information for new items, returning to form with flash message if incorrect' do
+  describe 'validates information for new items, returning to form with message if incorrect' do
     it 'can leave the url blank'
 
 
-    it 'cannot have a quantity of less than 0'
+    it 'cannot have a quantity of less than 0' do
+      fill_in "Name", with:new_item[:name]
+      fill_in "Description", with:new_item[:description]
+      fill_in "Image URL", with:new_item[:image_url]
+      fill_in "Price", with:new_item[:current_price]]
 
-    it 'must have a price greater than 0.00'
+      click_button "Create Item"
 
-    it 'must have name'
+      expect(page).to have_content("Quantity can't be empty")
 
-    it 'must have description'
+      fill_in "Quantity", with:-10
+      click_button "Create Item"
+      expect(page).to have_content("Quantity must be greater than or equal to 0")
+
+      fill_in "Quantity", with: 1.5
+      expect(page).to have_content("Quantity must be an interger")
+
+      fill_in "Quantity", with: 5
+      click_button "Create Item"
+      expect(current_path).to eq(dashboard_items_path)
+
+    end
+
+    it 'must have a price greater than 0.00' do
+      fill_in "Name", with:new_item[:name]
+      fill_in "Description", with:new_item[:description]
+      fill_in "Image URL", with:new_item[:image_url]
+      fill_in "Quantity", with:new_item[:quantity]
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Price can't be empty")
+
+      fill_in "Price", with:0.00
+      click_button "Create Item"
+      expect(page).to have_content("Price must be greater than 0")
+
+      fill_in "Price", with: -1.00
+      expect(page).to have_content("Price must be greater than 0")
+      click_button "Create Item"
+
+      fill_in "Price", with: 1.00
+      expect(current_path).to eq(dashboard_items_path)
+    end
+
+    it 'must have name' do
+
+      fill_in "Description", with:new_item[:description]
+      fill_in "Image URL", with:new_item[:image_url]
+      fill_in "Price", with:new_item[:current_price]
+      fill_in "Quantity", with:new_item[:quantity]
+
+      click_button "Create Item"
+      expect(page).to have_content("Name can't be blank")
+    end
+    it 'must have description' do
+      visit new_dashboard_item_path
+
+      fill_in "Name", with:new_item[:name]
+      fill_in "Image URL", with:new_item[:image_url]
+      fill_in "Price", with:new_item[:current_price]
+      fill_in "Quantity", with:new_item[:quantity]
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Description can't be blank")
+    end
 
   end
 
