@@ -8,10 +8,14 @@ class Merchants::ItemsController < Merchants::BaseController
   end
 
   def create
-    item = current_user.items.new(item_info)
-    item.save
-
-    redirect_to dashboard_items_path
+    @item = current_user.items.new(item_info)
+    binding.pry
+    if @item.valid?
+      @item.save
+      redirect_to dashboard_items_path
+    else
+      render :new
+    end
   end
 
   def update

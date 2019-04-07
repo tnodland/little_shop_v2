@@ -87,6 +87,20 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
   end
 
+  describe 'validates information for new items, returning to form with flash message if incorrect' do
+    it 'can leave the url blank'
+
+
+    it 'cannot have a quantity of less than 0'
+
+    it 'must have a price greater than 0.00'
+
+    it 'must have name'
+
+    it 'must have description'
+
+  end
+
 end
 
 RSpec.describe 'Merchant_Item partial', type: :view do
