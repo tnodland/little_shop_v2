@@ -9,7 +9,7 @@ Your cart is empty.
 
   <div id=checkout>
     <% if current_user %>
-      <%= button_to "Checkout" %>
+      <%= button_to "Checkout", orders_path %>
     <% else %>
       You must register or log in to checkout
       <%= link_to "Log In", login_path %> <%= link_to "Register", register_path %>
