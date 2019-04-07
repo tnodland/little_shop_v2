@@ -53,12 +53,36 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
   it 'can delete an item which has not been ordered' do
     visit dashboard_items_path
-    withn "#merchant-item-#{@items[1].id}" do
+    within "#merchant-item-#{@items[1].id}" do
       click_button "Delete"
     end
 
-    expect(page).to have_content("#{@items[1]} Deleted")
+    expect(page).to have_content("#{@items[1].name} Deleted")
     expect(page).not_to have_selector('div', id:"merchant-item-#{@items[1].id}")
+  end
+
+  it 'can add a new item' do
+    new_item = attributes_for(:item)
+    visit dashboard_items_patch
+    click_link "Add Item"
+
+    expect(current_path).to eq(new_dashboard_item_path)
+
+    fill_in "Name", with:new_item[:name]
+    fill_in "Description", with:new_item[:description]
+    fill_in "Image URL", with:new_item[:image_url]
+    fill_in "Price", with:new_item[:price]
+    fill_in "Quantity", with:new_item[:quantity]
+
+    click_button "Create Item"
+
+    item = Item.last
+    expect(item.name).to eq(new_item[:name])
+    expect(item.description).to eq(new_item[:description])
+    expect(item.image_url).to eq(new_item[:image_url])
+    expect(item.price).to eq(new_item[:price])
+    expect(item.quantity).to eq(new_item[:quantity])
+
   end
 
 end
