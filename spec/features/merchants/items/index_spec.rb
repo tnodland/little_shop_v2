@@ -43,7 +43,7 @@ RSpec.describe 'Merchant_Item partial', type: :view do
   it 'gives an edit button' do
     render 'shared/merchant_item', item:@active_unordered_item
 
-    expect(rendered).to have_link("Edit", href:edit_dashboard_item_path)
+    expect(rendered).to have_link("Edit", href:edit_dashboard_item_path(@active_unordered_item))
   end
 
   it 'Correctly shows disable button' do
