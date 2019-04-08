@@ -18,6 +18,7 @@ class Merchants::OrdersController < Merchants::BaseController
     order_item.toggle :fulfilled
     item.save
     order_item.save
+    flash[:success] = "Item fulfilled!"
     redirect_to dashboard_order_path(order)
   end
 end

@@ -51,4 +51,12 @@ class Item < ApplicationRecord
   def fulfilled?(order)
     order_items.where("order_items.order_id = ?", order.id).first.fulfilled
   end
+
+  def not_enough?
+    if order_items.first.quantity > self.quantity
+      return true
+    else
+      return false
+    end
+  end
 end
