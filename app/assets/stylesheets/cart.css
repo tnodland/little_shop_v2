@@ -11,11 +11,11 @@
 #cart-actions button,
 #cart-actions input[type="submit"],
 #cart-actions input[type="button"] {
-  margin: 5px 20px;
+  margin: 5px 0 5px 20px;
   font-size: 1em;
 }
 
-#checkout {
+#checkout .action-required {
   font-size: 0.66em;
 }
 
@@ -46,14 +46,28 @@
   padding: 5px;
 }
 
+.cart-row form {
+  display: inline-block;
+}
+
 .cart-row img {
   object-fit: contain;
+}
+
+.cart-row select {
+  height: 28px;
+  min-width: 36px;
+  background-color: #FFFFFF;
 }
 
 .item-name, .item-merchant {
   min-width: 180px;
 }
 
-.item-price, .item-subtotal {
+.item-price {
   min-width: 60px;
+}
+
+.item-subtotal {
+  min-width: 120px;
 }

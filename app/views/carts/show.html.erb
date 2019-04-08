@@ -7,14 +7,12 @@
         <%= render 'cart_item', item:item, quantity:quantity %>
       <% end %>
     </section>
-    <div id="cart-actions"><%= number_to_currency(@total) %><div>
+    <div id="cart-actions">Total: <%= number_to_currency(@total) %>
       <%= button_to "Empty Cart", cart_path, method: :delete %>
-
-    <div id=checkout>
       <% if current_user %>
         <%= button_to "Check Out", orders_path %>
       <% else %>
-        You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> to check out
+        <span class="action-required">You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> to check out</span>
       <% end %>
     </div>
   <% end %>

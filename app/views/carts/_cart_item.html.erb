@@ -7,13 +7,14 @@
   </div>
   <div class="item-actions">
     <div class="item-quantity">
+      Quantity:
       <%= form_tag cart_path(item_id: item.id), method: :patch do %>
       <%= select_tag "quantity", options_for_select((0..item.quantity).to_a, selected: quantity) %>
 
-      <%= submit_tag "Update Quantity"%>
+      <%= submit_tag "Update" %>
       <% end %>
     </div>
-    <div class="item-subtotal"><%= number_to_currency(quantity*item.current_price) %></div>
-    <div class="item-remove"><%= button_to "Remove Item", cart_path(item_id: item.id, quantity:0), method: :patch %></div>
+    <div class="item-subtotal">Subtotal: <%= number_to_currency(quantity*item.current_price) %></div>
+    <div class="item-remove"><%= button_to "Remove", cart_path(item_id: item.id, quantity:0), method: :patch %></div>
   </div>
 </div>
