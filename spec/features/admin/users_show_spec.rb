@@ -26,5 +26,22 @@ RSpec.describe "Admin User show page", type: :feature do
       expect(page).to have_content("Zip Code: #{@user_1.zip_code}")
       expect(page).to have_content("E-Mail: #{@user_1.email}")
     end
+
+    it 'Allows an admin to updrage a user to a merchant' do
+      visit admin_user_path(@user_1)
+
+      expect(page).to have_link("Upgrade to Merchant")
+
+      click_link "Upgrade to Merchant"
+
+      expect(current_path).to eq(admin_merchant_path(@user_1))
+      expect(page).to have_content("#{@user_1.name} is now a Merchant")
+
+      visit admin_users_path
+      expect(page).to_not have_link(@user_1.name)
+
+      visit admin_merchants_path
+      expect(page).to have_link(@user_1.name)
+    end
   end
 end
