@@ -12,4 +12,14 @@
  *
  *= require_tree .
  *= require_self
+ *
+ * font-family: 'Mukta', sans-serif;
+ * font-family: 'Hind', sans-serif;
+ * font-family: 'Quicksand', sans-serif;
  */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #F4F4F4;
+}

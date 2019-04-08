@@ -1,13 +1,15 @@
 <nav class="main-nav">
 
-<%= link_to 'Home', root_path %>
-<%= link_to 'Browse Items', items_path %>
-<%= link_to 'View Merchants', merchants_path %>
-<%= yield %>
-<% if current_customer? %>
-  <%= link_to "Cart: #{@cart.total_count}", cart_path %>
-<%end%>
+<%= link_to 'Home', root_path, class: 'home-link' %>
+<%= link_to 'Browse Items', items_path, class: 'items-link' %>
+<%= link_to 'View Merchants', merchants_path, class: 'merchants-link' %>
 <% if current_user %>
-  Logged in as <%= current_user.name%>
+<span class="current-user">Logged in as <%= current_user.name%></span>
 <%end%>
+<span class="nav-right">
+<% if current_customer? %>
+<%= link_to "Cart: #{@cart.total_count}", cart_path, class: 'cart-link' %>
+<%end%>
+<%= yield %>
+</span>
 </nav>
