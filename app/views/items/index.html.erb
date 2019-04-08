@@ -17,9 +17,9 @@
     </ul>
   </section>
 
-  <section class="item-list">
+  <section class="index-list">
     <% @items.each do |item| %>
-      <section class="item-card shadowed-box" id="item-<%= item.id %>">
+      <section class="item-card card shadowed-box" id="item-<%= item.id %>">
         <%= link_to item_path(item) do %>
           <h3><%= item.name %></h3>
           <%= image_tag "#{item.image_url}", size: "100x100" %>

@@ -1,15 +1,5 @@
-.item-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
 .item-list .item-card {
   flex-basis: 220px;
-  margin: 5px;
-  box-sizing: border-box;
-  padding: 10px;
-  background-color: #FFFFFF;
 }
 
 .item-card h3 {
