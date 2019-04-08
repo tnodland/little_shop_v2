@@ -1,0 +1,38 @@
+.cart-table {
+  background-color: #FFFFFF;
+  padding: 10px;
+}
+
+.cart-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  border-top: 1px solid #CCCCCC;
+}
+
+.cart-row div {
+  flex-grow: 1;
+}
+
+.cart-row:first-child {
+  border-top: 0;
+}
+
+.cart-row > div > * {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+.cart-row img {
+  object-fit: contain;
+}
+
+.item-name, .item-merchant {
+  min-width: 180px;
+}
+
+.item-price, .item-subtotal {
+  min-width: 60px;
+}
