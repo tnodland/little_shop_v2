@@ -81,7 +81,7 @@ RSpec.describe User, type: :model do
         @order_items_6 = create(:order_item, item:@items[1], order:@packaged_order)
 
 
-        expect(@merchants.pending_orders).to eq(@orders[0..1])
+        expect(@merchants[0].pending_orders).to eq(@orders[0..1].map{|o| o.id})
       end
     end
   end
