@@ -12,4 +12,5 @@
     <%= button_to "Remove Item", cart_path(item_id: item.id, quantity:0), method: :patch %>
   </div>
   <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
+
 </div>

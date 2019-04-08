@@ -6,4 +6,8 @@ class OrderItem < ApplicationRecord
                         :ordered_price
 
   # validates_exclusion_of :fulfilled, in: [nil]
+
+  def subtotal
+    self.ordered_price * self.quantity
+  end
 end

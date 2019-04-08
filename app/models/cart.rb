@@ -24,4 +24,5 @@ class Cart
       @contents[item_id] = quantity
     end
   end
+
 end

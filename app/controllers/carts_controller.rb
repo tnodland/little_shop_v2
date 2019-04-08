@@ -1,10 +1,12 @@
 class CartsController < ApplicationController
   before_action :require_customer
 
+
   def update
     @cart.update_quantity(params[:item_id], params[:quantity].to_i)
     redirect_to cart_path
   end
+
 
   def destroy
     session[:cart] = {}

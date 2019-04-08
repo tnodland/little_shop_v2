@@ -27,4 +27,5 @@ RSpec.describe Cart do
     expected = {"5"=>6}
     expect(cart.contents).to eq(expected)
   end
+
 end
