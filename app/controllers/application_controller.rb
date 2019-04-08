@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   def current_user?
     current_user&.user?
   end
+
   def current_customer?
     current_user == nil || current_user&.user?
   end
@@ -42,7 +43,7 @@ class ApplicationController < ActionController::Base
       'visitor'
     end
   end
-  
+
   def render_404
     render status: 404, file: "#{Rails.root}/public/404.html"
   end

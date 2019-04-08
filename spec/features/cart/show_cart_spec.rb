@@ -127,7 +127,7 @@ RSpec.describe 'Cart show page' do
     visit item_path(@item_1)
     click_button "Add to Cart"
     visit cart_path
-    save_and_open_page
+
     within '#checkout' do
       expect(page).not_to have_content("You must register or log in to checkout")
       expect(page).not_to have_link("Log In", href: login_path)
@@ -135,6 +135,17 @@ RSpec.describe 'Cart show page' do
 
       expect(page).to have_button("Checkout")
     end
+  end
+
+  it 'creates an Order upon clicking "Checkout"' do
+    user = create(:user)
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+    visit item_path(@item_1)
+    click_button "Add to Cart"
+    visit cart_path
+    click_button "Checkout"
+
+    expect(page).to have_content("Your order was created!")
   end
 
 end

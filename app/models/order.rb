@@ -7,6 +7,28 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
 
+
+  def initialize(args = nil)
+    super(args&.except(:cart))
+    add_items(args[:cart]) if args && args[:cart]
+  end
+
+  def self.from_cart(user, cart_contents)
+    self.create(user: user, status: 'pending', cart: cart_contents)
+  end
+
+  private
+
+  def add_items(cart)
+    cart.each do |item_id, quantity|
+      item = Item.find(item_id)
+      self.order_items.new(item_id: item_id,
+                          quantity: quantity,
+                     ordered_price: item.current_price,
+                        created_at: self.created_at)
+    end
+  end
+  
   def total_count
     self.order_items.sum(:quantity)
   end

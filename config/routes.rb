@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'merchants/orders#index'
 
   get '/profile', to: "users#show"
+  get '/profile/orders', to: "orders#index"
   get '/cart', to: 'carts#show'
   delete '/cart', to: 'carts#destroy'
   patch '/cart', to: 'carts#update'
@@ -36,4 +37,5 @@ Rails.application.routes.draw do
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]
+  resources :orders, only: [:create]
 end
