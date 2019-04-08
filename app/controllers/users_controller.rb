@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user, except: [:new, :create]
-  # skip_before_action :require_user, only: [:new, :create]
+  
   def show
     @user = current_user
   end
@@ -25,22 +25,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    if passwords_dont_match
-      redisplay_new_form "Passwords do not match"
 
-    elsif incomplete_information
-      redisplay_new_form "Please fill in all fields"
+    @user = User.new(user_info)
 
-    elsif email_in_use
-      @user = User.new(user_info.except(:email))
-      flash[:info] = "E-Mail already in use"
-      render :new
+    if @user.valid?
+      @user.save
 
-    else
-      @user = User.create(user_info)
       flash[:info] = "You are now registered and logged in"
       session[:user_id] = @user.id.to_s
       redirect_to profile_path
+    else
+      render :new
     end
   end
 
@@ -54,33 +49,11 @@ class UsersController < ApplicationController
 
   private
 
-  def redisplay_new_form(message, pre_fill = form_info)
-    @user = User.new
-    flash[:info] = message
-    redirect_to register_path pre_fill
-  end
-
-  def passwords_dont_match
-    params[:user][:password] != params[:user][:password_confirmation]
-  end
-
-  def incomplete_information
-    user_info.to_hash.any?{|key, value| value == ""}
-  end
-
-  def email_in_use
-    User.exists?(email: params[:user][:email])
-  end
-
   def user_info
     params
     .require(:user)
     .permit(:name, :street_address, :city, :state, :zip_code, :email,
       :password, :password_confirmation)
-  end
-
-  def form_info
-    user_info.except(:password).to_hash
   end
 
   def require_user

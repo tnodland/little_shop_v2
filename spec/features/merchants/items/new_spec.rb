@@ -90,14 +90,14 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
       click_button "Create Item"
 
-      expect(page).to have_content("Current price can't be blank")
+      expect(page).to have_content("Price can't be blank")
 
       fill_in "Price", with:0.00
       click_button "Create Item"
-      expect(page).to have_content("Current price must be greater than 0")
+      expect(page).to have_content("Price must be greater than 0")
 
       fill_in "Price", with: -1.00
-      expect(page).to have_content("Current price must be greater than 0")
+      expect(page).to have_content("Price must be greater than 0")
       click_button "Create Item"
 
       fill_in "Price", with: 1.00
