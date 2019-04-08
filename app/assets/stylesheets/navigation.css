@@ -3,9 +3,11 @@
   top: 0px;
   width: 100%;
   background-color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
 }
 
-.main-nav a {
+.main-nav a, .main-nav .nav-center {
   display: inline-block;
   padding: 10px 15px;
   color: #000000;
@@ -20,10 +22,8 @@
   color: #000000;
 }
 
-.main-nav .nav-right {
+.main-nav span {
   display: inline-block;
-  position: absolute;
-  right: 0px;
 }
 
 .main-nav a.home-link {
