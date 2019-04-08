@@ -1,0 +1,5 @@
+<h1>All Active Orders</h1>
+
+<% @orders.each do |order| %>
+  <%= link_to "Order #{order.id}", dashboard_order_path(order) %>
+<% end %>

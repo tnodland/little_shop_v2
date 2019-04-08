@@ -24,7 +24,7 @@ RSpec.describe "order show page" do
 
       click_link("Order #{order.id}")
 
-      expect(current_path).to eq(dshboard_order_path(order))
+      expect(current_path).to eq(dashboard_order_path(order))
 
       within "ordered_item-#{item1.id}" do
         expect(page).to have_link(item1.name)
