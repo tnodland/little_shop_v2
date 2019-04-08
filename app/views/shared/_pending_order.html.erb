@@ -1,4 +1,6 @@
 <div id=<%="order-#{order.id}"%>>
-
-
+  <%= link_to order.id, dashboard_order_path(order) %>
+  Created: <%= order.created_at %>
+  Cost: <%= order.total_cost %>
+  Items: <%= order.total_count %>
 </div>

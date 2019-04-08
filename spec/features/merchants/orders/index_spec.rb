@@ -30,20 +30,20 @@ RSpec.describe 'Merchant Item Index', type: :feature do
   it 'Shows all pending orders' do
     visit dashboard_path
     within "#order-#{@order_1.id}" do
-      expect(page).to have_link(@order_1.id, dashboard_order_path(@order_1))
-      expect(page).to have_content(@order_1.created_at)
-      expect(page).to have_content(@order_1.total_count)
-      expect(page).to have_content(@order_1.total_cost)
+      expect(page).to have_link(@order_1.id, href:dashboard_order_path(@order_1))
+      expect(page).to have_content("Created: #{@order_1.created_at}")
+      expect(page).to have_content("Items: #{@order_1.total_count}")
+      expect(page).to have_content("Cost: #{@order_1.total_cost}")
     end
 
     within "#order-#{@order_2.id}" do
-      expect(page).to have_link(@order_2.id, dashboard_order_path(@order_2))
+      expect(page).to have_link(@order_2.id, href:dashboard_order_path(@order_2))
       expect(page).to have_content(@order_2.created_at)
       expect(page).to have_content(@order_2.total_count)
       expect(page).to have_content(@order_2.total_cost)
     end
 
-    expect(page).not_to have_selector('div', id:"#order=#{@order_3.id}")
+    expect(page).not_to have_selector('div', id:"#order=#{@shipped_order.id}")
 
   end
 
