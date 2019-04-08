@@ -1,11 +1,29 @@
 .item-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 .item-list .item-card {
-  flex-basis: 300px;
+  flex-basis: 220px;
+  margin: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #FFFFFF;
+}
+
+.item-card h3 {
+  text-align: center;
+}
+
+.item-card img {
+  margin: 0 40px;
+  object-fit: contain;
+}
+
+.item-show {
+  background-color: #FFFFFF;
+  padding: 20px 10px;
 }
 
 .item-show img {
@@ -24,7 +42,7 @@
   font-size: 2em;
 }
 
-.item-details * {
+.item-details *, .item-card * {
   margin: 0;
 }
 

@@ -28,3 +28,7 @@ html, body {
 a {
   text-decoration: none;
 }
+
+.shadowed-box {
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.2)
+}
