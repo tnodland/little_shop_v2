@@ -193,14 +193,4 @@ RSpec.describe 'Cart show page' do
     expect(order.user_id).to eq(user.id)
     expect(page).to have_content("Order ID: #{order.id}")
   end
-
 end
-#
-# RSpec.describe 'partial for items in cart' ,type: :view do
-#   it 'shows all information' do
-#
-#     item = create(:item)
-#     quantity = 3
-#     render 'carts/cart_item', item:item, quantity:quantity
-#   end
-# end
