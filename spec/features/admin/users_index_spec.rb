@@ -10,6 +10,20 @@ RSpec.describe "Admin User Index page", type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
 
+    it 'allows an admin to visit the index from the nav bar' do
+      visit root_path
+
+      click_link "Users"
+
+      expect(current_path).to eq(admin_users_path)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user_1)
+
+      visit root_path
+
+      expect(page).to_not have_link("Users")
+    end
+
     it 'shows information about each user' do
 
       visit '/admin/users'
