@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :order_item do
     order
     item
-    quantity { 1 }
+    sequence(:quantity) { |n| ("#{n}".to_i+1)}
     ordered_price { 2.5 }
     fulfilled { false }
   end
