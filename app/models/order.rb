@@ -24,7 +24,7 @@ class Order < ApplicationRecord
   def total_cost
     self.order_items.sum("quantity*ordered_price").to_f
   end
-  
+
   private
 
   def add_items(cart)
