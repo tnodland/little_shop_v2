@@ -15,6 +15,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     @order_items_3 = create(:order_item, item:@items[1], order:@order_2)
     @order_items_4 = create(:order_item, item:@items[0], order:@shipped_order)
 
+
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
 
@@ -48,4 +49,9 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   end
 
+  it 'can navigate to the merchant items page' do
+    visit dashboard_path
+    click_link "View All Items"
+    expect(current_path).to eq(dashboard_items_path)
+  end
 end

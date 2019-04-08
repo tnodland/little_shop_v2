@@ -6,6 +6,7 @@ before_action :require_user
 
   def create
     Order.from_cart(current_user, @cart.contents)
+    session[:cart] = {}
     flash[:notice] = "Your order was created!"
     redirect_to profile_orders_path
   end
