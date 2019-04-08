@@ -4,6 +4,6 @@ Address:
 E-Mail: <%= @merchant.email %>
 
 
-<%@pending_orders.each do |order| %>
+<%@orders.each do |order| %>
   <%= render 'shared/pending_order', order:order %>
 <%end%>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Item Index', type: :feature do
+RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   before :each do
     @merchant = create(:merchant)
     @users = create_list(:user, 2)
