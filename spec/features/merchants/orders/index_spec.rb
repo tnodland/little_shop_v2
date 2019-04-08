@@ -9,7 +9,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   it 'can navigate to the merchant items page' do
     visit dashboard_path
-    click_link "View Items"
+    click_link "View All Items"
     expect(current_path).to eq(dashboard_items_path)
   end
 end
