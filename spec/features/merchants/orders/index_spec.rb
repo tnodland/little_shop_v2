@@ -13,6 +13,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     @order_items_1 = create(:order_item, item:@items[0], order:@order_1)
     @order_items_2 = create(:order_item, item:@items[0], order:@order_2)
     @order_items_3 = create(:order_item, item:@items[1], order:@order_2)
+    @order_items_4 = create(:order_item, item:@items[0], order:@shipped_order)
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
@@ -43,7 +44,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
       expect(page).to have_content(@order_2.total_cost)
     end
 
-    expect(page).not_to have_selector('div', id:"#order=#{@shipped_order.id}")
+    expect(page).not_to have_selector('div', id:"order-#{@shipped_order.id}")
 
   end
 
