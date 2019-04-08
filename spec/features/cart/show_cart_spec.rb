@@ -48,9 +48,48 @@ RSpec.describe 'Cart show page' do
 
     visit cart_path
 
-    expect(page).to have_selector('div', id:"cart-item-#{@item_1.id}")
-    expect(page).to have_selector('div', id:"cart-item-#{@item_2.id}")
-    expect(page).to have_selector('div', id:"cart-item-#{@item_4.id}")
+    within "#cart-item-#{@item_1.id}" do
+      expect(page).to have_selector('div', id:"item-name", text:@item_1.name)
+      expect(page).to have_selector('div', id:"item-merchant", text:@item_1.user.name)
+      expect(page).to have_selector('div', id:"item-price", text:@item_1.current_price)
+      expect(page).to have_selector('div', id:"item-quantity", text:"1")
+
+      expect(page).to have_xpath("//img[@src='#{@item_1.image_url}']")
+      expect(page).to have_field('quantity', with:"1")
+      expect(page).to have_button("Update Quantity")
+      expect(page).to have_button("Remove Item")
+
+      expect(page).to have_selector('div', id:"subtotal", text:"#{@item_1.current_price}")
+    end
+
+    within "#cart-item-#{@item_2.id}" do
+      expect(page).to have_selector('div', id:"item-name", text:@item_2.name)
+      expect(page).to have_selector('div', id:"item-merchant", text:@item_2.user.name)
+      expect(page).to have_selector('div', id:"item-price", text:@item_2.current_price)
+      expect(page).to have_selector('div', id:"item-quantity", text:"2")
+
+      expect(page).to have_xpath("//img[@src='#{@item_2.image_url}']")
+      expect(page).to have_field('quantity', with:"2")
+      expect(page).to have_button("Update Quantity")
+      expect(page).to have_button("Remove Item")
+
+      expect(page).to have_selector('div', id:"subtotal", text:"#{@item_2.current_price * 2}")
+    end
+
+    within "#cart-item-#{@item_4.id}" do
+      expect(page).to have_selector('div', id:"item-name", text:@item_4.name)
+      expect(page).to have_selector('div', id:"item-merchant", text:@item_4.user.name)
+      expect(page).to have_selector('div', id:"item-price", text:@item_4.current_price)
+      expect(page).to have_selector('div', id:"item-quantity", text:"4")
+
+      expect(page).to have_xpath("//img[@src='#{@item_4.image_url}']")
+      expect(page).to have_field('quantity', with:"4")
+      expect(page).to have_button("Update Quantity")
+      expect(page).to have_button("Remove Item")
+
+      expect(page).to have_selector('div', id:"subtotal", text:"#{@item_4.current_price * 4}")
+    end
+
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
 
     total = @item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4)
@@ -156,26 +195,12 @@ RSpec.describe 'Cart show page' do
   end
 
 end
-
-RSpec.describe 'partial for items in cart' ,type: :view do
-  it 'shows all information' do
-
-    item = create(:item)
-    quantity = 3
-    render 'carts/cart_item', item:item, quantity:quantity
-    expect(rendered).to have_selector('div', id:"cart-item-#{item.id}")
-    expect(rendered).to have_selector('div', id:"item-name", text:item.name)
-    expect(rendered).to have_selector('div', id:"item-merchant", text:item.user.name)
-    expect(rendered).to have_selector('div', id:"item-price", text:item.current_price)
-    expect(rendered).to have_selector('div', id:"item-quantity", text:quantity)
-
-    expect(rendered).to have_xpath("//img[@src='#{item.image_url}']")
-    expect(rendered).to have_field('quantity', with:quantity)
-    expect(rendered).to have_button("Update Quantity")
-    expect(rendered).to have_button("Remove Item")
-
-
-
-    expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.current_price * quantity}")
-  end
-end
+#
+# RSpec.describe 'partial for items in cart' ,type: :view do
+#   it 'shows all information' do
+#
+#     item = create(:item)
+#     quantity = 3
+#     render 'carts/cart_item', item:item, quantity:quantity
+#   end
+# end
