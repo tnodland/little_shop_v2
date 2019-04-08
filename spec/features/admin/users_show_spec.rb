@@ -42,6 +42,24 @@ RSpec.describe "Admin User show page", type: :feature do
 
       visit admin_merchants_path
       expect(page).to have_link(@user_1.name)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(User.second)
+
+      visit dashboard_path
+
+      expect(page).to_not have_content("The page you were looking for doesn't exist")
+    end
+
+    it 'only allows admins to reach the upgrade path' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user_1)
+
+      visit admin_upgrade_user_path(@user_1)
+      expect(page).to have_http_status(404)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+      visit admin_upgrade_user_path(@user_1)
+      expect(page).to have_http_status(404)
     end
   end
 end
