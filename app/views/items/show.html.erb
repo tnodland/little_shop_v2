@@ -2,7 +2,7 @@
   <%= image_tag "#{@item.image_url}", size: "500x500" %>
   <section class="item-details">
     <h1><%= @item.name %></h1>
-    <h3>Seller: <%= link_to @item.user.name, @item.user %></h3>
+    <h3>Seller: <%= @item.user.name %></h3>
     <p><%= @item.description %></p>
     <p>Price: <%= number_to_currency(@item.current_price) %></p>
     <p>Number in stock: <%= @item.quantity %></p>

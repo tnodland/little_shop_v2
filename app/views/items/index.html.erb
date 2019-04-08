@@ -20,9 +20,11 @@
   <section class="item-list">
     <% @items.each do |item| %>
       <section class="item-card shadowed-box" id="item-<%= item.id %>">
-        <h3><%= link_to "#{item.name}", item_path(item) %></h3>
-        <%= image_tag "#{item.image_url}", size: "100x100" %>
-        <p>Sold by: <%= link_to item.user.name, item.user %></p>
+        <%= link_to item_path(item) do %>
+          <h3><%= item.name %></h3>
+          <%= image_tag "#{item.image_url}", size: "100x100" %>
+        <% end %>
+        <p>Sold by: <%= item.user.name %></p>
         <p>Number in stock: <%= item.quantity %></p>
         <p>Price: <%= number_to_currency(item.current_price) %></p>
       </section>
