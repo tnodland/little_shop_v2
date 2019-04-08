@@ -43,4 +43,8 @@ class Item < ApplicationRecord
   def ordered?
     orders != []
   end
+
+  def amount_ordered(order)
+    order_items.where("order_items.order_id = ?", order.id).sum("order_items.quantity")
+  end
 end

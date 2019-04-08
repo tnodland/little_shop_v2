@@ -72,13 +72,13 @@ RSpec.describe Item, type: :model do
       @item1 = create(:item, user: @merchant, quantity: 100)
       @item2 = create(:item, user: @merchant, quantity: 100)
       @shopper = create(:user)
-      @order = create(:shipped_order, user: @shopper)
+      @order = create(:fast_shipped_order, user: @shopper)
       @order2 = create(:order, user: @shopper)
 
-      create(:fulfilled_order_item, order: @order, item: @item1, quantity: 10, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
-      create(:fulfilled_order_item, order: @order, item: @item1, quantity: 5, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+      create(:fast_fulfilled_order_item, order: @order, item: @item1, quantity: 10, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+      create(:fast_fulfilled_order_item, order: @order, item: @item1, quantity: 5, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
       create(:order_item, order: @order2, item: @item1, quantity: 5)
-      create(:fulfilled_order_item, order: @order2, item: @item2, quantity: 5, created_at: "Mon, 01 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
+      create(:fast_fulfilled_order_item, order: @order2, item: @item2, quantity: 7, created_at: "Mon, 01 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
     end
 
     it ".total_sold" do
@@ -94,6 +94,10 @@ RSpec.describe Item, type: :model do
 
       expect(item3.ordered?).to eq(false)
       expect(@item2.ordered?).to eq(true)
+    end
+
+    it ".amount_ordered" do
+      expect(@item2.amount_ordered(@order2)).to eq(7)
     end
   end
 end
