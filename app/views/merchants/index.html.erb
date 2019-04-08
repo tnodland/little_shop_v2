@@ -4,7 +4,7 @@
   <section class="index-list">
     <% @merchants.each do |merchant| %>
     <section class="merchant-card card shadowed-box" id="merchant-<%= merchant.id %>">
-      <p>Name: <%= merchant.name %></p>
+      <h3><%= merchant.name %></h3>
       <p>Located in <%= merchant.city %>, <%= merchant.state %></p>
       <p>Joined the store on <%= merchant.created_at %></p>
     </section>
