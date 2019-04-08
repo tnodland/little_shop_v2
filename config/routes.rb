@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :profile do
     resources :orders, only: [:index, :show]
   end
+  post 'profile/orders/:id', to: 'profile/orders#cancel', as: 'cancel_order'
   get '/profile', to: "users#show", as: 'profile'
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
   # get '/dashboard/items', to: "merchants/items#index"
