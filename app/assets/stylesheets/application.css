@@ -24,3 +24,7 @@ html, body {
   background-color: #F4F4F4;
   font-family: 'Mukta', sans-serif;
 }
+
+a {
+  text-decoration: none;
+}

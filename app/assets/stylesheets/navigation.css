@@ -9,7 +9,6 @@
 .main-nav a {
   display: inline-block;
   padding: 10px 15px;
-  text-decoration: none;
   color: #000000;
 }
 
@@ -40,4 +39,5 @@
 
 main {
   margin: 65px 15px 10px;
+  position: relative;
 }

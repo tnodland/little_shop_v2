@@ -7,3 +7,34 @@
 .item-list .item-card {
   flex-basis: 300px;
 }
+
+.item-show img {
+  object-fit: contain;
+  margin-right: 15px;
+}
+
+.item-details {
+  position: absolute;
+  top: 120px;
+  display: inline-block;
+  width: calc(100% - 515px)
+}
+
+.item-show h1 {
+  font-size: 2em;
+}
+
+.item-details * {
+  margin: 0;
+}
+
+.item-details::before {
+  content: '';
+  display: inline-block;
+  border-left: 1px solid #666666;
+  width: 15px;
+  height: calc(100% + 60px);
+  position: absolute;
+  top: -30px;
+  left: -8px;
+}
