@@ -26,19 +26,19 @@ RSpec.describe "order show page" do
 
       expect(current_path).to eq(dashboard_order_path(order))
 
-      within "ordered_item-#{item1.id}" do
+      within "#ordered-item-#{item1.id}" do
         expect(page).to have_link(item1.name)
-        expect(page).to have_content("Price: #{item1.name}")
+        expect(page).to have_content("Price: $#{item1.current_price}0")
         expect(page).to have_content("Quantity ordered: #{oi1.quantity}")
       end
 
-      within "ordered_item-#{item3.id}" do
+      within "#ordered-item-#{item3.id}" do
         expect(page).to have_link(item3.name)
-        expect(page).to have_content("Price: #{item3.name}")
+        expect(page).to have_content("Price: $#{item3.current_price}0")
         expect(page).to have_content("Quantity ordered: #{oi3.quantity}")
       end
 
-      expect(page).to_no have_content(item2.name)
+      expect(page).to_not have_content(item2.name)
     end
   end
 end
