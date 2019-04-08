@@ -18,7 +18,7 @@ RSpec.describe "Item show page" do
       expect(page).to have_content("Number in stock: #{item.quantity}")
       expect(page).to have_content("Price: #{item.current_price}")
       expect(page).to have_content("Average Processing Time: 1.0 Day(s)")
-      expect(page).to have_link("Add to Cart")
+      expect(page).to have_button("Add to Cart")
     end
   end
 end

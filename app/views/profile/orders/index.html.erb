@@ -1,0 +1,10 @@
+<% @orders.each do |order| %>
+  <section id="order-<%= order.id %>">
+  <p><%= link_to "Order ID: #{order.id}", profile_order_path(order)%></p>
+  <p>Order Status: <%= order.status %></p>
+  <p>QTY of Items: <%= order.total_count %></p>
+  <p>Grand Total: <%= order.total_cost %></p>
+  <p>Order Placed: <%= order.created_at.strftime("%m/%d/%Y") %></p>
+  <p>Last Updated: <%= order.updated_at.strftime("%m/%d/%Y") %></p>
+  </section>
+<% end %>

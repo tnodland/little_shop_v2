@@ -1,0 +1,16 @@
+<div id=<%="cart-item-#{item.id}"%>>
+  <div id=item-name>Item Name: <%=item.name%></div>
+  <div id=item-merchant><%=item.user.name%></div>
+  <div id=item-price><%=item.current_price%></div>
+  <img src=<%=item.image_url%> height=20px width=20px/>
+  <div id=item-quantity>
+    <%= form_tag cart_path(item_id: item.id), method: :patch do %>
+    <%= select_tag "quantity", options_for_select((0..item.quantity).to_a, selected: quantity) %>
+
+    <%= submit_tag "Update Quantity"%>
+    <%end%>
+    <%= button_to "Remove Item", cart_path(item_id: item.id, quantity:0), method: :patch %>
+  </div>
+  <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
+
+</div>

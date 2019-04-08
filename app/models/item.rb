@@ -1,10 +1,9 @@
 class Item < ApplicationRecord
   validates_presence_of :name,
                         :description,
-                        :image_url,
-                        :quantity,
-                        :current_price #break out for nuericality checks
-
+                        :image_url
+  validates :quantity, presence: true, numericality:{ only_integer: true, greater_than_or_equal_to: 0}
+  validates :current_price, presence: true, numericality:{ greater_than: 0}
   belongs_to :user, foreign_key: 'merchant_id'
   has_many :order_items
   has_many :orders, through: :order_items
@@ -32,5 +31,9 @@ class Item < ApplicationRecord
   def fullfillment_time
     order_items.where("order_items.fulfilled = true")
                .average("order_items.updated_at - order_items.created_at")
+  end
+
+  def ordered?
+    orders != []
   end
 end

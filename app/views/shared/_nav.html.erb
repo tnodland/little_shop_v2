@@ -1,6 +1,13 @@
 <nav class="main-nav">
+
 <%= link_to 'Home', root_path %>
 <%= link_to 'Browse Items', items_path %>
 <%= link_to 'View Merchants', merchants_path %>
 <%= yield %>
+<% if current_customer? %>
+  <%= link_to "Cart: #{@cart.total_count}", cart_path %>
+<%end%>
+<% if current_user %>
+  Logged in as <%= current_user.name%>
+<%end%>
 </nav>

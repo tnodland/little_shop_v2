@@ -1,0 +1,22 @@
+<section id="order-info">
+  <p>Order ID: <%= @order.id %></p>
+  <p>Order Status: <%= @order.status %></p>
+  <p>QTY of Items: <%= @order.total_count %></p>
+  <p>Grand Total: <%= @order.total_cost %></p>
+  <p>Order Placed: <%= @order.created_at.strftime("%m/%d/%Y") %></p>
+  <p>Last Updated: <%= @order.updated_at.strftime("%m/%d/%Y") %></p>
+  <% if @order.pending? %>
+    <%= button_to "Cancel Order" %>
+  <% end %>
+</section>
+
+<% @line_items.each do |line| %>
+  <section id="item-<%= line.item.id %>">
+    <%= image_tag "#{line.item.image_url}", size: "100x100" %>
+    <p>Item: <%= line.item.name %></p>
+    <p>Individual Price: <%=  %></p>
+    <p>Description: <%= line.item.description %></p>
+    <p>QTY: <%= line.quantity %></p>
+    <p>Subtotal: <%= line.subtotal %></p>
+  </section>
+<% end %>

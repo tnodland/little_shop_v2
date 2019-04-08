@@ -1,0 +1,17 @@
+<div id=<%="merchant-item-#{item.id}"%>>
+  <div id=item-id><%=item.id%></div>
+  <img src=<%=item.image_url%> height=20px width=20px/>
+  <div id=item-name><%=item.name%></div>
+  <div id=item-quantity><%=item.quantity%></div>
+  <div id=item-price><%=item.current_price%></div>
+  <%= link_to "Edit", edit_dashboard_item_path(item)%>
+  <%unless item.ordered? %>
+    <%= button_to "Delete", dashboard_item_path(item), method: :delete %>
+  <%end%>
+
+  <% if item.enabled %>
+    <%= button_to "Disable", dashboard_item_path(item, enabled:false), method: :patch  %>
+  <% else %>
+    <%= button_to "Enable", dashboard_item_path(item, enabled:true), method: :patch %>
+  <%end%>
+</div>

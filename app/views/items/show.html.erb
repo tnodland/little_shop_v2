@@ -5,4 +5,4 @@
 <p>Number in stock: <%= @item.quantity %></p>
 <p>Price: <%= @item.current_price %></p>
 <p>Average Processing Time: <%= @item.fullfillment_time %> Day(s)</p>
-<p><%= link_to "Add to Cart", cart_path %></p>
+<p><%= button_to "Add to Cart", carts_path(item_id: @item.id) %></p>

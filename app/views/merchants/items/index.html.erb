@@ -1,0 +1,4 @@
+<%= link_to "Add Item", new_dashboard_item_path%>
+<% @items.each do |item|%>
+  <%= render 'shared/merchant_item', item:item%>
+<%end%>
