@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:show]
   end
 
+  patch '/dashboard/:order/:item/fulfill', to: "merchants/orders#update", as: :fulfill_item
   get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
 

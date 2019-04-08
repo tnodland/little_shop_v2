@@ -9,4 +9,15 @@ class Merchants::OrdersController < Merchants::BaseController
     @order = Order.find(params[:id])
     @items = Item.find_by_order(@order, merchant)
   end
+
+  def update
+    order = Order.find(params[:order])
+    item = Item.find(params[:item])
+    order_item = item.order_items.first
+    item.quantity -= order_item.quantity
+    order_item.toggle :fulfilled
+    item.save
+    order_item.save
+    redirect_to dashboard_order_path(order)
+  end
 end

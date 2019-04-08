@@ -3,5 +3,10 @@
     <p><%= link_to "#{item.name}", item_path(item) %></p>
     <p>Price: <%= number_to_currency(item.current_price) %></p>
     <p>Quantity ordered: <%= item.amount_ordered(@order) %></p>
+    <% if item.fulfilled?(@order) %>
+      <p>This item has been fulfilled</p>
+    <% else %>
+      <p><%= link_to "Fullfill this item", fulfill_item_path(@order, item), method: :patch %></p>
+    <% end %>
   </section>
 <% end %>

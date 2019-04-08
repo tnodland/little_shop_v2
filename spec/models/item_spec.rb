@@ -99,5 +99,10 @@ RSpec.describe Item, type: :model do
     it ".amount_ordered" do
       expect(@item2.amount_ordered(@order2)).to eq(7)
     end
+
+    it ".fulfilled?" do
+      expect(@item1.fulfilled?(@order)).to eq(true)
+      expect(@item1.fulfilled?(@order2)).to eq(false)
+    end
   end
 end
