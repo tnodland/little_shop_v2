@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   end
   get '/profile', to: "users#show", as: 'profile'
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
+  # get '/dashboard/items', to: "merchants/items#index"
+  scope :dashboard, module: :merchants, as: :dashboard do
+    resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
+
+  end
 
   get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
