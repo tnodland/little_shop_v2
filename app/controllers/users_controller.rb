@@ -25,22 +25,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    if passwords_dont_match
-      redisplay_new_form "Passwords do not match"
 
-    elsif incomplete_information
-      redisplay_new_form "Please fill in all fields"
+    @user = User.new(user_info)
 
-    elsif email_in_use
-      @user = User.new(user_info.except(:email))
-      flash[:info] = "E-Mail already in use"
-      render :new
+    if @user.valid?
+      @user.save
 
-    else
-      @user = User.create(user_info)
       flash[:info] = "You are now registered and logged in"
       session[:user_id] = @user.id.to_s
       redirect_to profile_path
+    else
+      render :new
     end
   end
 

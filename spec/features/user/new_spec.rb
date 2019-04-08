@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Registration page' do
+RSpec.describe 'Registration page (new user)', type: :feature do
   before :each do
     @user_info = attributes_for(:user)
   end
@@ -11,6 +11,7 @@ RSpec.describe 'Registration page' do
       click_link "Register"
       expect(current_path).to eq(register_path)
     end
+    
     it 'registration page has fields for all information; can be submitted' do
       visit register_path
       fill_in "Name", with: @user_info[:name]
