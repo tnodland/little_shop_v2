@@ -11,7 +11,7 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       click_link "Register"
       expect(current_path).to eq(register_path)
     end
-    
+
     it 'registration page has fields for all information; can be submitted' do
       visit register_path
       fill_in "Name", with: @user_info[:name]
@@ -40,24 +40,24 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Confirm Password", with: "Not Password"
 
       click_button "Create User"
-      expect(current_path).to eq(register_path)
-      expect(page).to have_content("Passwords do not match")
+      expect(page).to have_content("Password confirmation doesn't match Password")
     end
 
     it 'registration page, if not fully filled in, redirects to register page' do
       visit register_path
 
-      fill_in "Name", with: @user_info[:name]
-      fill_in "State", with: @user_info[:state]
-      fill_in "Zip Code", with: @user_info[:zip_code]
-      fill_in "E-Mail", with: @user_info[:email]
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
       click_button "Create User"
 
-      expect(current_path).to eq(register_path)
-      expect(page).to have_content("Please fill in all fields")
+      expect(page).to have_content("Street address can't be blank")
+      expect(page).to have_content("City can't be blank")
+      expect(page).to have_content("Name can't be blank")
+      expect(page).to have_content("State can't be blank")
+      expect(page).to have_content("Zip code can't be blank")
+      expect(page).to have_content("Email can't be blank")
+
     end
 
     it 'registration will not allow you to use an email in the database' do
@@ -76,13 +76,14 @@ RSpec.describe 'Registration page (new user)', type: :feature do
 
       click_button "Create User"
 
-      expect(page).to have_content("E-Mail already in use")
+      expect(page).to have_content("Email has already been taken")
+
       expect(page).to have_field('Name', with:@user_info[:name])
       expect(page).to have_field("Street Address" ,with:@user_info[:street_address])
       expect(page).to have_field("City" ,with:@user_info[:city])
       expect(page).to have_field("State" ,with:@user_info[:state])
       expect(page).to have_field("Zip Code" ,with:@user_info[:zip_code])
-      expect(page).not_to have_field("E-Mail" ,with:user_2.email)
+      expect(page).to have_field("E-Mail" ,with:user_2.email)
 
     end
   end
