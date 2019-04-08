@@ -6,4 +6,14 @@ Your cart is empty.
   <%end%>
   <div id=total><%=@total%><div>
     <%= button_to "Empty Cart", cart_path, method: :delete%>
+
+  <div id=checkout>
+    <% if current_user %>
+      <%= button_to "Checkout" %>
+    <% else %>
+      You must register or log in to checkout
+      <%= link_to "Log In", login_path %> <%= link_to "Register", register_path %>
+    <%end%>
+  </div>
+
 <%end%>

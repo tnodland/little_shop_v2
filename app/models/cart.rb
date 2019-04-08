@@ -16,4 +16,13 @@ class Cart
   def total_count
     @contents.values.sum
   end
+
+  def update_quantity(item_id, quantity)
+    if quantity == 0
+      @contents.delete(item_id)
+    else
+      @contents[item_id] = quantity
+    end
+  end
+
 end

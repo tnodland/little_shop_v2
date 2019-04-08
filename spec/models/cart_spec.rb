@@ -17,4 +17,15 @@ RSpec.describe Cart do
     expect(cart.contents).to eq(expected)
   end
 
+  it "#update_quantity(item_id, quantity), updates the correct item quantity, deleting item if appropriate" do
+    cart = Cart.new({"5"=> 3, "3" => 4})
+    cart.update_quantity("5", 6)
+    expected = {"5"=>6, "3"=>4}
+    expect(cart.contents).to eq(expected)
+
+    cart.update_quantity("3",0)
+    expected = {"5"=>6}
+    expect(cart.contents).to eq(expected)
+  end
+
 end
