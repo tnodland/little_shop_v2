@@ -22,7 +22,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
     end
 
     it 'passwords must match for submission' do
@@ -38,7 +38,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: "Not Password"
 
-      click_button "Create User"
+      click_button "Register"
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Passwords do not match")
     end
@@ -53,7 +53,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
 
       expect(current_path).to eq(register_path)
       expect(page).to have_content("Please fill in all fields")
@@ -73,7 +73,7 @@ RSpec.describe 'Registration page' do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
 
       expect(page).to have_content("E-Mail already in use")
       expect(page).to have_field('Name', with:@user_info[:name])
@@ -113,7 +113,7 @@ RSpec.describe 'Registration page' do
     fill_in "Password", with: @user_info[:password]
     fill_in "Confirm Password", with: @user_info[:password]
 
-    click_button "Create User"
+    click_button "Register"
 
   end
   context 'as a not-logged-in-user having filled out the registration' do
