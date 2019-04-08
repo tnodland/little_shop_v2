@@ -27,8 +27,8 @@ RSpec.describe 'As an Admin User' do
     end
 
     it 'Allows an admin to downgrade a merchant to a user' do
-      item_1 = create(:item, merchant_id: @merchant_1.id)
-      item_2 = create(:item, merchant_id: @merchant_1.id)
+      create(:item, merchant_id: @merchant_1.id)
+      create(:item, merchant_id: @merchant_1.id)
 
       visit admin_merchant_path(@merchant_1)
 
@@ -39,8 +39,10 @@ RSpec.describe 'As an Admin User' do
       expect(current_path).to eq(admin_user_path(@merchant_1))
       expect(page).to have_content("#{@merchant_1.name} is now a User")
 
-      expect(item_1.enable?).to eq(false)
-      expect(item_2.enable?).to eq(false)
+      item_1 = Item.first
+      item_2 = Item.second
+      expect(item_1.enabled?).to eq(false)
+      expect(item_2.enabled?).to eq(false)
 
       visit admin_users_path
       expect(page).to have_link(@merchant_1.name)
