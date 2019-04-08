@@ -31,6 +31,7 @@ RSpec.describe Order, type: :model do
 
       expect(subject.first.created_at).to eq(subject.first.created_at)
     end
+  end
   describe 'instance methods' do
     describe '.total_count' do
       it 'totals the items of a particular order' do

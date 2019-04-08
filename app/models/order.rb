@@ -17,6 +17,14 @@ class Order < ApplicationRecord
     self.create(user: user, status: 'pending', cart: cart_contents)
   end
 
+  def total_count
+    self.order_items.sum(:quantity)
+  end
+
+  def total_cost
+    self.order_items.sum("quantity*ordered_price").to_f
+  end
+  
   private
 
   def add_items(cart)
@@ -28,12 +36,5 @@ class Order < ApplicationRecord
                         created_at: self.created_at)
     end
   end
-  
-  def total_count
-    self.order_items.sum(:quantity)
-  end
 
-  def total_cost
-    self.order_items.sum("quantity*ordered_price").to_f
-  end
 end
