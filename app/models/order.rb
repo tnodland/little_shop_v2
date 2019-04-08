@@ -18,7 +18,7 @@ class Order < ApplicationRecord
   end
 
   def self.find_by_merchant(merchant)
-    joins(:items).where("items.merchant_id = ?", merchant.id)
+    joins(:items).where("items.merchant_id = ?", merchant.id).distinct
   end
 
   def total_count

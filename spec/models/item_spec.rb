@@ -48,6 +48,22 @@ RSpec.describe Item, type: :model do
       expect(Item.sort_sold("ASC")).to eq([item1, item2, item3, item4, item5])
       expect(Item.sort_sold("DESC")).to eq([item5, item4, item3, item2, item1])
     end
+
+    it ".find_by_order" do
+      merchant1 = create(:merchant)
+      shopper = create(:user)
+      merchant2 = create(:merchant)
+      item1 = create(:item, user: merchant1)
+      item2 = create(:item, user: merchant2)
+      item3 = create(:item, user: merchant1)
+
+      order = create(:order, user: shopper)
+      oi1 = create(:order_item, order: order, item: item1)
+      oi2 = create(:order_item, order: order, item: item2)
+      oi3 = create(:order_item, order: order, item: item3)
+
+      expect(Item.find_by_order(order, merchant1)).to eq([item1, item3])
+    end
   end
 
   describe 'instance methods' do
