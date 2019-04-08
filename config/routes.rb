@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "home#index"
+  root "home#index"
 
   namespace :admin do
     get '/dashboard', to: "orders#index"
@@ -12,15 +12,28 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:create, :update]
-  get '/profile', to: "users#show"
+
+  namespace :profile do
+    resources :orders, only: [:index, :show]
+  end
+  get '/profile', to: "users#show", as: 'profile'
   get '/profile/edit', to: "users#edit", as: 'edit_profile'
   # get '/dashboard/items', to: "merchants/items#index"
   scope :dashboard, module: :merchants, as: :dashboard do
     resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
 
   end
+
+  get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
-  get '/cart', to: "cart#show"
+
+  get '/profile', to: "users#show"
+  get '/profile/orders', to: "orders#index"
+  get '/cart', to: 'carts#show'
+  delete '/cart', to: 'carts#destroy'
+  patch '/cart', to: 'carts#update'
+  resources :carts, only: [:create]
+
   get '/merchants', to: "merchants#index"
 
   get '/login', to: "sessions#new"
@@ -29,5 +42,5 @@ Rails.application.routes.draw do
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]
-
+  resources :orders, only: [:create]
 end
