@@ -13,6 +13,7 @@ RSpec.describe Order, type: :model do
     it {should have_many(:items).through :order_items}
   end
 
+
   describe 'class methods' do
     it '#from_cart' do
       user = create(:user)
@@ -29,6 +30,30 @@ RSpec.describe Order, type: :model do
       expect(subject.last.quantity).to eq(2)
 
       expect(subject.first.created_at).to eq(subject.first.created_at)
+    end
+  describe 'instance methods' do
+    describe '.total_count' do
+      it 'totals the items of a particular order' do
+        order = create(:order)
+        item = create(:item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+
+        expect(order.total_count).to eq(15)
+      end
+    end
+
+    describe '.total_cost' do
+      it 'totals the cost of all items in the order' do
+        order = create(:order)
+        item = create(:item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+        create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
+
+        expect(order.total_cost).to eq(75.0)
+      end
     end
   end
 end

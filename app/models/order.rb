@@ -7,6 +7,7 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped', 'cancelled']
 
+
   def initialize(args = nil)
     super(args&.except(:cart))
     add_items(args[:cart]) if args && args[:cart]
@@ -26,5 +27,13 @@ class Order < ApplicationRecord
                      ordered_price: item.current_price,
                         created_at: self.created_at)
     end
+  end
+  
+  def total_count
+    self.order_items.sum(:quantity)
+  end
+
+  def total_cost
+    self.order_items.sum("quantity*ordered_price").to_f
   end
 end

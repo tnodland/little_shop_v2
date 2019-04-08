@@ -160,10 +160,15 @@ RSpec.describe 'partial for items in cart' ,type: :view do
     expect(rendered).to have_selector('div', id:"item-name", text:item.name)
     expect(rendered).to have_selector('div', id:"item-merchant", text:item.user.name)
     expect(rendered).to have_selector('div', id:"item-price", text:item.current_price)
+    expect(rendered).to have_selector('div', id:"item-quantity", text:quantity)
+    
     expect(rendered).to have_xpath("//img[@src='#{item.image_url}']")
     expect(rendered).to have_field('quantity', with:quantity)
     expect(rendered).to have_button("Update Quantity")
     expect(rendered).to have_button("Remove Item")
+
+    
+
     expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.current_price * quantity}")
   end
 end
