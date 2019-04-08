@@ -1,0 +1,9 @@
+.item-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.item-list .item-card {
+  flex-basis: 300px;
+}

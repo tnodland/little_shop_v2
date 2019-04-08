@@ -1,25 +1,31 @@
-<h1>All Items:</h1>
+<main class="item-index">
+  <h1>All Items:</h1>
 
-<ul id="most-popular-items">
-  <h3>5 Most Popular Items: </h3>
-  <% @top_5.each do |item| %>
-    <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
-  <% end %>
-</ul>
+  <section class="item-stats">
+    <ul id="most-popular-items">
+      <h3>5 Most Popular Items: </h3>
+      <% @top_5.each do |item| %>
+        <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+      <% end %>
+    </ul>
 
-<ul id="least-popular-items">
-  <h3>5 Least Popular Items: </h3>
-  <% @bottom_5.each do |item| %>
-    <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
-  <% end %>
-</ul>
-
-<% @items.each do |item| %>
-  <section id="item-<%= item.id %>">
-    <h3><%= link_to "#{item.name}", item_path(item) %></h3>
-    <%= image_tag "#{item.image_url}", size: "100x100" %>
-    <p>Sold by: <%= item.user.name %></p>
-    <p>Quantity: <%= item.quantity %></p>
-    <p>Price: <%= number_to_currency(item.current_price) %></p>
+    <ul id="least-popular-items">
+      <h3>5 Least Popular Items: </h3>
+      <% @bottom_5.each do |item| %>
+        <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+      <% end %>
+    </ul>
   </section>
-<% end %>
+
+  <section class="item-list">
+    <% @items.each do |item| %>
+      <section class="item-card" id="item-<%= item.id %>">
+        <h3><%= link_to "#{item.name}", item_path(item) %></h3>
+        <%= image_tag "#{item.image_url}", size: "100x100" %>
+        <p>Sold by: <%= item.user.name %></p>
+        <p>Number in stock: <%= item.quantity %></p>
+        <p>Price: <%= number_to_currency(item.current_price) %></p>
+      </section>
+    <% end %>
+  </section>
+</main>
