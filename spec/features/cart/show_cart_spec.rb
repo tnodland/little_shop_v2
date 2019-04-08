@@ -54,7 +54,7 @@ RSpec.describe 'Cart show page' do
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
 
     total = @item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4)
-    expect(page).to have_selector('div', id:"total", text:total.round(2))
+    expect(page).to have_selector('div', id:"cart-actions", text:total.round(2))
   end
 
   it 'can update quantities of items in the cart' do
@@ -157,18 +157,18 @@ RSpec.describe 'partial for items in cart' ,type: :view do
     quantity = 3
     render 'carts/cart_item', item:item, quantity:quantity
     expect(rendered).to have_selector('div', id:"cart-item-#{item.id}")
-    expect(rendered).to have_selector('div', id:"item-name", text:item.name)
-    expect(rendered).to have_selector('div', id:"item-merchant", text:item.user.name)
-    expect(rendered).to have_selector('div', id:"item-price", text:item.current_price)
-    expect(rendered).to have_selector('div', id:"item-quantity", text:quantity)
-    
+    expect(rendered).to have_selector('div', class:"item-name", text:item.name)
+    expect(rendered).to have_selector('div', class:"item-merchant", text:item.user.name)
+    expect(rendered).to have_selector('div', class:"item-price", text:item.current_price)
+    expect(rendered).to have_selector('div', class:"item-quantity", text:quantity)
+
     expect(rendered).to have_xpath("//img[@src='#{item.image_url}']")
     expect(rendered).to have_field('quantity', with:quantity)
     expect(rendered).to have_button("Update Quantity")
     expect(rendered).to have_button("Remove Item")
 
-    
 
-    expect(rendered).to have_selector('div', id:"subtotal", text:"#{item.current_price * quantity}")
+
+    expect(rendered).to have_selector('div', class:"item-subtotal", text:"#{item.current_price * quantity}")
   end
 end
