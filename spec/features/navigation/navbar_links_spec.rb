@@ -5,7 +5,7 @@ feature 'Navigation Bar' do
     @home        = {exact_text: 'Home',           href: '/'}
     @items       = {exact_text: 'Browse Items',   href: '/items'}
     @merchants   = {exact_text: 'View Merchants', href: '/merchants'}
-    @cart        = {exact_text: 'Cart',           href: '/cart'}
+    @cart        = {text: 'Cart',                 href: '/cart'}
     @profile     = {exact_text: 'Profile',        href: '/profile'}
     @dashboard_m = {exact_text: 'Dashboard',      href: '/dashboard'}
     @dashboard_a = {exact_text: 'Dashboard',      href: '/admin/dashboard'}
@@ -19,7 +19,6 @@ feature 'Navigation Bar' do
       visit root_path
       within 'nav.main-nav' do
         expect(page).to have_link(@home)
-        expect(page).to have_link('Home', href: '/')
         expect(page).to have_link(@items)
         expect(page).to have_link(@merchant)
         expect(page).to have_link(@cart)
@@ -91,6 +90,7 @@ feature 'Navigation Bar' do
       visit root_path
 
       within 'nav.main-nav' do
+        expect(page).to have_content("Logged in as #{user.name}")
         expect(page).to have_link(@home)
         expect(page).to have_link(@items)
         expect(page).to have_link(@merchants)
@@ -113,7 +113,8 @@ feature 'Navigation Bar' do
       visit root_path
 
       within 'nav.main-nav' do
-        expect(page).to have_link('Home', href: '/')
+        expect(page).to have_content("Logged in as #{user.name}")
+        expect(page).to have_link(@home)
         expect(page).to have_link(@items)
         expect(page).to have_link(@merchants)
         expect(page).to have_link(@dashboard_a)

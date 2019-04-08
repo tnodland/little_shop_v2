@@ -22,7 +22,11 @@ Rails.application.routes.draw do
   get '/dashboard/items', to: "merchants/items#index"
   get '/dashboard', to: 'merchants/orders#index'
 
-  get '/cart', to: "cart#show"
+  get '/profile', to: "users#show"
+  get '/cart', to: 'carts#show'
+  delete '/cart', to: 'carts#destroy'
+  resources :carts, only: [:create]
+
   get '/merchants', to: "merchants#index"
 
   get '/login', to: "sessions#new"
@@ -31,5 +35,4 @@ Rails.application.routes.draw do
   get '/register', to: "users#new"
 
   resources :items, only: [:index, :show]
-
 end

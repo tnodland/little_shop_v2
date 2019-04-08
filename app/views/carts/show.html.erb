@@ -1,0 +1,9 @@
+<%if @items == {} %>
+Your cart is empty.
+<%else%>
+  <%@items.each do |item, quantity|%>
+    <%= render 'cart_item', item:item, quantity:quantity %>
+  <%end%>
+  <div id=total><%=@total%><div>
+    <%= button_to "Empty Cart", cart_path, method: :delete%>
+<%end%>
