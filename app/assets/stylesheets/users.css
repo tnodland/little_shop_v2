@@ -5,3 +5,26 @@
 .merchant-card * {
   margin: 0;
 }
+
+.new-user, .edit-user, .show-user {
+  background-color: #FFFFFF;
+  padding: 10px;
+}
+
+.new-user label, .edit-user label {
+  display: inline-block;
+  min-width: 150px;
+  text-align: right;
+}
+
+.new-user label:after, .edit-user label:after {
+  content: ':';
+}
+
+.new-user p, .edit-user p {
+  margin: 0;
+}
+
+.new-user input[type="submit"], .edit-user input[type="submit"] {
+  margin-left: 155px;
+}
