@@ -63,7 +63,7 @@ RSpec.describe 'Cart show page' do
     visit cart_path
 
     select 3, from: "quantity"
-    click_button "Update Quantity"
+    click_button "Update"
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_field('quantity', with:3 )
@@ -74,7 +74,7 @@ RSpec.describe 'Cart show page' do
     click_button "Add to Cart"
     visit cart_path
     select 0, from: "quantity"
-    click_button "Update Quantity"
+    click_button "Update"
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_content(@empty_cart_message)
@@ -84,7 +84,7 @@ RSpec.describe 'Cart show page' do
     visit item_path(@item_1)
     click_button "Add to Cart"
     visit cart_path
-    click_button "Remove Item"
+    click_button "Remove"
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_content(@empty_cart_message)
@@ -98,7 +98,7 @@ RSpec.describe 'Cart show page' do
     visit cart_path
 
     within "#cart-item-#{@item_1.id}" do
-      click_button "Remove Item"
+      click_button "Remove"
     end
 
     expect(page).to have_content(@item_2.name)
@@ -112,12 +112,12 @@ RSpec.describe 'Cart show page' do
     click_button "Add to Cart"
     visit cart_path
 
-    within '#checkout' do
-      expect(page).to have_content("You must register or log in to checkout")
-      expect(page).to have_link("Log In", href: login_path)
-      expect(page).to have_link("Register", href: register_path)
+    within '#cart-actions' do
+      expect(page).to have_content("You must register or log in to check out")
+      expect(page).to have_link("log in", href: login_path)
+      expect(page).to have_link("register", href: register_path)
 
-      expect(page).not_to have_button("Checkout")
+      expect(page).not_to have_button("Check Out")
     end
   end
 
@@ -128,12 +128,12 @@ RSpec.describe 'Cart show page' do
     click_button "Add to Cart"
     visit cart_path
 
-    within '#checkout' do
-      expect(page).not_to have_content("You must register or log in to checkout")
-      expect(page).not_to have_link("Log In", href: login_path)
-      expect(page).not_to have_link("Register", href: register_path)
+    within '#cart-actions' do
+      expect(page).not_to have_content("You must register or log in to check out")
+      expect(page).not_to have_link("log in", href: login_path)
+      expect(page).not_to have_link("register", href: register_path)
 
-      expect(page).to have_button("Checkout")
+      expect(page).to have_button("Check Out")
     end
   end
 
@@ -143,7 +143,7 @@ RSpec.describe 'Cart show page' do
     visit item_path(@item_1)
     click_button "Add to Cart"
     visit cart_path
-    click_button "Checkout"
+    click_button "Check Out"
 
     expect(page).to have_content("Your order was created!")
   end
@@ -164,10 +164,8 @@ RSpec.describe 'partial for items in cart' ,type: :view do
 
     expect(rendered).to have_xpath("//img[@src='#{item.image_url}']")
     expect(rendered).to have_field('quantity', with:quantity)
-    expect(rendered).to have_button("Update Quantity")
-    expect(rendered).to have_button("Remove Item")
-
-
+    expect(rendered).to have_button("Update")
+    expect(rendered).to have_button("Remove")
 
     expect(rendered).to have_selector('div', class:"item-subtotal", text:"#{item.current_price * quantity}")
   end
