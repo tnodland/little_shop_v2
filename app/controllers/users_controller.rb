@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_user, except: [:new, :create]
-  # skip_before_action :require_user, only: [:new, :create]
+  
   def show
     @user = current_user
   end
@@ -49,33 +49,11 @@ class UsersController < ApplicationController
 
   private
 
-  def redisplay_new_form(message, pre_fill = form_info)
-    @user = User.new
-    flash[:info] = message
-    redirect_to register_path pre_fill
-  end
-
-  def passwords_dont_match
-    params[:user][:password] != params[:user][:password_confirmation]
-  end
-
-  def incomplete_information
-    user_info.to_hash.any?{|key, value| value == ""}
-  end
-
-  def email_in_use
-    User.exists?(email: params[:user][:email])
-  end
-
   def user_info
     params
     .require(:user)
     .permit(:name, :street_address, :city, :state, :zip_code, :email,
       :password, :password_confirmation)
-  end
-
-  def form_info
-    user_info.except(:password).to_hash
   end
 
   def require_user
