@@ -88,24 +88,9 @@ RSpec.describe 'Registration page (new user)', type: :feature do
     end
   end
 
-  context 'as a logged-in-user' do
-    it 'does not allow you to the registration page' do
-      user = create(:user)
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+  it 'Creates a user with the correct information after registration, displayed on the profile page' do
 
-      visit register_path
-      expect(current_path).to eq(root_path)
-      expect(page).to have_content("You are already registered")
-
-    end
-  end
-end
-
-RSpec.describe 'Registration page' do
-  before :each do
-    @user_info = attributes_for(:user)
     visit register_path
-
     fill_in "Name", with: @user_info[:name]
     fill_in "Street Address", with: @user_info[:street_address]
     fill_in "City", with: @user_info[:city]
@@ -117,25 +102,30 @@ RSpec.describe 'Registration page' do
 
     click_button "Create User"
 
+    user = User.last
+
+    expect(user.name).to eq(@user_info[:name])
+    expect(user.street_address).to eq(@user_info[:street_address])
+    expect(user.city).to eq(@user_info[:city])
+    expect(user.state).to eq(@user_info[:state])
+    expect(user.zip_code).to eq(@user_info[:zip_code])
+    expect(user.email).to eq(@user_info[:email])
+    expect(user.authenticate(@user_info[:password])).to eq(user)
+
+    expect(current_path).to eq(profile_path)
+    expect(page).to have_content("You are now registered and logged in")
+    expect(page).to have_http_status(200)
   end
-  context 'as a not-logged-in-user having filled out the registration' do
-    it 'a new user has been created with the correct information' do
-      user = User.last
 
-      expect(user.name).to eq(@user_info[:name])
-      expect(user.street_address).to eq(@user_info[:street_address])
-      expect(user.city).to eq(@user_info[:city])
-      expect(user.state).to eq(@user_info[:state])
-      expect(user.zip_code).to eq(@user_info[:zip_code])
-      expect(user.email).to eq(@user_info[:email])
-      expect(user.authenticate(@user_info[:password])).to eq(user)
+  context 'as a logged-in-user' do
+    it 'does not allow you to the registration page' do
+      user = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
-    end
+      visit register_path
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You are already registered")
 
-    it 'you should be on the user profile page with a flash message about registration and logging in' do
-      expect(current_path).to eq(profile_path)
-      expect(page).to have_content("You are now registered and logged in")
-      expect(page).to have_http_status(200)
     end
   end
 end
