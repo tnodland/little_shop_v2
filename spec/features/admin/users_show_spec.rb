@@ -61,5 +61,12 @@ RSpec.describe "Admin User show page", type: :feature do
       visit admin_upgrade_user_path(@user_1)
       expect(page).to have_http_status(404)
     end
+
+    it 'If a path is for user but the user is a merchant it is redirected to the merchants path' do
+
+      visit "/admin/users/#{@merchant_1.id}"
+
+      expect(current_path).to eq(admin_merchant_path(@merchant_1))
+    end
   end
 end
