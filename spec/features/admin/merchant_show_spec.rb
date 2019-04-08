@@ -56,5 +56,23 @@ RSpec.describe 'As an Admin User' do
 
       expect(page).to_not have_content("The page you were looking for doesn't exist")
     end
+    it 'only allows admins to reach the downgrade path' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user_1)
+
+      visit admin_downgrade_merchant_path(@user_1)
+      expect(page).to have_http_status(404)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+      visit admin_downgrade_merchant_path(@user_1)
+      expect(page).to have_http_status(404)
+    end
+
+    it 'If a path is for merchant but the merchant is a user it is redirected to the users path' do
+
+      visit "/admin/merchants/#{@user_1.id}"
+
+      expect(current_path).to eq(admin_user_path(@user_1))
+    end
   end
 end
