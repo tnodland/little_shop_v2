@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Merchant Item Index', type: :feature do
   before :each do
     @merchant = create(:merchant)
-    @users = create_list(:user, 2))
+    @users = create_list(:user, 2)
     @items = create_list(:item, 2,  user: @merchant)
 
     @order_1 = create(:order, user: @users[0])
