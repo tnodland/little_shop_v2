@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Merchant Item Index', type: :feature do
   before :each do
     @merchant = create(:merchant)
-    @active_unordered_item = create(:item)
-    @inactive_item = create(:inactive_item)
-    @ordered_item = create(:item)
+    @active_unordered_item = create(:item, user: @merchant)
+    @inactive_item = create(:inactive_item, user: @merchant)
+    @ordered_item = create(:item, user: @merchant)
     @order_item = create(:order_item, item: @ordered_item)
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
@@ -13,9 +13,8 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
   it 'has an item index page displaying all items' do
     visit dashboard_items_path
-    save_and_open_page
+
     within "#merchant-item-#{@active_unordered_item.id}" do
-      expect(page).to have_selector('div', id:"merchant-item-#{@active_unordered_item.id}")
       expect(page).to have_selector('div', id: 'item-id', text: @active_unordered_item.id)
       expect(page).to have_selector('div', id: 'item-name', text: @active_unordered_item.name)
       expect(page).to have_selector('div', id: 'item-price', text: @active_unordered_item.current_price)
@@ -29,7 +28,6 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     within "#merchant-item-#{@inactive_item.id}" do
-      expect(page).to have_selector('div', id:"merchant-item-#{@inactive_item.id}")
       expect(page).to have_selector('div', id: 'item-id', text: @inactive_item.id)
       expect(page).to have_selector('div', id: 'item-name', text: @inactive_item.name)
       expect(page).to have_selector('div', id: 'item-price', text: @inactive_item.current_price)
@@ -43,7 +41,6 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     within "#merchant-item-#{@ordered_item.id}" do
-      expect(page).to have_selector('div', id:"merchant-item-#{@ordered_item.id}")
       expect(page).to have_selector('div', id: 'item-id', text: @ordered_item.id)
       expect(page).to have_selector('div', id: 'item-name', text: @ordered_item.name)
       expect(page).to have_selector('div', id: 'item-price', text: @ordered_item.current_price)
