@@ -13,4 +13,14 @@ RSpec.describe OrderItem, type: :model do
     it {should belong_to :item}
     it {should belong_to :order}
   end
+
+  describe 'Instance Variables' do
+    describe '.subtotal' do
+      it 'totals the quantity and ordered price of an orderitem' do
+        order_item = create(:order_item, quantity: 5, ordered_price: 5.0)
+
+        expect(order_item.subtotal).to eq(25.0)
+      end
+    end
+  end
 end
