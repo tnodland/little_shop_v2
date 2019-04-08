@@ -6,6 +6,7 @@ RSpec.describe 'As an Admin User' do
       @admin = create(:admin)
       @merchant_1 = create(:merchant)
       @merchant_2 = create(:merchant)
+      @user_1 = create(:user)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
     it 'shows all the same information that a merchant would see' do
@@ -23,6 +24,35 @@ RSpec.describe 'As an Admin User' do
       expect(page).to have_content("State: #{@merchant_1.state}")
       expect(page).to have_content("Zip Code: #{@merchant_1.zip_code}")
       expect(page).to have_content("E-Mail: #{@merchant_1.email}")
+    end
+
+    it 'Allows an admin to downgrade a merchant to a user' do
+      item_1 = create(:item, merchant_id: @merchant_1.id)
+      item_2 = create(:item, merchant_id: @merchant_1.id)
+
+      visit admin_merchant_path(@merchant_1)
+
+      expect(page).to have_link("Downgrade to User")
+
+      click_link "Downgrade to User"
+
+      expect(current_path).to eq(admin_user_path(@merchant_1))
+      expect(page).to have_content("#{@merchant_1.name} is now a User")
+
+      expect(item_1.enable?).to eq(false)
+      expect(item_2.enable?).to eq(false)
+
+      visit admin_users_path
+      expect(page).to have_link(@merchant_1.name)
+
+      visit admin_merchants_path
+      expect(page).to_not have_link(@merchant_1.name)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(User.second)
+
+      visit profile_path
+
+      expect(page).to_not have_content("The page you were looking for doesn't exist")
     end
   end
 end
