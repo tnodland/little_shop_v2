@@ -6,10 +6,10 @@ RSpec.describe 'As an Admin User' do
       @admin = create(:admin)
       @users = create_list(:user, 4)
 
-      @packaged_orders = 4.times.map{ create(:packaged_order, user:@users[rand(4)])}
-      @pending_orders = 4.times.map{ create(:packaged_order, user:@users[rand(4)])}
-      @shipped_orders = 4.times.map{ create(:packaged_order, user:@users[rand(4)])}
-      @cancelled_orders = 4.times.map{ create(:packaged_order, user:@users[rand(4)])}
+      @pending_orders = 4.times.map{ |i| create(:order, user:@users[rand(4)], created_at:(i).minute.ago)}
+      @shipped_orders = 4.times.map{ |i| create(:shipped_order, user:@users[rand(4)], created_at:(i).minute.ago)}
+      @cancelled_orders = 4.times.map{ |i| create(:cancelled_order, user:@users[rand(4)], created_at:(i).minute.ago)}
+      @packaged_orders = 4.times.map{ |i| create(:packaged_order, user:@users[rand(4)], created_at:(i).minute.ago)}
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
@@ -27,6 +27,20 @@ RSpec.describe 'As an Admin User' do
           expect(page).to have_link(order.user.id.to_s, href:admin_user_path(order.user))
         end
       end
+    end
+
+    it 'gives orders in sorted order, by category, then by newest to oldest' do
+      visit admin_dashboard_path
+
+      desired = @packaged_orders + @pending_orders + @shipped_orders + @cancelled_orders
+
+      observed = page.all('span', class:'order-row')
+
+      observed.zip(desired).each do |obs, expected|
+        obs_id = obs[:id].split("-")[1].to_i
+        expect(obs_id).to eq(expected.id)
+      end
+
     end
 
   end
