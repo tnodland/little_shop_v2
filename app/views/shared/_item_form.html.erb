@@ -1,0 +1,33 @@
+<% if @item.errors.any? %>
+<ul>
+  <% @item.errors.full_messages.each do |msg| %>
+  <li><%= msg %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<%= form_for [:dashboard, @item] do |f| %>
+<p>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+</p>
+<p>
+  <%= f.label :description%>
+  <%= f.text_field :description %>
+</p>
+<p>
+  <%= f.label :image_url, "Image URL"%>
+  <%= f.text_field :image_url %>
+</p>
+<p>
+  <%= f.label :current_price, "Price" %>
+  <%= f.text_field :current_price %>
+</p>
+<p>
+  <%= f.label :quantity%>
+  <%= f.number_field :quantity %>
+</p>
+
+  <%= f.submit "#{form_type} Item" %>
+
+<% end %>
