@@ -12,3 +12,16 @@
 //
 //= require rails-ujs
 //= require_tree .
+
+document.addEventListener('DOMContentLoaded', function(){
+  priceElm = document.querySelector("input.currency")
+  console.dir(priceElm)
+  if(priceElm != null){
+    priceElm.addEventListener('input', makeCurrency)
+    priceElm.value = parseFloat(priceElm.value).toFixed(2)
+  }
+}, false)
+
+function makeCurrency(e){
+  e.target.value = parseFloat(e.target.value).toFixed(2)
+}
