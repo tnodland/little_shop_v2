@@ -109,3 +109,13 @@
     padding: 0 5px;
   }
 }
+
+.order-list {
+  .item-price {
+    min-width: 120px;
+  }
+
+  .item-quantity {
+    min-width: 150px;
+  }
+}
