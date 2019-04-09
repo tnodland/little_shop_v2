@@ -1,9 +1,10 @@
 <main class="admin-users-index shadowed-box">
+  <section class="data-table user-list">
   <% @users.each do |user| %>
-    <section id="user-<%= user.id %>">
-      <p>User: <%= link_to user.name, admin_user_path(user) %>
-          Date Registered: <%= user.created_at %>
-          <%= button_to "Upgrade to Merchant" %> </p>
+    <section class="table-row" id="user-<%= user.id %>">
+      <span class="user-name"><%= link_to user.name, admin_user_path(user) %></span>
+      <span class="user-register-date">Date Registered: <%= user.created_at %></span>
+      <span class="user-upgrade"><%= button_to "Upgrade to Merchant" %></span>
     </section>
   <% end %>
 </main>
