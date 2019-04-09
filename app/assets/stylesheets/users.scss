@@ -1,0 +1,40 @@
+.merchant-card {
+  h3 {
+    text-align: center;
+  }
+
+  * {
+    margin: 0;
+  }
+}
+
+.user-profile {
+  label {
+    display: inline-block;
+    min-width: 150px;
+    text-align: right;
+  }
+
+  label:after {
+    content: ':';
+  }
+
+  input[type="submit"] {
+    margin-left: 155px;
+  }
+}
+
+
+.user-profile p,
+.user-profile h1 {
+  margin: 0;
+}
+
+
+.show-user a {
+  margin-right: 15px;
+}
+
+.user-id::before {
+  content: 'User ID #';
+}
