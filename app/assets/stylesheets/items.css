@@ -12,8 +12,6 @@
 }
 
 .item-show {
-  background-color: #FFFFFF;
-  padding: 20px 10px;
   min-height: 500px;
 }
 
@@ -24,7 +22,7 @@
 }
 
 .item-details {
-  margin: 120px 0 10px;
+  margin: 110px 0 10px;
 }
 
 .item-show h1 {
