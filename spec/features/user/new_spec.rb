@@ -23,7 +23,7 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
     end
 
     it 'passwords must match for submission' do
@@ -39,7 +39,8 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: "Not Password"
 
-      click_button "Create User"
+      click_button "Register"
+      expect(current_path).to eq(register_path)
       expect(page).to have_content("Password confirmation doesn't match Password")
     end
 
@@ -49,7 +50,7 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
 
       expect(page).to have_content("Street address can't be blank")
       expect(page).to have_content("City can't be blank")
@@ -74,7 +75,7 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Password", with: @user_info[:password]
       fill_in "Confirm Password", with: @user_info[:password]
 
-      click_button "Create User"
+      click_button "Register"
 
       expect(page).to have_content("Email has already been taken")
 
@@ -100,7 +101,7 @@ RSpec.describe 'Registration page (new user)', type: :feature do
     fill_in "Password", with: @user_info[:password]
     fill_in "Confirm Password", with: @user_info[:password]
 
-    click_button "Create User"
+    click_button "Register"
 
     user = User.last
 

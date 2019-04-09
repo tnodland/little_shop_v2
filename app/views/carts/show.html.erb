@@ -1,19 +1,19 @@
-<%if @items == {} %>
-Your cart is empty.
-<%else%>
-  <%@items.each do |item, quantity|%>
-    <%= render 'cart_item', item:item, quantity:quantity %>
-  <%end%>
-  <div id=total><%=@total%><div>
-    <%= button_to "Empty Cart", cart_path, method: :delete%>
-
-  <div id=checkout>
-    <% if current_user %>
-      <%= button_to "Checkout", orders_path %>
-    <% else %>
-      You must register or log in to checkout
-      <%= link_to "Log In", login_path %> <%= link_to "Register", register_path %>
-    <%end%>
-  </div>
-
-<%end%>
+<main class="cart-page">
+  <% if @items == {} %>
+  Your cart is empty.
+  <% else %>
+    <section class="cart-table shadowed-box">
+      <% @items.each do |item, quantity| %>
+        <%= render 'cart_item', item:item, quantity:quantity %>
+      <% end %>
+    </section>
+    <div id="cart-actions">Total: <%= number_to_currency(@total) %>
+      <%= button_to "Empty Cart", cart_path, method: :delete %>
+      <% if current_user %>
+        <%= button_to "Check Out", orders_path %>
+      <% else %>
+        <span class="action-required">You must <%= link_to "register", register_path %> or <%= link_to "log in", login_path %> to check out</span>
+      <% end %>
+    </div>
+  <% end %>
+</main>
