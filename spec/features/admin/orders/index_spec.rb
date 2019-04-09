@@ -24,7 +24,7 @@ RSpec.describe 'As an Admin User' do
           expect(page).to have_content(order.created_at)
           expect(page).to have_content(order.status)
           expect(page).to have_content("Order: #{order.id}")
-          expect(page).to have_link(order.user.id, href:admin_user_path(order.user))
+          expect(page).to have_link(order.user.id.to_s, href:admin_user_path(order.user))
         end
       end
     end
