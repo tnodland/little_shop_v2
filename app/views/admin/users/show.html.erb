@@ -1,5 +1,5 @@
-<main class="admin-show-index shadowed-box">
-  <h1>User: <%= @user.id %></h1>
+<main class="admin-show-index shadowed-box user-profile">
+  <h1 class="user-id"><%= @user.id %></h1>
 
   <p>Name: <%= @user.name %></p>
   <p>Street Address: <%= @user.street_address %></p>
@@ -7,6 +7,6 @@
   <p>City: <%= @user.city %></p>
   <p>Zip Code: <%= @user.zip_code %></p>
   <p>E-Mail: <%= @user.email %></p>
-  <%= link_to "Edit Profile", profile_edit_path %>
+  <%= link_to "Edit Profile", profile_edit_path, class: 'edit' %>
   <%= link_to "Upgrade to Merchant", admin_upgrade_user_path(@user) %>
 </main>

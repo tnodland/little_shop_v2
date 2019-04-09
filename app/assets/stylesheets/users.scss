@@ -22,17 +22,15 @@
   input[type="submit"] {
     margin-left: 155px;
   }
-}
 
+  a.edit {
+    margin-right: 15px;
+  }
+}
 
 .user-profile p,
 .user-profile h1 {
   margin: 0;
-}
-
-
-.show-user a {
-  margin-right: 15px;
 }
 
 .user-id::before {
