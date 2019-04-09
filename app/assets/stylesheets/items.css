@@ -14,18 +14,17 @@
 .item-show {
   background-color: #FFFFFF;
   padding: 20px 10px;
+  min-height: 500px;
 }
 
 .item-show img {
   object-fit: contain;
   margin-right: 15px;
+  float: left;
 }
 
 .item-details {
-  position: absolute;
-  top: 120px;
-  display: inline-block;
-  width: calc(100% - 515px)
+  margin: 120px 0 10px;
 }
 
 .item-show h1 {
@@ -40,9 +39,8 @@
   content: '';
   display: inline-block;
   border-left: 1px solid #666666;
-  width: 15px;
-  height: calc(100% + 60px);
+  height: 400px;
   position: absolute;
-  top: -30px;
-  left: -8px;
+  top: 120px;
+  left: 518px;
 }
