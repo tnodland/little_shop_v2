@@ -36,7 +36,7 @@ RSpec.describe "User Index Page", type: :feature do
       fill_in "Password", with: "password"
       fill_in "Confirm Password", with: "password"
 
-      click_button "Update User"
+      click_button "Update Info"
 
       expect(current_path).to eq(profile_path)
 
@@ -66,7 +66,7 @@ RSpec.describe "User Index Page", type: :feature do
       fill_in "Zip Code", with: "01234"
       fill_in "E-Mail", with: "mail@mail.com"
 
-      click_button "Update User"
+      click_button "Update Info"
 
       expect(current_path).to eq(profile_path)
 
@@ -92,7 +92,7 @@ RSpec.describe "User Index Page", type: :feature do
 
       fill_in "E-Mail", with: user_2.email
 
-      click_button "Update User"
+      click_button "Update Info"
 
       expect(page).to have_content("Email has already been taken")
     end

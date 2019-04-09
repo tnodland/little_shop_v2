@@ -6,3 +6,5 @@
 <p>State: <%= @merchant.state %></p>
 <p>Zip Code: <%= @merchant.zip_code %></p>
 <p>E-Mail: <%= @merchant.email %></p>
+
+<%= link_to "Downgrade to User", admin_downgrade_merchant_path(@merchant) %>

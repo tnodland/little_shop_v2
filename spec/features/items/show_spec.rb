@@ -16,7 +16,7 @@ RSpec.describe "Item show page" do
       expect(page).to have_content("Seller: #{item.user.name}")
       expect(page).to have_xpath("//img[@src='https://vignette.wikia.nocookie.net/animalcrossing/images/7/72/Tom_Nook.png/revision/latest?cb=20101105231130']")
       expect(page).to have_content("Number in stock: #{item.quantity}")
-      expect(page).to have_content("Price: #{item.current_price}")
+      expect(page).to have_content("Price: $#{item.current_price}")
       expect(page).to have_content("Average Processing Time: 1.0 Day(s)")
       expect(page).to have_button("Add to Cart")
     end

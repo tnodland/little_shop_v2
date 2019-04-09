@@ -40,6 +40,6 @@
   <%= f.password_field :password_confirmation %>
 </p>
 
-  <%= f.submit "#{form_type} User" %>
+  <%= f.submit (form_type == 'Create') ? "Register" : "Update Info" %>
 
 <% end %>

@@ -10,7 +10,7 @@ RSpec.describe "Merchant index page" do
 
       merchants.each do |merchant|
         within "#merchant-#{merchant.id}" do
-          expect(page).to have_content("Name: #{merchant.name}")
+          expect(page).to have_content(merchant.name)
           expect(page).to have_content("Located in #{merchant.city}, #{merchant.state}")
           expect(page).to have_content("Joined the store on #{merchant.created_at}")
         end

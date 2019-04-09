@@ -1,16 +1,20 @@
-<div id=<%="cart-item-#{item.id}"%>>
-  <div id=item-name>Item Name: <%=item.name%></div>
-  <div id=item-merchant><%=item.user.name%></div>
-  <div id=item-price><%=item.current_price%></div>
-  <img src=<%=item.image_url%> height=20px width=20px/>
-  <div id=item-quantity>
-    <%= form_tag cart_path(item_id: item.id), method: :patch do %>
-    <%= select_tag "quantity", options_for_select((0..item.quantity).to_a, selected: quantity) %>
-
-    <%= submit_tag "Update Quantity"%>
-    <%end%>
-    <%= button_to "Remove Item", cart_path(item_id: item.id, quantity:0), method: :patch %>
+<div class="cart-row" id=<%="cart-item-#{item.id}"%>>
+  <div class="item-info">
+    <img src=<%= item.image_url %> height=20px width=20px />
+    <div class="item-name"><%= item.name %></div>
+    <div class="item-merchant"><%= item.user.name %></div>
+    <div class="item-price"><%= number_to_currency(item.current_price) %></div>
   </div>
-  <div id=subtotal><%=(quantity*item.current_price).round(2)%></div>
+  <div class="item-actions">
+    <div class="item-quantity">
+      Quantity:
+      <%= form_tag cart_path(item_id: item.id), method: :patch do %>
+      <%= select_tag "quantity", options_for_select((0..item.quantity).to_a, selected: quantity) %>
 
+      <%= submit_tag "Update" %>
+      <% end %>
+    </div>
+    <div class="item-subtotal">Subtotal: <%= number_to_currency(quantity*item.current_price) %></div>
+    <div class="item-remove"><%= button_to "Remove", cart_path(item_id: item.id, quantity:0), method: :patch %></div>
+  </div>
 </div>
