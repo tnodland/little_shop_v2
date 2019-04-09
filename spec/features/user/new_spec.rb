@@ -40,7 +40,6 @@ RSpec.describe 'Registration page (new user)', type: :feature do
       fill_in "Confirm Password", with: "Not Password"
 
       click_button "Register"
-      expect(current_path).to eq(register_path)
       expect(page).to have_content("Password confirmation doesn't match Password")
     end
 
