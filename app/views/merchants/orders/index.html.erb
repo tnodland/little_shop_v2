@@ -1,1 +1,11 @@
 <%= link_to "View All Items", dashboard_items_path %>
+Name: <%=@merchant.name %>
+Address:
+<%= render 'shared/address', user:@merchant %>
+E-Mail: <%= @merchant.email %>
+
+
+<%@orders.each do |order| %>
+  <%= render 'shared/pending_order', order:order %>
+<%end%>
+

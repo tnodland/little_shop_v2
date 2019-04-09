@@ -60,4 +60,29 @@ RSpec.describe User, type: :model do
       expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im])
     end
   end
+
+  describe "instance methods" do
+    describe '.pending_orders' do
+      it 'retrieves all of the orders which are pending' do
+        @merchants = create_list(:merchant,2)
+
+        @users = create_list(:user, 2)
+        @items = create_list(:item, 2,  user: @merchants[0])
+        @other_item = create(:item, user: @merchants[1])
+        @orders = create_list(:order,3)
+        @shipped_order = create(:shipped_order)
+        @packaged_order = create(:packaged_order)
+
+        @order_items_1 = create(:order_item, item:@items[0], order:@orders[0])
+        @order_items_2 = create(:order_item, item:@items[0], order:@orders[1])
+        @order_items_3 = create(:order_item, item:@items[1], order:@orders[1])
+        @order_items_4 = create(:order_item, item:@other_item, order:@orders[2])
+        @order_items_5 = create(:order_item, item:@items[1], order:@shipped_order)
+        @order_items_6 = create(:order_item, item:@items[1], order:@packaged_order)
+
+
+        expect(@merchants[0].pending_orders).to eq(@orders[0..1].map{|o| o.id})
+      end
+    end
+  end
 end

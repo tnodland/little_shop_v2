@@ -1,0 +1,16 @@
+<% @items.each do |item| %>
+  <section id="ordered-item-<%= item.id %>">
+    <p><%= link_to "#{item.name}", item_path(item) %></p>
+    <p>Price: <%= number_to_currency(item.current_price) %></p>
+    <p>Quantity ordered: <%= item.amount_ordered(@order) %></p>
+    <% if item.fulfilled?(@order) %>
+      <p>This item has been fulfilled</p>
+    <% else %>
+      <% if item.not_enough?%>
+        <p>You do not have enough <%= item.name %> to fulfill this order, please update your stock</p>
+      <% else %>
+        <p><%= link_to "Fullfill this item", fulfill_item_path(@order, item), method: :patch %></p>
+      <% end %>
+    <% end %>
+  </section>
+<% end %>

@@ -29,4 +29,8 @@ class User < ApplicationRecord
   def self.all_merchants
     User.where(role: 1)
   end
+
+  def pending_orders
+    items.select("orders.id").joins(:orders).where("orders.status": 0).distinct.pluck("orders.id")
+  end
 end

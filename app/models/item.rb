@@ -23,6 +23,13 @@ class Item < ApplicationRecord
     .limit(5)
   end
 
+  def self.find_by_order(order, merchant)
+    joins(orders: :order_items)
+    .where("items.merchant_id = ?", merchant.id)
+    .where("orders.id = ?", order.id)
+    .distinct
+  end
+
   def total_sold
     orders.where("orders.status = ?", 2)
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
@@ -35,5 +42,21 @@ class Item < ApplicationRecord
 
   def ordered?
     orders != []
+  end
+
+  def amount_ordered(order)
+    order_items.where("order_items.order_id = ?", order.id).sum("order_items.quantity")
+  end
+
+  def fulfilled?(order)
+    order_items.where("order_items.order_id = ?", order.id).first.fulfilled
+  end
+
+  def not_enough?
+    if order_items.first.quantity > self.quantity
+      return true
+    else
+      return false
+    end
   end
 end

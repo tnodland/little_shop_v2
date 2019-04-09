@@ -44,7 +44,21 @@ RSpec.describe Order, type: :model do
       actual_order.zip(desired_order).each do |actual, desired|
         expect(actual.id).to eq(desired.id)
       end
+    end
 
+    it ".find_by_merchant" do
+      merchant1 = create(:merchant)
+      shopper = create(:user)
+      merchant2 = create(:merchant)
+      item1 = create(:item, user: merchant1)
+      item2 = create(:item, user: merchant2)
+      order = create(:order, user: shopper)
+      order2 = create(:order, user: shopper)
+      oi1 = create(:order_item, order: order, item: item1)
+      oi2 = create(:order_item, order: order2, item: item2)
+
+      expect(Order.find_by_merchant(merchant1)).to eq([order])
+      expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
   end
   describe 'instance methods' do
@@ -72,4 +86,5 @@ RSpec.describe Order, type: :model do
       end
     end
   end
+
 end
