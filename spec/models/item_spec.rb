@@ -19,6 +19,48 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'class methods' do
+    it ".top_merchant_items" do
+      merchant = create(:merchant)
+      items = create_list(:item, 10,  user: merchant, quantity: 8)
+
+      user_wash = create(:user, state:"Washington", city:"Seattle")
+      user_2 = create(:user, state:"Oregon")
+      utah_user = create(:user, state:"Utah", city: "nothere")
+
+      top_orders_user = create(:user, state:"Utah")
+      many_orders = create_list(:shipped_order, 50, user:top_orders_user)
+      many_orders.each do |order|
+        create(:fulfilled_order_item, item:items[1], quantity:10, order:order)
+      end
+
+      top_items_user = create(:user)
+      big_order = create(:shipped_order, user: top_items_user)
+      create(:fulfilled_order_item, item:items[0], quantity:1000, order:big_order)
+
+      shipped_order_utah = create(:shipped_order, user: utah_user)
+      order_items_7 = create(:fulfilled_order_item, ordered_price: 0.1, quantity: 83, item:items[9], order:shipped_order_utah)
+
+      shipped_orders_user_wash = create_list(:shipped_order,2, user: user_wash)
+      order_items_4 = create(:fulfilled_order_item, ordered_price: 3.0, quantity: 4, item:items[2], order:shipped_orders_user_wash[0])
+      order_items_5 = create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:items[3], order:shipped_orders_user_wash[1])
+      order_items_6 = create(:fulfilled_order_item, ordered_price: 3.0, quantity: 9, item:items[9], order:shipped_orders_user_wash[0])
+      order_items_6 = create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:items[8], order:shipped_orders_user_wash[1])
+
+      order_1 = create(:order, user: user_wash)
+      order_2 = create(:order, user: user_2)
+      order_items_1 = create(:fulfilled_order_item, item:items[0], order:order_1)
+      order_items_2 = create(:fulfilled_order_item, item:items[0], order:order_2)
+      order_items_3 = create(:fulfilled_order_item, item:items[1], order:order_2)
+
+      top_items_actual = Item.merchant_top_items(merchant)
+      top_items_expected = [@items[0], @items[1], @items[9], @items[2], @items[3]]
+
+      top_items_actual.zip(top_items_expected).each do |actual, expected|
+        expect(actual.id).to eq(expected.id)
+      end
+
+    end
+
     it ".enabled_items" do
       merchant  = create(:merchant)
       item1 = create(:item, user: merchant)
