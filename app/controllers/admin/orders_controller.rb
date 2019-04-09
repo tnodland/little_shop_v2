@@ -1,5 +1,5 @@
 class Admin::OrdersController < Admin::BaseController
   def index
-    @orders = Order.all
+    @orders = Order.admin_ordered
   end
 end
