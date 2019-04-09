@@ -1,12 +1,14 @@
 <main class="merchants-orders-index shadowed-box">
   <%= link_to "View All Items", dashboard_items_path %>
-  Name: <%=@merchant.name %>
-  Address:
-  <%= render 'shared/address', user:@merchant %>
-  E-Mail: <%= @merchant.email %>
+  <section class="profile">
+    Name: <%=@merchant.name %><br>
+    Address: <%= render 'shared/address', user:@merchant %><br>
+    E-Mail: <%= @merchant.email %>
+  </section>
 
-
-  <%@orders.each do |order| %>
+  <section class="data-table order-list">
+  <% @orders.each do |order| %>
     <%= render 'shared/pending_order', order:order %>
-  <%end%>
+  <% end %>
+  </section>
 </main>
