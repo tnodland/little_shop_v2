@@ -43,5 +43,38 @@ RSpec.describe 'As an Admin User' do
 
     end
 
+    context 'can ship packaged orders' do
+      it 'has button to ship orders' do
+        all_orders = @packaged_orders + @pending_orders + @shipped_orders + @cancelled_orders
+
+        visit admin_dashboard_path
+
+        all_orders.each do |order|
+
+          within "#order-#{order.id}" do
+            if order.status == 'packaged'
+              expect(page).to have_button("Ship")
+            else
+              expect(page).not_to have_button("Ship")
+            end
+          end
+        end
+      end
+
+      it 'can change status to shipped' do
+        visit admin_dashboard_path
+        within "#order-#{@packaged_orders[0].id}" do
+          click_button "Ship"
+        end
+
+        expect(current_path).to eq(admin_dashboard_path)
+        within "#order-#{@packaged_orders[0].id}" do
+          expect(page).to have_content("shipped")
+          expec(page).not_to have_button("Ship")
+        end
+
+      end
+    end
+
   end
 end
