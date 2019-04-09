@@ -25,7 +25,7 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       click_link "Edit Profile"
-      expect(current_path).to eq(edit_profile_path)
+      expect(current_path).to eq(profile_edit_path)
 
       fill_in "Name", with: "steve"
       fill_in "Street Address", with: "123 st"
@@ -57,7 +57,7 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       click_link "Edit Profile"
-      expect(current_path).to eq(edit_profile_path)
+      expect(current_path).to eq(profile_edit_path)
 
       fill_in "Name", with: "steve"
       fill_in "Street Address", with: "123 st"
@@ -88,7 +88,7 @@ RSpec.describe "User Index Page", type: :feature do
       visit profile_path
 
       click_link "Edit Profile"
-      expect(current_path).to eq(edit_profile_path)
+      expect(current_path).to eq(profile_edit_path)
 
       fill_in "E-Mail", with: user_2.email
 
