@@ -47,4 +47,8 @@ class Item < ApplicationRecord
   def amount_ordered(order)
     order_items.where("order_items.order_id = ?", order.id).sum("order_items.quantity")
   end
+
+  def fulfilled?(order)
+    order_items.where("order_items.order_id = ?", order.id).first.fulfilled
+  end
 end
