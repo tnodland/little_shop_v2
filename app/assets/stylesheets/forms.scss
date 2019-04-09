@@ -28,4 +28,9 @@ main > form {
     display: inline-block;
     width: 15px;
   }
+
+  input[type="submit"] {
+    position: relative;
+    left: 155px;
+  }
 }
