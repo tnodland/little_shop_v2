@@ -52,9 +52,24 @@ RSpec.describe "order show page" do
       end
 
       expect(current_path).to eq(dashboard_order_path(@order))
+      expect(page).to have_content("Item fulfilled!")
 
       within "#ordered-item-#{@item1.id}" do
         expect(page).to have_content("This item has been fulfilled")
+      end
+    end
+
+    it "can't fulfill an item without the proper inventory" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
+
+      item = create(:item, quantity: 1, user: @merchant1)
+      order4 = create(:order, user: @shopper)
+      oi4 = create(:order_item, order: order4, item: item, quantity: 10)
+
+      visit dashboard_order_path(order4)
+
+      within "#ordered-item-#{item.id}" do
+        expect(page).to have_content("You do not have enough #{item.name} to fulfill this order, please update your stock")
       end
     end
   end

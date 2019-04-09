@@ -104,5 +104,16 @@ RSpec.describe Item, type: :model do
       expect(@item1.fulfilled?(@order)).to eq(true)
       expect(@item1.fulfilled?(@order2)).to eq(false)
     end
+
+    it ".not_enough?" do
+      item = create(:item, quantity: 1, user: @merchant)
+      item2 = create(:item, quantity: 10, user: @merchant)
+      order4 = create(:order, user: @shopper)
+      oi4 = create(:order_item, order: order4, item: item, quantity: 10)
+      oi5 = create(:order_item, order: order4, item: item2, quantity: 10)
+
+      expect(item.not_enough?).to eq(true)
+      expect(item2.not_enough?).to eq(false)
+    end
   end
 end
