@@ -38,10 +38,9 @@ RSpec.describe Order, type: :model do
       cancelled_orders = 2.times.map{ |i| create(:cancelled_order, created_at:(i).minute.ago)}
       packaged_orders = 2.times.map{ |i| create(:packaged_order, created_at:(i).minute.ago)}
 
-      desired_order = pending_orders + shipped_orders + cancelled_orders + packaged_orders
+      desired_order =  packaged_orders + pending_orders + shipped_orders + cancelled_orders
 
       actual_order = Order.admin_ordered
-
       actual_order.zip(desired_order).each do |actual, desired|
         expect(actual.id).to eq(desired.id)
       end

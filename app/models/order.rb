@@ -17,6 +17,10 @@ class Order < ApplicationRecord
     self.create(user: user, status: 'pending', cart: cart_contents)
   end
 
+  def self.admin_ordered
+    order("status=3, status=2, status=0, status=1", created_at: :desc)
+  end
+
   def total_count
     self.order_items.sum(:quantity)
   end
@@ -24,7 +28,9 @@ class Order < ApplicationRecord
   def total_cost
     self.order_items.sum("quantity*ordered_price").to_f
   end
-  
+
+
+
   private
 
   def add_items(cart)
@@ -38,3 +44,12 @@ class Order < ApplicationRecord
   end
 
 end
+
+Order.order(%q{
+  CASE status
+  WHEN "packaged" THEN '1'
+  WHEN 'pending' THEN '2'
+  WHEN 'shipped' THEN '3'
+  WHEN 'cancelled' THEN '4'
+  END
+})
