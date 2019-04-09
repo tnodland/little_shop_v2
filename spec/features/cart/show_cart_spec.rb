@@ -93,8 +93,8 @@ RSpec.describe 'Cart show page' do
 
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
 
-    total = @item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4)
-    expect(page).to have_selector('div', id:"cart-actions", text:total.round(2))
+    total = number_to_currency(@item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4))
+    expect(page).to have_selector('div', id:"cart-actions", text:total)
   end
 
   it 'can update quantities of items in the cart' do
