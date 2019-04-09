@@ -32,14 +32,14 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'Shows all pending orders' do
     visit dashboard_path
     within "#order-#{@order_1.id}" do
-      expect(page).to have_link(@order_1.id, href:dashboard_order_path(@order_1))
+      expect(page).to have_link("#{@order_1.id}", href:dashboard_order_path(@order_1))
       expect(page).to have_content("Created: #{@order_1.created_at}")
       expect(page).to have_content("Items: #{@order_1.total_count}")
-      expect(page).to have_content("Cost: #{@order_1.total_cost}")
+      expect(page).to have_content("Cost: #{number_to_currency(@order_1.total_cost)}")
     end
 
     within "#order-#{@order_2.id}" do
-      expect(page).to have_link(@order_2.id, href:dashboard_order_path(@order_2))
+      expect(page).to have_link("#{@order_2.id}", href:dashboard_order_path(@order_2))
       expect(page).to have_content(@order_2.created_at)
       expect(page).to have_content(@order_2.total_count)
       expect(page).to have_content(@order_2.total_cost)
