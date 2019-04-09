@@ -6,5 +6,5 @@
 <p>City: <%= @user.city %></p>
 <p>Zip Code: <%= @user.zip_code %></p>
 <p>E-Mail: <%= @user.email %></p>
-<%= link_to "Edit Profile", edit_profile_path %>
+<%= link_to "Edit Profile", profile_edit_path %>
 <%= link_to "Upgrade to Merchant", admin_upgrade_user_path(@user) %>
