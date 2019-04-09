@@ -3,4 +3,9 @@
   <span class="order-status"><%=order.status%></span>
   <span class="order-user"><%=link_to order.user.id, admin_user_path(order.user)%></span>
   <span class="order-creation"><%=order.created_at%></span>
+  <span class="actions">
+    <% if order.status == 'packaged' %>
+    <%= button_to "Ship", admin_order_path(order, status:'shipped'), method: :patch %>
+    <%end%>
+  </span>
 </span>

@@ -70,7 +70,7 @@ RSpec.describe 'As an Admin User' do
         expect(current_path).to eq(admin_dashboard_path)
         within "#order-#{@packaged_orders[0].id}" do
           expect(page).to have_content("shipped")
-          expec(page).not_to have_button("Ship")
+          expect(page).not_to have_button("Ship")
         end
 
       end
