@@ -1,10 +1,12 @@
-<h1><%= @merchant.id %></h1>
+<main class="admin-show-index shadowed-box">
+  <h1><%= @merchant.id %></h1>
 
-<p>Name: <%= @merchant.name %></p>
-<p>Street Address: <%= @merchant.street_address %></p>
-<p>City: <%= @merchant.city %></p>
-<p>State: <%= @merchant.state %></p>
-<p>Zip Code: <%= @merchant.zip_code %></p>
-<p>E-Mail: <%= @merchant.email %></p>
+  <p>Name: <%= @merchant.name %></p>
+  <p>Street Address: <%= @merchant.street_address %></p>
+  <p>City: <%= @merchant.city %></p>
+  <p>State: <%= @merchant.state %></p>
+  <p>Zip Code: <%= @merchant.zip_code %></p>
+  <p>E-Mail: <%= @merchant.email %></p>
 
-<%= link_to "Downgrade to User", admin_downgrade_merchant_path(@merchant) %>
+  <%= link_to "Downgrade to User", admin_downgrade_merchant_path(@merchant) %>
+</main>

@@ -1,7 +1,9 @@
-<% @users.each do |user| %>
-  <section id="user-<%= user.id %>">
-    <p>User: <%= link_to user.name, admin_user_path(user) %>
-        Date Registered: <%= user.created_at %>
-        <%= button_to "Upgrade to Merchant" %> </p>
-  </section>
-<% end %>
+<main class="admin-users-index shadowed-box">
+  <% @users.each do |user| %>
+    <section id="user-<%= user.id %>">
+      <p>User: <%= link_to user.name, admin_user_path(user) %>
+          Date Registered: <%= user.created_at %>
+          <%= button_to "Upgrade to Merchant" %> </p>
+    </section>
+  <% end %>
+</main>
