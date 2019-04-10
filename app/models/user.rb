@@ -30,7 +30,28 @@ class User < ApplicationRecord
     User.where(role: 1)
   end
 
+  def self.top_three_sellers
+    joins(items: [{order_items: :order}])
+    .select('users.*, sum(order_items.ordered_price) as total_revenue')
+    .group('users.id')
+    .order('sum(order_items.ordered_price) ASC')
+    .limit(3)
+  end
+
+  def self.sort_by_fulfillment(order)
+    joins(items: :order_items)
+    .where('order_items.fulfilled = ?', true)
+    .group(:id).select('users.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time')
+    .order("fulfillment_time #{order}")
+    .limit(3)
+  end
+
   def pending_orders
     items.select("orders.id").joins(:orders).where("orders.status": 0).distinct.pluck("orders.id")
+  end
+
+  def total_revenue
+    binding.pry
+    Item.joins(:order_items).where("items.merchant_id = ?", self.id)
   end
 end

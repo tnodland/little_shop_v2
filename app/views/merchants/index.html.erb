@@ -2,7 +2,24 @@
   <h1>All Merchants:</h1>
 
   <section id="top-three-sellers">
+    <p>Top 3 merchants by revenue </p>
+    <% @top_three_sellers.each do |merchant| %>
+      <p><%= merchant.name %>, making <%= merchant.total_revenue %> in revenue</p>
+    <% end %>
+  </section>
 
+  <section id="fastest-merchants">
+    <p>Top 3 Fastest merchants</p>
+    <% @fastest_three.each do |merchant| %>
+      <p><%= merchant.name %> takes on average <%= merchant.average_time %> days to complete an order</p>
+    <% end %>
+  </section>
+
+  <section id="slowest-merchants">
+    <p>Top 3 Slowest merchants</p>
+    <% @slowest_three.each do |merchant| %>
+      <p><%= merchant.name %> takes on average <%= merchant.average_time %> days to complete an order</p>
+    <% end %>
   </section>
 
   <section class="index-list">

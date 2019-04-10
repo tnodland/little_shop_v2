@@ -59,6 +59,53 @@ RSpec.describe User, type: :model do
     it ".all_merchants" do
       expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im])
     end
+
+    it ".top_three_sellers" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      item2 = create(:item, quantity: 100, user: merchant2)
+      item3 = create(:item, quantity: 100, user: merchant3)
+      item4 = create(:item, quantity: 100, user: merchant4)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order, item: item2, quantity: 20)
+      create(:fulfilled_order_item, order: order, item: item3, quantity: 30)
+      create(:fulfilled_order_item, order: order, item: item4, quantity: 40)
+
+      expect(User.top_three_sellers).to eq([merchant4, merchant3, merchant2])
+    end
+
+    it ".sort_by_fulfillment" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      item2 = create(:item, quantity: 100, user: merchant2)
+      item3 = create(:item, quantity: 100, user: merchant3)
+      item4 = create(:item, quantity: 100, user: merchant4)
+      order = create(:shipped_order, user: shopper)
+      create(:fast_fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fast_fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fast_fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fast_fulfilled_order_item, order: order, item: item2, quantity: 20)
+      create(:fast_fulfilled_order_item, order: order, item: item2, quantity: 20)
+      create(:slow_fulfilled_order_item, order: order, item: item2, quantity: 20)
+      create(:fast_fulfilled_order_item, order: order, item: item3, quantity: 30)
+      create(:slow_fulfilled_order_item, order: order, item: item3, quantity: 30)
+      create(:slow_fulfilled_order_item, order: order, item: item3, quantity: 30)
+      create(:slow_fulfilled_order_item, order: order, item: item4, quantity: 40)
+      create(:slow_fulfilled_order_item, order: order, item: item4, quantity: 40)
+      create(:slow_fulfilled_order_item, order: order, item: item4, quantity: 40)
+
+      expect(User.sort_by_fulfillment("desc")).to eq([merchant4, merchant3, merchant2])
+      expect(User.sort_by_fulfillment("asc")).to eq([merchant1, merchant2, merchant3])
+    end
   end
 
   describe "instance methods" do
@@ -83,6 +130,20 @@ RSpec.describe User, type: :model do
 
         expect(@merchants[0].pending_orders).to eq(@orders[0..1].map{|o| o.id})
       end
+    end
+
+    it ".total_revenue" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      item2 = create(:item, quantity: 100, user: merchant2)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order, item: item2, quantity: 20)
+
+      expect(merchant1.total_revenue).to eq(25)
+      expect(merchant2.total_revenue).to eq(50)
     end
   end
 end

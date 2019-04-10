@@ -27,6 +27,43 @@ RSpec.describe "Merchant index page" do
         expect(page).to_not have_content(merchant1.name)
       end
     end
+
+    it "shows 3 fastest and slowest merchants" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      item2 = create(:item, quantity: 100, user: merchant2)
+      item3 = create(:item, quantity: 100, user: merchant3)
+      item4 = create(:item, quantity: 100, user: merchant4)
+      order = create(:shipped_order, user: shopper)
+      create(:fast_fulfilled_order_item, order: order, item: item1)
+      create(:fast_fulfilled_order_item, order: order, item: item1)
+      create(:fast_fulfilled_order_item, order: order, item: item2)
+      create(:slow_fulfilled_order_item, order: order, item: item2)
+      create(:fast_fulfilled_order_item, order: order, item: item3)
+      create(:slow_fulfilled_order_item, order: order, item: item3)
+      create(:slow_fulfilled_order_item, order: order, item: item4)
+      create(:slow_fulfilled_order_item, order: order, item: item4)
+
+      visit merchants_path
+
+      within "#fastest-merchants" do
+        expect(page).to have_content("#{merchant1.name} takes on average #{merchant1.average_time} days to complete an order")
+        expect(page).to have_content("#{merchant2.name} takes on average #{merchant2.average_time} days to complete an order")
+        expect(page).to have_content("#{merchant3.name} takes on average #{merchant3.average_time} days to complete an order")
+        expect(page).to_not have_content(merchant4.name)
+      end
+
+      within "#slowest-merchants" do
+        expect(page).to have_content("#{merchant4.name} takes on average #{merchant4.average_time} days to complete an order")
+        expect(page).to have_content("#{merchant3.name} takes on average #{merchant3.average_time} days to complete an order")
+        expect(page).to have_content("#{merchant2.name} takes on average #{merchant2.average_time} days to complete an order")
+        expect(page).to_not have_content(merchant1.name)
+      end
+    end
   end
 
 
