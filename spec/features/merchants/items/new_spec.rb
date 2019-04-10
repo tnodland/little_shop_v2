@@ -20,7 +20,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     fill_in "Description", with:@new_item[:description]
     fill_in "Image URL", with:@new_item[:image_url]
     fill_in "Price", with:@new_item[:current_price]
-    fill_in "Quantity", with:@new_item[:quantity]
+    fill_in "Inventory", with:@new_item[:quantity]
 
     click_button "Create Item"
 
@@ -44,7 +44,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
       fill_in "Name", with:@new_item[:name]
       fill_in "Description", with:@new_item[:description]
       fill_in "Price", with:@new_item[:current_price]
-      fill_in "Quantity", with:@new_item[:quantity]
+      fill_in "Inventory", with:@new_item[:quantity]
 
       click_button "Create Item"
       item = Item.last
@@ -65,16 +65,16 @@ RSpec.describe 'Merchant Item Index', type: :feature do
 
       expect(page).to have_content("Quantity can't be blank")
 
-      fill_in "Quantity", with:-10
+      fill_in "Inventory", with:-10
       click_button "Create Item"
       expect(page).to have_content("Quantity must be greater than or equal to 0")
 
       # Below, this is a kludge-y test, form does not allow input of floats
       # So this is very sad-path of a forced input
-      fill_in "Quantity", with:1.5
+      fill_in "Inventory", with:1.5
       expect(page).to have_content("Quantity must be greater than or equal to 0")
 
-      fill_in "Quantity", with: 5
+      fill_in "Inventory", with: 5
       click_button "Create Item"
       expect(current_path).to eq(dashboard_items_path)
 
@@ -86,7 +86,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
       fill_in "Name", with:@new_item[:name]
       fill_in "Description", with:@new_item[:description]
       fill_in "Image URL", with:@new_item[:image_url]
-      fill_in "Quantity", with:@new_item[:quantity]
+      fill_in "Inventory", with:@new_item[:quantity]
 
       click_button "Create Item"
 
@@ -110,7 +110,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
       fill_in "Description", with:@new_item[:description]
       fill_in "Image URL", with:@new_item[:image_url]
       fill_in "Price", with:@new_item[:current_price]
-      fill_in "Quantity", with:@new_item[:quantity]
+      fill_in "Inventory", with:@new_item[:quantity]
 
       click_button "Create Item"
       expect(page).to have_content("Name can't be blank")
@@ -121,7 +121,7 @@ RSpec.describe 'Merchant Item Index', type: :feature do
       fill_in "Name", with:@new_item[:name]
       fill_in "Image URL", with:@new_item[:image_url]
       fill_in "Price", with:@new_item[:current_price]
-      fill_in "Quantity", with:@new_item[:quantity]
+      fill_in "Inventory", with:@new_item[:quantity]
 
       click_button "Create Item"
 

@@ -15,10 +15,10 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     visit dashboard_items_path
 
     within "#merchant-item-#{@active_unordered_item.id}" do
-      expect(page).to have_selector('div', id: 'item-id', text: @active_unordered_item.id)
-      expect(page).to have_selector('div', id: 'item-name', text: @active_unordered_item.name)
-      expect(page).to have_selector('div', id: 'item-price', text: @active_unordered_item.current_price)
-      expect(page).to have_selector('div', id: 'item-quantity', text: @active_unordered_item.quantity)
+      expect(page).to have_selector('div', class: 'item-id', text: @active_unordered_item.id)
+      expect(page).to have_selector('div', class: 'item-name', text: @active_unordered_item.name)
+      expect(page).to have_selector('div', class: 'item-price', text: @active_unordered_item.current_price)
+      expect(page).to have_selector('div', class: 'item-quantity', text: @active_unordered_item.quantity)
       expect(page).to have_xpath("//img[@src='#{@active_unordered_item.image_url}']")
       expect(page).to have_link("Edit", href:edit_dashboard_item_path(@active_unordered_item))
 
@@ -28,10 +28,10 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     within "#merchant-item-#{@inactive_item.id}" do
-      expect(page).to have_selector('div', id: 'item-id', text: @inactive_item.id)
-      expect(page).to have_selector('div', id: 'item-name', text: @inactive_item.name)
-      expect(page).to have_selector('div', id: 'item-price', text: @inactive_item.current_price)
-      expect(page).to have_selector('div', id: 'item-quantity', text: @inactive_item.quantity)
+      expect(page).to have_selector('div', class: 'item-id', text: @inactive_item.id)
+      expect(page).to have_selector('div', class: 'item-name', text: @inactive_item.name)
+      expect(page).to have_selector('div', class: 'item-price', text: @inactive_item.current_price)
+      expect(page).to have_selector('div', class: 'item-quantity', text: @inactive_item.quantity)
       expect(page).to have_xpath("//img[@src='#{@inactive_item.image_url}']")
       expect(page).to have_link("Edit", href:edit_dashboard_item_path(@inactive_item))
 
@@ -41,10 +41,10 @@ RSpec.describe 'Merchant Item Index', type: :feature do
     end
 
     within "#merchant-item-#{@ordered_item.id}" do
-      expect(page).to have_selector('div', id: 'item-id', text: @ordered_item.id)
-      expect(page).to have_selector('div', id: 'item-name', text: @ordered_item.name)
-      expect(page).to have_selector('div', id: 'item-price', text: @ordered_item.current_price)
-      expect(page).to have_selector('div', id: 'item-quantity', text: @ordered_item.quantity)
+      expect(page).to have_selector('div', class: 'item-id', text: @ordered_item.id)
+      expect(page).to have_selector('div', class: 'item-name', text: @ordered_item.name)
+      expect(page).to have_selector('div', class: 'item-price', text: @ordered_item.current_price)
+      expect(page).to have_selector('div', class: 'item-quantity', text: @ordered_item.quantity)
       expect(page).to have_xpath("//img[@src='#{@ordered_item.image_url}']")
       expect(page).to have_link("Edit", href:edit_dashboard_item_path(@ordered_item))
 
