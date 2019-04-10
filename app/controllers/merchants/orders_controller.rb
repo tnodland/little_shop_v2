@@ -13,7 +13,7 @@ class Merchants::OrdersController < Merchants::BaseController
   def update
     order = Order.find(params[:order])
     item = Item.find(params[:item])
-    order_item = item.order_items.first
+    order_item = order.order_items.find_by(item_id: item.id)
     item.quantity -= order_item.quantity
     order_item.toggle :fulfilled
     item.save

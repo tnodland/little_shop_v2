@@ -6,9 +6,9 @@ RSpec.describe "order show page" do
       @merchant1 = create(:merchant)
       @shopper = create(:user)
       @merchant2 = create(:merchant)
-      @item1 = create(:item, user: @merchant1)
-      @item2 = create(:item, user: @merchant2)
-      @item3 = create(:item, user: @merchant1)
+      @item1 = create(:item, user: @merchant1, quantity: 1000)
+      @item2 = create(:item, user: @merchant2, quantity: 1000)
+      @item3 = create(:item, user: @merchant1, quantity: 1000)
 
       @order = create(:order, user: @shopper)
       @oi1 = create(:order_item, order: @order, item: @item1)

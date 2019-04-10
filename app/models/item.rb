@@ -40,11 +40,6 @@ class Item < ApplicationRecord
     .limit(5)
   end
 
-  def total_sold
-    orders.where(orders: {status: 2})
-               .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
-  end
-
   def self.items_sold(merchant)
     joins(orders: :order_items)
     .where(user:merchant)

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
 
-  before :each do
+  before :each, shared_setup: true do
     @merchant = create(:merchant)
     @items = create_list(:item, 10,  user: @merchant, quantity: 8)
 
@@ -69,8 +69,6 @@ RSpec.describe Order, type: :model do
     end
 
     it ".admin_ordered gives orders from packaged, pending, shipped, and cancelled, newest to oldest" do
-      OrderItem.destroy_all
-      Order.destroy_all
       pending_orders = 2.times.map{ |i| create(:order, created_at:(i).minute.ago)}
       shipped_orders = 2.times.map{ |i| create(:shipped_order, created_at:(i).minute.ago)}
       cancelled_orders = 2.times.map{ |i| create(:cancelled_order, created_at:(i).minute.ago)}
@@ -114,8 +112,8 @@ RSpec.describe Order, type: :model do
 
       expect(Order.largest_orders).to eq([order1, order2, order3])
     end
-    
-    it '.top_states' do
+
+    it '.top_states', shared_setup: true do
       expecteds = [{state:"Utah", orders:52},
                   {state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
@@ -127,7 +125,7 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    it '.top_cities' do
+    it '.top_cities', shared_setup: true do
       expecteds = [{city: "Testville", state:"Utah", orders:50},
                   {city: "Seattle", state:"Washington", orders:4},
                   {city: "nothere", state:"Utah", orders:2}]
@@ -140,19 +138,19 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    it '.top_user_orders' do
+    it '.top_user_orders', shared_setup: true do
       actual = Order.top_user_orders(@merchant)
       expect(actual.name).to eq(@top_orders_user.name)
       expect(actual.order_count).to eq(50)
     end
 
-    it '.top_user_items' do
+    it '.top_user_items', shared_setup: true do
       actual = Order.top_user_items(@merchant)
       expect(actual.name).to eq(@top_items_user.name)
       expect(actual.item_count).to eq(900)
     end
 
-    it '.top_users_money' do
+    it '.top_users_money', shared_setup: true do
       expecteds = [{name: @top_orders_user.name, revenue: 2500.00},
                    {name: @top_items_user.name, revenue: 900.00},
                    {name: @user_wash.name, revenue: 34.00}]

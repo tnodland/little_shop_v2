@@ -29,7 +29,7 @@ RSpec.describe 'Profile Orders Index', type: :feature do
         expect(page).to have_content("Order Placed: #{@order_1.created_at.strftime("%m/%d/%Y")}")
         expect(page).to have_content("Last Updated: #{@order_1.updated_at.strftime("%m/%d/%Y")}")
         expect(page).to have_content("QTY of Items: #{@order_1.total_count}")
-        expect(page).to have_content("Grand Total: #{@order_1.total_cost}")
+        expect(page).to have_content("Grand Total: #{number_to_currency(@order_1.total_cost)}")
       end
     end
   end

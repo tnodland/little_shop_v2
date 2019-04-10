@@ -47,7 +47,6 @@ RSpec.describe 'Cart show page' do
     end
 
     visit cart_path
-    # save_and_open_page
 
     within "#cart-item-#{@item_1.id}" do
       expect(page).to have_selector('div', class:"item-name", text:@item_1.name)
