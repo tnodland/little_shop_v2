@@ -1,6 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe "Merchant index page" do
+  context "any type of user can see statistics about merchants" do
+    it "shows top 3 merchants by price and quantity" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      item2 = create(:item, quantity: 100, user: merchant2)
+      item3 = create(:item, quantity: 100, user: merchant3)
+      item4 = create(:item, quantity: 100, user: merchant4)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order, item: item2, quantity: 20)
+      create(:fulfilled_order_item, order: order, item: item3, quantity: 30)
+      create(:fulfilled_order_item, order: order, item: item4, quantity: 40)
+
+      visit merchants_path
+
+      within "#top-three-sellers" do
+        expect(page).to have_content("#{merchant4.name}, making #{merchant4.total_revenue} in revenue")
+        expect(page).to have_content("#{merchant3.name}, making #{merchant3.total_revenue} in revenue")
+        expect(page).to have_content("#{merchant2.name}, making #{merchant2.total_revenue} in revenue")
+        expect(page).to_not have_content(merchant1.name)
+      end
+    end
+  end
+
+
   context "as any non admin user" do
     it "can see all merchants and some information" do
       merchants = create_list(:merchant, 3)
