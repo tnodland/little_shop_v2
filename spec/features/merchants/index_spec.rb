@@ -33,7 +33,7 @@ RSpec.describe "Merchant index page" do
       visit admin_merchants_path
 
       within "#merchant-#{@merchant.id}" do
-        expect(page).to have_content("Name: #{@merchant.name}")
+        expect(page).to have_content(@merchant.name)
         expect(page).to have_link("#{@merchant.name}")
         expect(page).to have_content("Located in #{@merchant.city}, #{@merchant.state}")
         expect(page).to have_content("Joined the store on #{@merchant.created_at}")
@@ -41,7 +41,7 @@ RSpec.describe "Merchant index page" do
       end
 
       within "#merchant-#{@im.id}" do
-        expect(page).to have_content("Name: #{@im.name}")
+        expect(page).to have_content(@im.name)
         expect(page).to have_link("#{@im.name}")
         expect(page).to have_content("Located in #{@im.city}, #{@im.state}")
         expect(page).to have_content("Joined the store on #{@im.created_at}")

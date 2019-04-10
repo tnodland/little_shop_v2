@@ -1,3 +1,6 @@
-<% @orders.each do |order| %>
-  <%= render 'shared/admin_order', order:order %>
-<%end%>
+<main class="admin-orders-index shadowed-box">
+  <% @orders.each do |order| %>
+    <%= render 'shared/admin_order', order:order %>
+  <%end%>
+</main>
+

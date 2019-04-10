@@ -1,6 +1,6 @@
-<div id=<%="order-#{order.id}"%>>
-  <%= link_to "Order #{order.id}", dashboard_order_path(order) %>
-  Created: <%= order.created_at %>
-  Cost: <%= order.total_cost %>
-  Items: <%= order.total_count %>
+<div class="table-row" id=<%="order-#{order.id}"%>>
+  <span class="order-id"><%= link_to "Order #{order.id}", dashboard_order_path(order) %></span>
+  <span class="order-created-at">Created: <%= order.created_at %></span>
+  <span class="order-cost">Cost: <%= number_to_currency(order.total_cost) %></span>
+  <span class="order-item-count">Items: <%= order.total_count %></span>
 </div>
