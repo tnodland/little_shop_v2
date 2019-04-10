@@ -24,6 +24,19 @@
     <% end %>
   </section>
 
+  <section id="top-three-cities">
+    <% @top_three_cities.each do |city| %>
+      <p><%= Order.count_by_city(city) %> orders have been shipped to <%= city %></p>
+    <% end %>
+  </section>
+
+  <section id="top-three-states">
+    <% @top_three_states.each do |state| %>
+      <p><%= Order.count_by_state(state) %> orders have been shipped to <%= state %></p>
+    <% end %>
+  </section>
+
+
   <section id="3-largest-orders">
     <p>Top 3 Largest Orders</p>
     <% @three_largest_orders.each do |order| %>

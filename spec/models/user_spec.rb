@@ -106,6 +106,26 @@ RSpec.describe User, type: :model do
       expect(User.sort_by_fulfillment("desc")).to eq([merchant4, merchant3, merchant2])
       expect(User.sort_by_fulfillment("asc")).to eq([merchant1, merchant2, merchant3])
     end
+
+    it ".top_three_cities and .top_three_states" do
+      shopper1 = create(:user, city: "Denver", state: "Colorado")
+      shopper2 = create(:user, city: "St Paul", state: "Minnesota")
+      shopper3 = create(:user, city: "Las Vegas", state: "Nevada")
+      shopper4 = create(:user, city: "Las Angeles", state: "California")
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order2 = create(:shipped_order, user: shopper2)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper3)
+      order3 = create(:shipped_order, user: shopper3)
+      order4 = create(:shipped_order, user: shopper4)
+
+      expect(User.top_three_cities).to eq(["Denver", "St Paul", "Las Vegas"])
+      expect(User.top_three_states).to eq(["Colorado", "Minnesota", "Nevada"])
+    end
   end
 
   describe "instance methods" do

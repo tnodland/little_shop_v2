@@ -91,6 +91,38 @@ RSpec.describe "Merchant index page" do
         expect(page).to_not have_content("Order #{order4.id} with #{order4.total_count} items sold")
       end
     end
+
+    it "shows 3 most popular cities and states" do
+      shopper1 = create(:user, city: "Denver", state: "Colorado")
+      shopper2 = create(:user, city: "St Paul", state: "Minnesota")
+      shopper3 = create(:user, city: "Las Vegas", state: "Nevada")
+      shopper4 = create(:user, city: "Las Angeles", state: "California")
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order2 = create(:shipped_order, user: shopper2)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper3)
+      order3 = create(:shipped_order, user: shopper3)
+      order4 = create(:shipped_order, user: shopper4)
+
+
+      visit merchants_path
+
+      within "#top-three-cities" do
+        expect(page).to have_content("4 orders have been shipped to #{shopper1.city}")
+        expect(page).to have_content("3 orders have been shipped to #{shopper2.city}")
+        expect(page).to have_content("2 orders have been shipped to #{shopper3.city}")
+      end
+
+      within "#top-three-states" do
+        expect(page).to have_content("4 orders have been shipped to #{shopper1.state}")
+        expect(page).to have_content("3 orders have been shipped to #{shopper2.state}")
+        expect(page).to have_content("2 orders have been shipped to #{shopper3.state}")
+      end
+    end
   end
 
 

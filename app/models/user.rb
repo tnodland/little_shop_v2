@@ -42,6 +42,24 @@ class User < ApplicationRecord
     .limit(3)
   end
 
+  def self.top_three_cities
+    joins(:orders)
+    .select('users.city, count(orders.id)as count_of_orders')
+    .group('users.city')
+    .order('count(orders.id) DESC')
+    .limit(3)
+    .pluck('users.city')
+  end
+
+  def self.top_three_states
+    joins(:orders)
+    .select('users.state, count(orders.id)as count_of_orders')
+    .group('users.state')
+    .order('count(orders.id) DESC')
+    .limit(3)
+    .pluck('users.state')
+  end
+
   def pending_orders
     items.select("orders.id").joins(:orders).where("orders.status": 0).distinct.pluck("orders.id")
   end

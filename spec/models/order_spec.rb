@@ -63,6 +63,7 @@ RSpec.describe Order, type: :model do
       expect(Order.largest_orders).to eq([order1, order2, order3])
     end
   end
+
   describe 'instance methods' do
     describe '.total_count' do
       it 'totals the items of a particular order' do

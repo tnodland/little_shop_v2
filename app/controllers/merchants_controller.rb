@@ -5,5 +5,7 @@ class MerchantsController < ApplicationController
     @fastest_three = @merchants.sort_by_fulfillment(:asc)
     @slowest_three = @merchants.sort_by_fulfillment(:desc)
     @three_largest_orders = Order.largest_orders
+    @top_three_cities = User.top_three_cities
+    @top_three_states = User.top_three_states
   end
 end
