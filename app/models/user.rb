@@ -26,6 +26,13 @@ class User < ApplicationRecord
     User.where(role: 1)
   end
 
+  def merchant_orders
+    items
+    .joins(:orders)
+    .select("orders.*")
+    .distinct
+  end
+
   def pending_orders
     items.select("orders.id")
          .joins(:orders)

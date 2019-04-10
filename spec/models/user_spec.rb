@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before :each do
+    @user = create(:user)
+    @merchant1 = create(:merchant)
+    @merchant2 = create(:merchant)
+    @merchant3 = create(:merchant)
+    @im = create(:inactive_merchant)
+    @admin = create(:admin)
+
     @merchant = create(:merchant)
     @items = create_list(:item, 10,  user: @merchant, quantity: 8)
 
@@ -37,7 +44,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'instance methods' do
-    it ".find_by_merchant" do
+    it ".merchant_orders" do
       merchant1 = create(:merchant)
       shopper = create(:user)
       merchant2 = create(:merchant)
@@ -48,8 +55,8 @@ RSpec.describe User, type: :model do
       oi1 = create(:order_item, order: order, item: item1)
       oi2 = create(:order_item, order: order2, item: item2)
 
-      expect(merchant1.merchant_orders).to eq([order])
-      expect(merchant2.merchant_orders).to eq([order2])
+      expect(merchant1.merchant_orders[0].id).to eq(order.id)
+      expect(merchant2.merchant_orders[0].id).to eq(order2.id)
     end
 
     it '.top_states' do
@@ -145,21 +152,13 @@ RSpec.describe User, type: :model do
   end
 
   describe "class methods" do
-    before :each do
-      @user = create(:user)
-      @merchant1 = create(:merchant)
-      @merchant2 = create(:merchant)
-      @merchant3 = create(:merchant)
-      @im = create(:inactive_merchant)
-      @admin = create(:admin)
-    end
 
     it ".active_merchants" do
-      expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3])
+      expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
     end
 
     it ".all_merchants" do
-      expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im])
+      expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im, @merchant])
     end
   end
 
