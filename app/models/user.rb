@@ -33,6 +33,16 @@ class User < ApplicationRecord
     .distinct
   end
 
+  def top_items
+    items
+    .select("items.*, sum(order_items.quantity) AS number")
+    .joins(:orders)
+    .where("orders.status = 2")
+    .group(:id)
+    .order("number DESC")
+    .limit(5)
+  end
+
   def top_states
     items
     .select("customers.state, count(customers.state) as order_count")

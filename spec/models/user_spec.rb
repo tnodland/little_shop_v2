@@ -46,8 +46,8 @@ RSpec.describe User, type: :model do
   describe 'instance methods' do
     it ".top_merchant_items" do
 
-      top_items_actual = @merchant.top_items(merchant)
-      top_items_expected = [items[0], items[1], items[9], items[2], items[3]]
+      top_items_actual = @merchant.top_items
+      top_items_expected = [@items[0], @items[1], @items[9], @items[2], @items[3]]
 
       top_items_actual.zip(top_items_expected).each do |actual, expected|
         expect(actual.id).to eq(expected.id)
@@ -56,7 +56,7 @@ RSpec.describe User, type: :model do
     end
 
     it '.items_sold' do
-      expect(@merchant.items_sold.to eq(1437)
+      expect(@merchant.items_sold).to eq(1437)
     end
 
     it '.pct_sold' do
