@@ -133,12 +133,11 @@ RSpec.describe Order, type: :model do
 
       actuals.zip(expecteds).each do |actual, expected|
 
-        expect(actual.state).to eq(expected[:state])
-        expect(actual.order_count).to eq(expected[:orders])
+        expect(actual.name).to eq(expected[:name])
+        expect(actual.revenue).to eq(expected[:revenue])
       end
     end
   end
-
 
   describe 'instance methods' do
     describe '.total_count' do
