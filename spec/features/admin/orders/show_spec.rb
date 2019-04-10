@@ -21,7 +21,7 @@ RSpec.describe 'As an Admin User' do
         click_link "Order: #{@pending_orders[0].id}"
       end
 
-      expect(current_path).to eq(admin_user_order_path(@pending_orders[0]))
+      expect(current_path).to eq(admin_user_order_path(@pending_orders[0].user, @pending_orders[0]))
     end
   end
 end
