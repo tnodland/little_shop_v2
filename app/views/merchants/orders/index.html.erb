@@ -8,61 +8,50 @@
 
   <div class=stats >
     <div id=popular-items>
-      <%if @top_merchant_items %>
         <ul>
-          <%@top_merchant_items.each do |item|  %>
+          <%@merchant.top_items.each do |item|  %>
             <li class=item>
               <%= render 'shared/admin_item', item:item %>
             </li>
           <%end%>
         </ul>
-      <%end%>
     </div>
 
     <div id=percent-sold>
-      <%= @items_sold%> items sold, which is <%= @pct_sold %>% of your inventory
+      <%= @merchant.items_sold%> items sold, which is <%= @merchant.pct_sold %>% of your inventory
     </div>
 
     <div id=top-states>
-      <%if @top_states %>
-        <% @top_states.each do |state|%>
+        <% @merchant.top_states.each do |state|%>
           <li class=state>
             <%= state.state %>: <%=state.order_count%> orders
           </li>
         <%end%>
-      <%end%>
     </div>
 
     <div id=top-cities>
-      <%if @top_cities %>
-        <% @top_cities.each do |city|%>
+        <% @merchant.top_cities.each do |city|%>
           <li class=city>
             <%= city.city%>, <%= city.state%>: <%=city.order_count%> orders
           </li>
         <%end%>
-      <%end%>
     </div>
-
-    <%if @top_user_orders %>
+    <%if @merchant.top_user_items%>
       <div id=top-user-orders>
-        <%= @top_user_orders.name%>: <%= @top_user_orders.order_count%> orders
+        <%= @merchant.top_user_orders.name%>: <%= @merchant.top_user_orders.order_count%> orders
       </div>
-    <%end%>
 
-    <% if @top_user_items %>
       <div id=top-user-items>
-        <%= @top_user_items.name%>: <%= @top_user_items.item_count%> items
+        <%= @merchant.top_user_items.name%>: <%= @merchant.top_user_items.item_count%> items
       </div>
-    <%end%>
+      <%end%>
 
     <div id=top-users-money>
-      <%if @top_users_money %>
-        <% @top_users_money.each do |user|%>
+        <% @merchant.top_users_money.each do |user|%>
           <li class=user>
             <%= user.name%>: <%=number_to_currency(user.revenue)%>
           </li>
         <%end%>
-      <%end%>
     </div>
 
   <div>

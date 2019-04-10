@@ -99,7 +99,6 @@ RSpec.describe Order, type: :model do
       expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
 
-
     it ".largest_orders" do
       merchant1 = create(:merchant)
       shopper = create(:user)

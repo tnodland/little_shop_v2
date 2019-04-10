@@ -43,17 +43,6 @@ class Order < ApplicationRecord
     self.order_items.sum("quantity*ordered_price").to_f
   end
 
-  def self.top_states(merchant)
-    select("users.state, count(distinct orders.id) as order_count")
-    .joins(:user)
-    .joins(items: :order_items)
-    .where("items.merchant_id = #{merchant.id}")
-    .where(status: :shipped)
-    .group("users.state")
-    .order("order_count DESC")
-    .limit(3)
-  end
-
   def self.top_cities(merchant)
     select("users.state, users.city, count(distinct orders.id) as order_count")
     .joins(:user)
