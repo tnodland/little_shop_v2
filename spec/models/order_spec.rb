@@ -6,30 +6,29 @@ RSpec.describe Order, type: :model do
     @merchant = create(:merchant)
     @items = create_list(:item, 10,  user: @merchant, quantity: 8)
 
-    @user_wash = create(:user, state:"Washington", city:"Seattle")
-    @user_2 = create(:user, state:"Oregon")
-    @utah_user = create(:user, state:"Utah", city: "nothere")
+    @user_wash = create(:user, name:"user_wash", state:"Washington", city:"Seattle")
+    @user_2 = create(:user, name: "user_oregon", state:"Oregon")
+    @utah_user = create(:user, name: "user_utah", state:"Utah", city: "nothere")
 
-    @top_orders_user = create(:user, state:"Utah")
+    @top_orders_user = create(:user, name:"top_orders_user", state:"Utah")
     @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
     @many_orders.each do |order|
-      create(:fulfilled_order_item, item:@items[1], quantity:10, order:order)
+      create(:fulfilled_order_item, ordered_price: 5.0, item:@items[1], quantity:10, order:order)
     end
 
-    @top_items_user = create(:user)
+    @top_items_user = create(:user, name: "top_items_user")
     @big_order = create(:shipped_order, user: @top_items_user)
-    create(:fulfilled_order_item, item:@items[0], quantity:900, order:@big_order)
-
+    create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:900, order:@big_order)
 
     @shipped_orders_utah = create_list(:shipped_order,2, user: @utah_user)
-    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 42, item:@items[9], order:@shipped_orders_utah[0])
-    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 42, item:@items[9], order:@shipped_orders_utah[1])
+    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:@items[9], order:@shipped_orders_utah[0])
+    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:@items[9], order:@shipped_orders_utah[1])
 
     @shipped_orders_user_wash = create_list(:shipped_order,4, user: @user_wash)
-    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 4, item:@items[2], order:@shipped_orders_user_wash[0])
-    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[1])
-    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 9, item:@items[9], order:@shipped_orders_user_wash[2])
-    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[3])
+    create(:fulfilled_order_item, ordered_price: 2.0, quantity: 4, item:@items[2], order:@shipped_orders_user_wash[0])
+    create(:fulfilled_order_item, ordered_price: 2.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[1])
+    create(:fulfilled_order_item, ordered_price: 2.0, quantity: 9, item:@items[9], order:@shipped_orders_user_wash[2])
+    create(:fulfilled_order_item, ordered_price: 2.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[3])
 
     @order_1 = create(:order, user: @user_wash)
     @order_2 = create(:order, user: @user_2)
@@ -119,11 +118,25 @@ RSpec.describe Order, type: :model do
 
     it '.top_user_items' do
       actual = Order.top_user_items(@merchant)
+      # binding.pry
+      # NOT PASSING
       expect(actual.name).to eq(@top_items_user.name)
       expect(actual.item_count).to eq(900)
     end
 
-    it '.top_users_money'
+    it '.top_users_money' do
+      expecteds = [{name: @top_orders_user.name, revenue: 2500.00},
+                   {name: @top_items_user.name, revenue: 900.00},
+                   {name: @user_wash.name, revenue: 34.00}]
+
+      actuals = Order.top_users_money(@merchant)
+
+      actuals.zip(expecteds).each do |actual, expected|
+
+        expect(actual.state).to eq(expected[:state])
+        expect(actual.order_count).to eq(expected[:orders])
+      end
+    end
   end
 
 

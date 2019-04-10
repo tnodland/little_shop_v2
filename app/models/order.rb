@@ -62,6 +62,16 @@ class Order < ApplicationRecord
     .order("order_count DESC").first
   end
 
+  def self.top_user_items(merchant)
+    select("users.name, sum(order_items.quantity) as item_count")
+    .joins(:user)
+    .joins(items: :order_items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.name")
+    .order("item_count DESC")
+  end
+
   private
 
   def add_items(cart)
