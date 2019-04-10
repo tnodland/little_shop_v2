@@ -69,6 +69,8 @@ RSpec.describe Order, type: :model do
     end
 
     it ".admin_ordered gives orders from packaged, pending, shipped, and cancelled, newest to oldest" do
+      OrderItem.destroy_all
+      Order.destroy_all
       pending_orders = 2.times.map{ |i| create(:order, created_at:(i).minute.ago)}
       shipped_orders = 2.times.map{ |i| create(:shipped_order, created_at:(i).minute.ago)}
       cancelled_orders = 2.times.map{ |i| create(:cancelled_order, created_at:(i).minute.ago)}
@@ -77,6 +79,7 @@ RSpec.describe Order, type: :model do
       desired_order =  packaged_orders + pending_orders + shipped_orders + cancelled_orders
 
       actual_order = Order.admin_ordered
+      # binding.pry
       actual_order.zip(desired_order).each do |actual, desired|
         expect(actual.id).to eq(desired.id)
       end
