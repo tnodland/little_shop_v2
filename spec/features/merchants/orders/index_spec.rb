@@ -41,7 +41,6 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     visit dashboard_path
     within ".stats" do
       within "#popular-items" do
-        # binding.pry
         items = page.all("li", class:"item")
         expect(items[0]).to have_content("#{@items[0].name}: 1000 sold")
         expect(items[1]).to have_content("#{@items[1].name}: 500 sold")
@@ -76,7 +75,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'shows top 3 cities (state dependent) where orders were shipped and quantity' do
     visit dashboard_path
     within ".stats" do
-      within "#top-states" do
+      within "#top-cities" do
         city = page.all("li", class:"city")
         expect(city[0]).to have_content("Testville, Utah: 500 orders")
         expect(city[1]).to have_content("Seattle, Washington: 4 orders")
@@ -102,6 +101,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
       end
     end
   end
+
   it 'shows top 3 users by money spent, and total amount spent' do
     visit dashboard_path
     within ".stats" do
@@ -109,7 +109,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
         top_sold = page.all("li", class:"user")
         expect(top_sold[0]).to have_content("#{@top_items_user.name}: $2,000.00")
         expect(top_sold[1]).to have_content("#{@top_orders_user.name}: $500.00")
-        expect(top_sold[2]).to have_content("#{@top_items_user.name}: $51.00")
+        expect(top_sold[2]).to have_content("#{@user_wash.name}: $51.00")
       end
     end
   end
