@@ -99,18 +99,6 @@ RSpec.describe Order, type: :model do
       expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
 
-    it '.top_states' do
-      expecteds = [{state:"Utah", orders:52},
-                  {state:"Washington", orders:4},
-                  {state:"Colorado", orders:1}]
-      actuals = Order.top_states(@merchant)
-
-      actuals.zip(expecteds).each do |actual, expected|
-        expect(actual.state).to eq(expected[:state])
-        expect(actual.order_count).to eq(expected[:orders])
-      end
-    end
-
     it '.top_cities' do
       expecteds = [{city: "Testville", state:"Utah", orders:50},
                   {city: "Seattle", state:"Washington", orders:4},

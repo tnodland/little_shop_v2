@@ -8,19 +8,17 @@
 
   <div class=stats >
     <div id=popular-items>
-      <%if @top_merchant_items %>
         <ul>
-          <%@top_merchant_items.each do |item|  %>
+          <%@merchant.top_items.each do |item|  %>
             <li class=item>
               <%= render 'shared/admin_item', item:item %>
             </li>
           <%end%>
         </ul>
-      <%end%>
     </div>
 
     <div id=percent-sold>
-      <%= @items_sold%> items sold, which is <%= @pct_sold %>% of your inventory
+      <%= @merchant.items_sold%> items sold, which is <%= @merchant.pct_sold %>% of your inventory
     </div>
 
     <div id=top-states>
