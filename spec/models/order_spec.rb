@@ -46,6 +46,22 @@ RSpec.describe Order, type: :model do
       expect(Order.find_by_merchant(merchant1)).to eq([order])
       expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
+
+    it ".largest_orders" do
+      merchant1 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      order1 = create(:shipped_order, user: shopper)
+      order2 = create(:shipped_order, user: shopper)
+      order3 = create(:shipped_order, user: shopper)
+      order4 = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order1, item: item1, quantity: 20)
+      create(:fulfilled_order_item, order: order2, item: item1, quantity: 15)
+      create(:fulfilled_order_item, order: order3, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order4, item: item1, quantity: 5)
+
+      expect(Order.largest_orders).to eq([order1, order2, order3])
+    end
   end
   describe 'instance methods' do
     describe '.total_count' do

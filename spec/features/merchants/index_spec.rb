@@ -68,6 +68,29 @@ RSpec.describe "Merchant index page" do
         expect(page).to_not have_content(merchant1.name)
       end
     end
+
+    it "shows 3 largest orders" do
+      merchant1 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      order1 = create(:shipped_order, user: shopper)
+      order2 = create(:shipped_order, user: shopper)
+      order3 = create(:shipped_order, user: shopper)
+      order4 = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order1, item: item1, quantity: 20)
+      create(:fulfilled_order_item, order: order2, item: item1, quantity: 15)
+      create(:fulfilled_order_item, order: order3, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order4, item: item1, quantity: 5)
+
+      visit merchants_path
+
+      within "#3-largest-orders" do
+        expect(page).to have_content("Order #{order1.id} with #{order1.total_count} items sold")
+        expect(page).to have_content("Order #{order2.id} with #{order2.total_count} items sold")
+        expect(page).to have_content("Order #{order3.id} with #{order3.total_count} items sold")
+        expect(page).to_not have_content("Order #{order4.id} with #{order4.total_count} items sold")
+      end
+    end
   end
 
 

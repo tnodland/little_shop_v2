@@ -4,5 +4,6 @@ class MerchantsController < ApplicationController
     # @top_three_sellers = @merchants.top_three_sellers
     @fastest_three = @merchants.sort_by_fulfillment(:asc)
     @slowest_three = @merchants.sort_by_fulfillment(:desc)
+    @three_largest_orders = Order.largest_orders
   end
 end

@@ -24,6 +24,13 @@
     <% end %>
   </section>
 
+  <section id="3-largest-orders">
+    <p>Top 3 Largest Orders</p>
+    <% @three_largest_orders.each do |order| %>
+      <p>Order <%= order.id %> with <%= order.total_count %> items sold</p>
+    <% end %>
+  </section>
+
   <section class="index-list">
     <% @merchants.each do |merchant| %>
     <section class="merchant-card card shadowed-box" id="merchant-<%= merchant.id %>">
