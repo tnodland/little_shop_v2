@@ -1,6 +1,12 @@
 class Admin::OrdersController < Admin::BaseController
+  include UserOrder
+
   def index
     @orders = Order.admin_ordered
+  end
+
+  def cancel
+    super(admin_dashboard_path)
   end
 
   def update

@@ -1,5 +1,5 @@
 <div class="order-row" id=<%="order-#{order.id}"%>>
-  <span class="order-id"><%="Order: #{order.id}"%></span>
+  <span class="order-id"><%=link_to "Order: #{order.id}", admin_user_order_path(order.user, order)%></span>
   <span class="order-status"><%=order.status%></span>
   <span class="order-user"><%=link_to order.user.id, admin_user_path(order.user)%></span>
   <span class="order-creation"><%=order.created_at%></span>
