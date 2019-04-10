@@ -31,7 +31,11 @@ class User < ApplicationRecord
   end
 
   def self.top_three_sellers
-    joins(items: [{order_items: :order}]).order('order_items.ordered_price'.to_i * 'order_items.quantity'.to_i, :asc).group(:id).limit(3)
+    joins(items: :order_items)
+    .select('users.*, sum(order_items.quantity * order_items.ordered_price) AS total_revenue')
+    .group(:id)
+    .order('total_revenue DESC')
+    .limit(3)
   end
 
   def self.sort_by_fulfillment(order)
@@ -62,11 +66,6 @@ class User < ApplicationRecord
 
   def pending_orders
     items.select("orders.id").joins(:orders).where("orders.status": 0).distinct.pluck("orders.id")
-  end
-
-  def total_revenue
-    binding.pry
-    Item.joins(:order_items).where("items.merchant_id = ?", self.id)
   end
 
   def average_time

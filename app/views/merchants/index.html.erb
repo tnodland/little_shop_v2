@@ -1,14 +1,12 @@
 <main class="merchants-index">
   <h1>All Merchants:</h1>
 
-  <%# <section id="top-three-sellers">
-    <%# <p>Top 3 merchants by revenue </p> %>
-    <%# <% @top_three_sellers.each do |merchant| %> %>
-      <%# <p><%= merchant.name %>,
-        <%# making <%= merchant.total_revenue %>
-        <%# in revenue</p> %> %> %>
-    <%# <% end %> %>
-  <%# </section> %> %>
+  <section id="top-three-sellers">
+    <p>Top 3 merchants by revenue </p>
+    <% @top_three_sellers.each do |merchant| %>
+      <p><%= merchant.name %>, making <%= number_to_currency(merchant.total_revenue)  %> in revenue</p> %> %>
+    <% end %>
+  </section> %>
 
   <section id="fastest-merchants">
     <p>Top 3 Fastest merchants</p>
@@ -25,14 +23,14 @@
   </section>
 
   <section id="top-three-cities">
-    <% @top_three_cities.each do |city| %>
-      <p><%= User.count_orders_by_city(city) %> orders have been shipped to <%= city %></p>
+    <% @top_three_cities.each do |user| %>
+      <p><%= user.count_of_orders %> orders have been shipped to <%= user.city %></p>
     <% end %>
   </section>
 
   <section id="top-three-states">
-    <% @top_three_states.each do |state| %>
-      <p><%= User.count_orders_by_state(state) %> orders have been shipped to <%= state %></p>
+    <% @top_three_states.each do |user| %>
+      <p><%= user.count_of_orders %> orders have been shipped to <%= user.state %></p>
     <% end %>
   </section>
 

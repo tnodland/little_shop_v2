@@ -21,9 +21,9 @@ RSpec.describe "Merchant index page" do
       visit merchants_path
 
       within "#top-three-sellers" do
-        expect(page).to have_content("#{merchant4.name}, making #{merchant4.total_revenue} in revenue")
-        expect(page).to have_content("#{merchant3.name}, making #{merchant3.total_revenue} in revenue")
-        expect(page).to have_content("#{merchant2.name}, making #{merchant2.total_revenue} in revenue")
+        expect(page).to have_content("#{merchant4.name}, making $100.00 in revenue")
+        expect(page).to have_content("#{merchant3.name}, making $75.00 in revenue")
+        expect(page).to have_content("#{merchant2.name}, making $50.00 in revenue")
         expect(page).to_not have_content(merchant1.name)
       end
     end
