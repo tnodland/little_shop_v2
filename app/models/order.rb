@@ -74,14 +74,15 @@ class Order < ApplicationRecord
   end
 
   def self.top_users_money(merchant)
-    select("distinct order_items.id, users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
+    # binding.pry
+    select("users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
     .joins(:user)
-    .joins(items: :order_items)
+    .joins(:items)
     .where("items.merchant_id = #{merchant.id}")
     .where(status: :shipped)
-    .group("order_items.id")
     .group("users.name")
     .order("revenue DESC")
+    .limit(3)
   end
 
   private

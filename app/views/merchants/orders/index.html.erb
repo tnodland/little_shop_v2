@@ -43,13 +43,6 @@ E-Mail: <%= @merchant.email %>
     <%= @top_user_items.name%>: <%= @top_users_items.quantity%> items
   </div>
 
-  <div id=top-users-money>
-    <% @top_users_money.each do |user|%>
-      <li class=user>
-        <%=user.name %>: <%=number_to_currency(user.money) %>
-      </li>
-    <%end%>
-  </div>
 <div>
 
 <%@orders.each do |order| %>

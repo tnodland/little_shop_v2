@@ -129,7 +129,6 @@ RSpec.describe Order, type: :model do
 
       actuals = Order.top_users_money(@merchant)
 
-      # binding.pry
       actuals.zip(expecteds).each do |actual, expected|
 
         expect(actual.name).to eq(expected[:name])
