@@ -199,3 +199,18 @@
     flex-grow: 1;
   }
 }
+
+section.order-item {
+  min-height: 100px;
+  padding: 5px 0;
+
+  img {
+    float: left;
+    margin-right: 15px;
+  }
+
+  .item-price, .item-quantity, .item-subtotal {
+    display: inline-block;
+    margin-right: 15px;
+  }
+}

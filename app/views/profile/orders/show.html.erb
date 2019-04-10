@@ -1,24 +1,24 @@
 <main class="profile-orders-show shadowed-box">
-  <section id="order-info">
-    <p>Order ID: <%= @order.id %></p>
-    <p>Order Status: <%= @order.status %></p>
-    <p>QTY of Items: <%= @order.total_count %></p>
-    <p>Grand Total: <%= @order.total_cost %></p>
-    <p>Order Placed: <%= @order.created_at.strftime("%m/%d/%Y") %></p>
-    <p>Last Updated: <%= @order.updated_at.strftime("%m/%d/%Y") %></p>
+  <section class="table-row user-orders" id="order-info">
+    <span class="order-id">Order ID: <%= @order.id %></span>
+    <span class="order-status">Order Status: <%= @order.status %></span>
+    <span class="order-quantity">QTY of Items: <%= @order.total_count %></span>
+    <span class="order-total">Grand Total: <%= number_to_currency(@order.total_cost) %></span>
+    <span class="order-placed">Order Placed: <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+    <span class="order-updated">Last Updated: <%= @order.updated_at.strftime("%m/%d/%Y") %></span>
     <% if @order.pending? %>
       <%= button_to "Cancel Order" %>
     <% end %>
   </section>
 
   <% @line_items.each do |line| %>
-    <section id="item-<%= line.item.id %>">
-      <%= image_tag "#{line.item.image_url}", size: "100x100" %>
-      <p>Item: <%= line.item.name %></p>
-      <p>Individual Price: <%=  %></p>
-      <p>Description: <%= line.item.description %></p>
-      <p>QTY: <%= line.quantity %></p>
-      <p>Subtotal: <%= line.subtotal %></p>
+    <section class="order-item" id="item-<%= line.item.id %>">
+      <%= image_tag "#{line.item.image_url.gsub('500x500', '100x100')}", size: "100x100" %>
+      <span class="item-name">Item: <%= link_to line.item.name, item_path(line.item.id) %></span><br>
+      <span class="item-price">Individual Price: <%= number_to_currency(line.ordered_price) %></span>
+      <span class="item-quantity">QTY: <%= line.quantity %></span>
+      <span class="item-subtotal">Subtotal: <%= number_to_currency(line.subtotal) %></span><br>
+      <span class="item-description">Description: <%= line.item.description.gsub(/(.{125}).{4,}/m,'\1…') %></span>
     </section>
   <% end %>
 </main>
