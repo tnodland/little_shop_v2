@@ -19,7 +19,6 @@ class Admin::MerchantsController < Admin::BaseController
 
   def downgrade
     merchant = User.find(params[:id])
-    # binding.pry
     if merchant.merchant?
       merchant.items.each do |item|
         item.enabled = false

@@ -8,9 +8,6 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :image_url}
     it {should validate_presence_of :quantity}
     it {should validate_presence_of :current_price}
-    # it {should validate_exclusion_of(:enabled).in_array([nil])}
-    # it {should validate_presence_of :merchant_id}
-
   end
 
   describe 'relationships' do
