@@ -24,7 +24,7 @@ RSpec.describe 'As an Admin User' do
     end
 
     it 'shows information about the order' do
-      visit profile_order_path(@order_1)
+      visit admin_user_order_path(@order_1.user, @order_1)
 
       within '#order-info' do
         expect(page).to have_content("Order ID: #{@order_1.id}")
