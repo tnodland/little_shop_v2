@@ -123,8 +123,19 @@ RSpec.describe User, type: :model do
       order3 = create(:shipped_order, user: shopper3)
       order4 = create(:shipped_order, user: shopper4)
 
-      expect(User.top_three_cities).to eq(["Denver", "St Paul", "Las Vegas"])
-      expect(User.top_three_states).to eq(["Colorado", "Minnesota", "Nevada"])
+      expect(User.top_three_cities[0].city).to eq("Denver")
+      expect(User.top_three_cities[0].count_of_orders).to eq(4)
+      expect(User.top_three_cities[1].city).to eq("St Paul")
+      expect(User.top_three_cities[1].count_of_orders).to eq(3)
+      expect(User.top_three_cities[2].city).to eq("Las Vegas")
+      expect(User.top_three_cities[2].count_of_orders).to eq(2)
+
+      expect(User.top_three_states[0].state).to eq("Colorado")
+      expect(User.top_three_states[0].count_of_orders).to eq(4)
+      expect(User.top_three_states[1].state).to eq("Minnesota")
+      expect(User.top_three_states[1].count_of_orders).to eq(3)
+      expect(User.top_three_states[2].state).to eq("Nevada")
+      expect(User.top_three_states[2].count_of_orders).to eq(2)
     end
   end
 

@@ -26,13 +26,13 @@
 
   <section id="top-three-cities">
     <% @top_three_cities.each do |city| %>
-      <p><%= Order.count_by_city(city) %> orders have been shipped to <%= city %></p>
+      <p><%= User.count_orders_by_city(city) %> orders have been shipped to <%= city %></p>
     <% end %>
   </section>
 
   <section id="top-three-states">
     <% @top_three_states.each do |state| %>
-      <p><%= Order.count_by_state(state) %> orders have been shipped to <%= state %></p>
+      <p><%= User.count_orders_by_state(state) %> orders have been shipped to <%= state %></p>
     <% end %>
   </section>
 
