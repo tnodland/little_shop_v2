@@ -48,7 +48,7 @@ RSpec.describe 'As an Admin User' do
       item_2_quantity = @item_2.quantity
 
 
-      visit profile_order_path(@order_1)
+      visit admin_user_order_path(@order_1.user, @order_1)
 
       within '#order-info' do
         expect(page).to have_button("Cancel Order")

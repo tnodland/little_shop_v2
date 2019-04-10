@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get '/dashboard', to: "orders#index"
     resources :users, only: [:index, :show] do
       resources :orders, only: [:show]
+      post 'orders/:id', to: 'orders#cancel'
     end
     get '/users/:id/upgrade', to: "users#upgrade", as: 'upgrade_user'
     get '/merchants/:id/downgrade', to: "merchants#downgrade", as: 'downgrade_merchant'
