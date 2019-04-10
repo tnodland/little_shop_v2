@@ -99,6 +99,33 @@ RSpec.describe Item, type: :model do
       expect(Item.items_sold(merchant)).to eq(1437)
     end
 
+    it '.pct_sold' do
+      merchant = create(:merchant)
+      items = create_list(:item, 10,  user: merchant, quantity: 15)
+
+      user_wash = create(:user, name:"user_wash", state:"Washington", city:"Seattle")
+      user_2 = create(:user, name: "user_oregon", state:"Oregon")
+      utah_user = create(:user, name: "user_utah", state:"Utah", city: "nothere")
+
+      top_orders_user = create(:user, name:"top_orders_user", state:"Utah")
+      many_orders = create_list(:shipped_order, 50, user:top_orders_user)
+      many_orders.each do |order|
+        create(:fulfilled_order_item, ordered_price: 5.0, item:items[1], quantity:10, order:order)
+      end
+
+      top_items_user = create(:user, name: "top_items_user")
+      big_order = create(:shipped_order, user: top_items_user)
+      create(:fulfilled_order_item, ordered_price: 1.0, item:items[0], quantity:1000, order:big_order)
+
+      order_1 = create(:order, user: user_wash)
+      order_2 = create(:order, user: user_2)
+      create(:fulfilled_order_item, item:items[0], order:order_1)
+      create(:fulfilled_order_item, item:items[0], order:order_2)
+      create(:fulfilled_order_item, item:items[1], order:order_2)
+
+      expect(Item.pct_sold(merchant)).to eq(90.0)
+    end
+
     it ".enabled_items" do
       merchant  = create(:merchant)
       item1 = create(:item, user: merchant)
