@@ -56,6 +56,17 @@ class User < ApplicationRecord
     .limit(3)
   end
 
+  def top_user_orders
+    items
+    .select("customers.name, count(distinct orders.id) as order_count")
+    .joins(:orders)
+    .joins('INNER JOIN "users" as "customers" ON "customers"."id" = "orders"."user_id"')
+    .where("orders.status = 2")
+    .group("customers.name")
+    .order("order_count DESC")
+    .first
+  end
+
   def pending_orders
     items.select("orders.id")
          .joins(:orders)
