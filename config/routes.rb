@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   scope :dashboard, module: :merchants, as: :dashboard do
     resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
     get '/', to: 'orders#index'
+    get '/order/:id', to: 'orders#show', as: 'order'
   end
+  patch '/dashboard/:order/:item/fulfill', to: "merchants/orders#update", as: :fulfill_item
 
   get '/cart', to: 'carts#show'
   delete '/cart', to: 'carts#destroy'
