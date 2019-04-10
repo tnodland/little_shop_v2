@@ -178,6 +178,23 @@ RSpec.describe Order, type: :model do
         expect(order.total_cost).to eq(75.0)
       end
     end
+
+    describe '.all_fulfilled?' do
+      it 'checks to see if all order_items have been fulfilled' do
+        order = create(:order)
+        item1 = create(:item)
+        item2 = create(:item)
+        oi1 = create(:order_item, item: item1, order: order, fulfilled: true)
+        oi2 = create(:order_item, item: item2, order: order)
+
+        expect(order.all_fulfilled?).to eq(false)
+
+        oi2.fulfilled = true
+        oi2.save
+
+        expect(order.all_fulfilled?).to eq(true)
+      end
+    end
   end
 
 end
