@@ -1,6 +1,6 @@
 <div class="table-row merchant-item" id=<%="merchant-item-#{item.id}"%>>
   <div class="item-id"><%= item.id %></div>
-  <div class="item-thumbnail"><img src=<%= item.image_url %> /></div>
+  <div class="item-thumbnail"><img src=<%= item.image_url.gsub('500x500', '20x20') %> /></div>
   <div class="item-name"><%= item.name %></div>
   <div class="item-quantity"><%= item.quantity %></div>
   <div class="item-price"><%= number_to_currency(item.current_price) %></div>

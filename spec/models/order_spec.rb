@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-
   describe 'validations' do
     it {should validate_presence_of :user_id}
     it {should validate_presence_of :status}
@@ -34,8 +33,6 @@ RSpec.describe Order, type: :model do
     end
 
     it ".admin_ordered gives orders from packaged, pending, shipped, and cancelled, newest to oldest" do
-      OrderItem.destroy_all
-      Order.destroy_all
       pending_orders = 2.times.map{ |i| create(:order, created_at:(i).minute.ago)}
       shipped_orders = 2.times.map{ |i| create(:shipped_order, created_at:(i).minute.ago)}
       cancelled_orders = 2.times.map{ |i| create(:cancelled_order, created_at:(i).minute.ago)}
@@ -79,7 +76,6 @@ RSpec.describe Order, type: :model do
 
       expect(Order.largest_orders).to eq([order1, order2, order3])
     end
-
   end
 
   describe 'instance methods' do

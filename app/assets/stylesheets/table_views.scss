@@ -173,3 +173,44 @@
     min-width: 310px;
   }
 }
+
+.user-orders {
+  .order-id{
+    min-width: 100px;
+  }
+
+  .order-status {
+    min-width: 180px;
+  }
+
+  .order-quantity {
+    min-width: 120px;
+  }
+
+  .order-total {
+    min-width: 160px;
+  }
+
+  .order-placed, .order-updated {
+    min-width: 180px;
+  }
+
+  span {
+    flex-grow: 1;
+  }
+}
+
+section.order-item {
+  min-height: 100px;
+  padding: 5px 0;
+
+  img {
+    float: left;
+    margin-right: 15px;
+  }
+
+  .item-price, .item-quantity, .item-subtotal {
+    display: inline-block;
+    margin-right: 15px;
+  }
+}

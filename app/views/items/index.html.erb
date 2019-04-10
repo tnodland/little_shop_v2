@@ -1,18 +1,18 @@
 <main class="item-index">
   <h1>All Items:</h1>
 
-  <section class="item-stats">
+  <section class="item-stats shadowed-box">
     <ul id="most-popular-items">
       <h3>5 Most Popular Items: </h3>
       <% @top_5.each do |item| %>
-        <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+        <li id="item"><%= item.name %>: <%= item.item_count %> sold</li>
       <% end %>
     </ul>
 
     <ul id="least-popular-items">
       <h3>5 Least Popular Items: </h3>
       <% @bottom_5.each do |item| %>
-        <li id="item"><%= item.name %>: <%= item.total_sold %> sold</li>
+        <li id="item"><%= item.name %>: <%= item.item_count %> sold</li>
       <% end %>
     </ul>
   </section>
@@ -22,7 +22,7 @@
       <section class="item-card card shadowed-box" id="item-<%= item.id %>">
         <%= link_to item_path(item) do %>
           <h3><%= item.name %></h3>
-          <%= image_tag "#{item.image_url}", size: "100x100" %>
+          <%= image_tag "#{item.image_url.gsub('500x500', '100x100')}", size: "100x100" %>
         <% end %>
         <p>Sold by: <%= item.merchant_name %></p>
         <p>Number in stock: <%= item.quantity %></p>

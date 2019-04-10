@@ -8,9 +8,6 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :image_url}
     it {should validate_presence_of :quantity}
     it {should validate_presence_of :current_price}
-    # it {should validate_exclusion_of(:enabled).in_array([nil])}
-    # it {should validate_presence_of :merchant_id}
-
   end
 
   describe 'relationships' do
@@ -186,10 +183,6 @@ RSpec.describe Item, type: :model do
       create(:fast_fulfilled_order_item, order: @order, item: @item1, quantity: 5, created_at: "Wed, 03 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
       create(:order_item, order: @order2, item: @item1, quantity: 5)
       create(:fast_fulfilled_order_item, order: @order2, item: @item2, quantity: 7, created_at: "Mon, 01 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
-    end
-
-    it ".total_sold" do
-      expect(@item1.total_sold).to eq(15)
     end
 
     it ".fullfillment_time" do
