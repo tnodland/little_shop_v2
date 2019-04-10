@@ -8,6 +8,7 @@ class Merchants::OrdersController < Merchants::BaseController
     @top_user_orders = Order.top_user_orders(@merchant)
     @top_user_items = Order.top_user_items(@merchant)
     @top_users_money = Order.top_users_money(@merchant)
+
   end
 
   def show
@@ -28,14 +29,6 @@ class Merchants::OrdersController < Merchants::BaseController
     redirect_to dashboard_order_path(order)
   end
 end
-
-
-# @top_states = Order.top_states(merchant)
-# @top_cities = Order.top_cities(merchant)
-# @top_user_orders = Order.top_user_orders(merchant)
-# @top_user_items = Order.top_user_items(merchant)
-# @top_users_money = Order.top_users_money(merchant)
-
 
 # @items_sold = Item.items_sold(merchant)
 # @pct_sold = Item.pct_sold(merchant)
