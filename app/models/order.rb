@@ -17,6 +17,10 @@ class Order < ApplicationRecord
     self.create(user: user, status: 'pending', cart: cart_contents)
   end
 
+  def self.admin_ordered
+    order("status=3, status=2, status=0, status=1", created_at: :desc)
+  end
+
   def self.find_by_merchant(merchant)
     joins(:items).where("items.merchant_id = ?", merchant.id).distinct
   end
