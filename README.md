@@ -5,7 +5,7 @@ This is a student project from the Turing School of Software & Design as part of
 -Take a look at the live website [here](https://nooks-and-crannies.herokuapp.com/)
 -Take a look at the project [here](https://github.com/turingschool-projects/little_shop_v2)
 -Team Members:
-    William Peterson - [GitHub](https://github.com/wipegup')
+    William Peterson - [GitHub](https://github.com/wipegup)
     Jon Peterson - [GitHub](https://github.com/joequincy)
     Trevor Nodland - [GitHub](https://github.com/tnodland)
     Vincent Provenzano - [GitHub](https://github.com/Vjp888)
@@ -29,7 +29,7 @@ This is a student project from the Turing School of Software & Design as part of
 
   Shoulda-Matchers was used to aid in validation of our models
 
-  Tests were down in a hybrid of top down and bottom up development.
+  Tests were completed in a hybrid of top down and bottom up development.
   We started with feature tests that would then break into model tests as needed for core functionality.
 
 ### Setup
