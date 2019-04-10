@@ -104,7 +104,7 @@ RSpec.describe Order, type: :model do
       actuals = Order.top_cities(@merchant)
 
       actuals.zip(expecteds).each do |actual, expected|
-
+        expect(actual.city).to eq(expected[:city])
         expect(actual.state).to eq(expected[:state])
         expect(actual.order_count).to eq(expected[:orders])
       end

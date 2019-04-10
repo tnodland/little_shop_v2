@@ -41,7 +41,7 @@ class Order < ApplicationRecord
   end
 
   def self.top_cities(merchant)
-    select("users.state, count(distinct orders.id) as order_count")
+    select("users.state, users.city, count(distinct orders.id) as order_count")
     .joins(:user)
     .joins(items: :order_items)
     .where("items.merchant_id = #{merchant.id}")
@@ -74,7 +74,6 @@ class Order < ApplicationRecord
   end
 
   def self.top_users_money(merchant)
-    # binding.pry
     select("users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
     .joins(:user)
     .joins(:items)
