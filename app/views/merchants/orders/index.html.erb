@@ -6,13 +6,15 @@ E-Mail: <%= @merchant.email %>
 
 <div class=stats >
   <div id=popular-items>
-    <ul>
-      <%@top_merchant_items.each do |item|  %>
-        <li class=item>
-          <%= render 'shared/admin_item', item:item %>
-        </li>
-      <%end%>
-    </ul>
+    <%if @top_merchant_items %>
+      <ul>
+        <%@top_merchant_items.each do |item|  %>
+          <li class=item>
+            <%= render 'shared/admin_item', item:item %>
+          </li>
+        <%end%>
+      </ul>
+    <%end%>
   </div>
 
   <div id=percent-sold>
@@ -20,34 +22,44 @@ E-Mail: <%= @merchant.email %>
   </div>
 
   <div id=top-states>
-    <% @top_states.each do |state|%>
-      <li class=state>
-        <%= state.state %>: <%=state.order_count%> orders
-      </li>
+    <%if @top_states %>
+      <% @top_states.each do |state|%>
+        <li class=state>
+          <%= state.state %>: <%=state.order_count%> orders
+        </li>
+      <%end%>
     <%end%>
   </div>
 
   <div id=top-cities>
-    <% @top_cities.each do |city|%>
-      <li class=city>
-        <%= city.city%>, <%= city.state%>: <%=city.order_count%> orders
-      </li>
+    <%if @top_cities %>
+      <% @top_cities.each do |city|%>
+        <li class=city>
+          <%= city.city%>, <%= city.state%>: <%=city.order_count%> orders
+        </li>
+      <%end%>
     <%end%>
   </div>
 
-  <div id=top-user-orders>
-    <%= @top_user_orders.name%>: <%= @top_user_orders.order_count%> orders
-  </div>
+  <%if @top_user_orders %>
+    <div id=top-user-orders>
+      <%= @top_user_orders.name%>: <%= @top_user_orders.order_count%> orders
+    </div>
+  <%end%>
 
-  <div id=top-user-items>
-    <%= @top_user_items.name%>: <%= @top_user_items.item_count%> items
-  </div>
+  <% if @top_user_items %>
+    <div id=top-user-items>
+      <%= @top_user_items.name%>: <%= @top_user_items.item_count%> items
+    </div>
+  <%end%>
 
   <div id=top-users-money>
-    <% @top_users_money.each do |user|%>
-      <li class=user>
-        <%= user.name%>: <%=number_to_currency(user.revenue)%>
-      </li>
+    <%if @top_users_money %>
+      <% @top_users_money.each do |user|%>
+        <li class=user>
+          <%= user.name%>: <%=number_to_currency(user.revenue)%>
+        </li>
+      <%end%>
     <%end%>
   </div>
 

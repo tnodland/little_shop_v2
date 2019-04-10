@@ -8,7 +8,8 @@ class Merchants::OrdersController < Merchants::BaseController
     @top_user_orders = Order.top_user_orders(@merchant)
     @top_user_items = Order.top_user_items(@merchant)
     @top_users_money = Order.top_users_money(@merchant)
-
+    @pct_sold = Item.pct_sold(@merchant)
+    @items_sold = Item.items_sold(@merchant)
   end
 
   def show

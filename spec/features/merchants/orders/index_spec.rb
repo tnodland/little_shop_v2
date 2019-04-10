@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   before :each do
     @merchant = create(:merchant)
-    @items = create_list(:item, 10,  user: @merchant, quantity: 8)
+    @items = create_list(:item, 10,  user: @merchant, quantity: 160)
 
     @user_wash = create(:user, state:"Washington", city:"Seattle")
     @user_2 = create(:user, state:"Oregon")
@@ -55,7 +55,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     visit dashboard_path
     within ".stats" do
       within "#percent-sold" do
-        expect(page).to have_content("1600 items sold, which is 95.0% of your inventory")
+        expect(page).to have_content("1600 items sold, which is 50.0% of your inventory")
       end
     end
   end

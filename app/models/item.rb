@@ -54,7 +54,7 @@ class Item < ApplicationRecord
 
   def self.pct_sold(merchant)
     in_stock = Item.where(user:merchant).sum(:quantity).to_f
-    (1- (in_stock / (in_stock + items_sold(merchant))).round(3))*100
+    ((1- (in_stock / (in_stock + items_sold(merchant))))*100).round(2)
   end
 
   def fullfillment_time
