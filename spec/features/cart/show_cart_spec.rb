@@ -144,8 +144,6 @@ RSpec.describe 'Cart show page' do
     expect(page).not_to have_content(@item_1.name)
   end
 
-  it 'tests for sad path of quantity being entered maliciously greater than qty available or less than 0'
-
   it 'says you must register / log in if you are browsing as a user' do
     visit item_path(@item_1)
     click_button "Add to Cart"
