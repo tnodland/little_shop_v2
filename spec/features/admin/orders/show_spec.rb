@@ -42,5 +42,38 @@ RSpec.describe 'As an Admin User' do
         expect(page).to have_content("Subtotal: #{@order_item_1.subtotal}")
       end
     end
+
+    it 'lets an admin cancel a pending order' do
+      item_1_quantity = @item_1.quantity
+      item_2_quantity = @item_2.quantity
+
+
+      visit profile_order_path(@order_1)
+
+      within '#order-info' do
+        expect(page).to have_button("Cancel Order")
+        click_button "Cancel Order"
+      end
+
+      expect(current_path).to eq(admin_dashboard_path)
+      expect(page).to have_content("The order has been cancelled")
+
+      visit admin_user_order_path(@order_1.user, @order_1)
+
+      expect(page).to have_content("cancelled")
+      expect(page).to_not have_content("pending")
+      expect(page).to_not have_content("packaged")
+      expect(page).to_not have_content("shipped")
+
+      updated_order_item_1 = OrderItem.first
+      updated_order_item_2 = OrderItem.second
+      updated_item_1 = Item.first
+      updated_item_2 = Item.second
+
+      expect(updated_order_item_1.fulfilled?).to be_falsey
+      expect(updated_order_item_2.fulfilled?).to be_falsey
+      expect(updated_item_1.quantity).to eq((item_1_quantity + @order_item_1.quantity))
+      expect(updated_item_2.quantity).to eq((item_2_quantity))
+    end
   end
 end
