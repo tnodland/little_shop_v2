@@ -24,19 +24,19 @@ class Item < ApplicationRecord
   end
 
   def self.find_by_order(order, merchant)
-    joins(orders: :order_items)
-    .where("items.merchant_id = ?", merchant.id)
-    .where("orders.id = ?", order.id)
+    joins(order_items: :order)
+    .where(items: {merchant_id: merchant.id},
+          orders: {id: order.id})
     .distinct
   end
 
   def total_sold
-    orders.where("orders.status = ?", 2)
+    orders.where(orders: {status: 2})
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
   end
 
   def fullfillment_time
-    order_items.where("order_items.fulfilled = true")
+    order_items.where(order_items: {fulfilled: true})
                .average("order_items.updated_at - order_items.created_at")
   end
 
@@ -45,11 +45,13 @@ class Item < ApplicationRecord
   end
 
   def amount_ordered(order)
-    order_items.where("order_items.order_id = ?", order.id).sum("order_items.quantity")
+    order_items.where(order_items: {order_id: order.id})
+               .sum("order_items.quantity")
   end
 
   def fulfilled?(order)
-    order_items.where("order_items.order_id = ?", order.id).first.fulfilled
+    order_items.where(order_items: {order_id: order.id})
+               .first.fulfilled
   end
 
   def not_enough?
