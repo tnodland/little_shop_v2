@@ -39,7 +39,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   it 'shows top 5 items by quanity sold, and quantity of each sold' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#popular-items" do
         items = page.all("li", class:"item")
         expect(items[0]).to have_content("#{@items[0].name}: 1000 sold")
@@ -53,16 +53,16 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   it 'shows percentage of inventory sold (sold / sold+remaining)'do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#percent-sold" do
-        expect(page).to have_content("1600 items sold, which is 50.0% of your inventory")
+        expect(page).to have_content("You have sold 1600 items, which is 50.0% of your inventory")
       end
     end
   end
 
   it 'shows top 3 states where orders have shipped' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#top-states" do
         states = page.all("li", class:"state")
         expect(states[0]).to have_content("Utah: 51 orders")
@@ -74,7 +74,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   it 'shows top 3 cities (state dependent) where orders were shipped and quantity' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#top-cities" do
         city = page.all("li", class:"city")
         expect(city[0]).to have_content("Testville, Utah: 50 orders")
@@ -86,25 +86,25 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
   it 'shows name of user with most orders and number of orders' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#top-user-orders" do
-        expect(page).to have_content("#{@top_orders_user.name}: 50 orders")
+        expect(page).to have_content("#{@top_orders_user.name} has made the most orders with you, with 50 orders")
       end
     end
   end
 
   it 'shows name of user who ordered most items' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#top-user-items" do
-        expect(page).to have_content("#{@top_items_user.name}: 1000 items")
+        expect(page).to have_content("#{@top_items_user.name} has ordered the most items from you, with 1000 items ordered")
       end
     end
   end
 
   it 'shows top 3 users by money spent, and total amount spent' do
     visit dashboard_path
-    within ".stats" do
+    within ".merchant-stats" do
       within "#top-users-money" do
         top_sold = page.all("li", class:"user")
         expect(top_sold[0]).to have_content("#{@top_orders_user.name}: $2,500.00")
