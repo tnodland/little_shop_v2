@@ -47,4 +47,4 @@ This is a student project from the Turing School of Software & Design as part of
 <img src='./app/assets/images/db_schema.png' width='700px'>
 
 ### Homepage
-<img src='./app/assets/images/root_path' width='700px'>
+<img src='./app/assets/images/root_path.png' width='700px'>
