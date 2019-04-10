@@ -14,14 +14,12 @@ class Item < ApplicationRecord
     .select('items.*, users.name AS merchant_name')
   end
 
-  def self.sort_sold(order)
-    joins(:order_items)
-    .joins(:orders)
-    .select("items.*, sum(order_items.quantity)as item_count")
-    .where(enabled: true)
-    .where("orders.status = ?", 2)
+  def self.sort_sold(direction)
+    joins(order_items: :order)
+    .select("items.*, sum(order_items.quantity) as item_count")
+    .where(enabled: true, orders: {status: 2})
     .group(:id)
-    .order("item_count #{order}")
+    .order('item_count ' + direction)
     .limit(5)
   end
 
