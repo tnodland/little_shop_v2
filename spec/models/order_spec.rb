@@ -111,9 +111,17 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    it '.top_user_orders'
+    it '.top_user_orders' do
+      actual = Order.top_user_orders(@merchant)
+      expect(actual.name).to eq(@top_user_orders.name)
+      expect(actual.order_count).to eq(@top_user_orders.50)
+    end
 
-    it '.top_user_items'
+    it '.top_user_items' do
+      actual = Order.top_user_items(@merchant)
+      expect(actual.name).to eq(@top_user_items.name)
+      expect(actual.item_count).to eq(900)
+    end
 
     it '.top_users_money'
   end
