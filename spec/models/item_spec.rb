@@ -115,7 +115,7 @@ RSpec.describe Item, type: :model do
 
       top_items_user = create(:user, name: "top_items_user")
       big_order = create(:shipped_order, user: top_items_user)
-      create(:fulfilled_order_item, ordered_price: 1.0, item:items[0], quantity:1000, order:big_order)
+      create(:fulfilled_order_item, ordered_price: 1.0, item:items[0], quantity:850, order:big_order)
 
       order_1 = create(:order, user: user_wash)
       order_2 = create(:order, user: user_2)

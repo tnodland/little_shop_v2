@@ -52,6 +52,11 @@ class Item < ApplicationRecord
     .sum("order_items.quantity")
   end
 
+  def self.pct_sold(merchant)
+    in_stock = Item.where(user:merchant).sum(:quantity).to_f
+    (1- (in_stock / (in_stock + items_sold(merchant))).round(3))*100
+  end
+
   def fullfillment_time
     order_items.where("order_items.fulfilled = true")
                .average("order_items.updated_at - order_items.created_at")
