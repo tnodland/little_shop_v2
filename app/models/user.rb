@@ -54,6 +54,13 @@ class User < ApplicationRecord
     .limit(3)
   end
 
+  def items_sold
+    items
+    .joins(:orders)
+    .where("orders.status = 2")
+    .sum("order_items.quantity")
+  end
+
   def top_cities
     items
     .select("customers.state, customers.city, count(distinct orders.id) as order_count")
