@@ -12,12 +12,12 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     @top_orders_user = create(:user, state:"Utah")
     @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
     @many_orders.each do |order|
-      create(:fulfilled_order_item, item:@items[1], quantity:10, order:order)
+      create(:fulfilled_order_item, ordered_price: 5.0, item:@items[1], quantity:10, order:order)
     end
 
     @top_items_user = create(:user)
     @big_order = create(:shipped_order, user: @top_items_user)
-    create(:fulfilled_order_item, item:@items[0], quantity:1000, order:@big_order)
+    create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:1000, order:@big_order)
 
     @shipped_order_utah = create(:shipped_order, user: @utah_user)
     create(:fulfilled_order_item, ordered_price: 0.1, quantity: 83, item:@items[9], order:@shipped_order_utah)
@@ -77,7 +77,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     within ".stats" do
       within "#top-cities" do
         city = page.all("li", class:"city")
-        expect(city[0]).to have_content("Testville, Utah: 500 orders")
+        expect(city[0]).to have_content("Testville, Utah: 50 orders")
         expect(city[1]).to have_content("Seattle, Washington: 4 orders")
         expect(city[2]).to have_content("Testville, Colorado: 1 order")
       end
@@ -88,7 +88,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     visit dashboard_path
     within ".stats" do
       within "#top-user-orders" do
-        expect(page).to have_content("#{@top_orders_user.name}: 500 orders")
+        expect(page).to have_content("#{@top_orders_user.name}: 50 orders")
       end
     end
   end
@@ -107,8 +107,8 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     within ".stats" do
       within "#top-users-money" do
         top_sold = page.all("li", class:"user")
-        expect(top_sold[0]).to have_content("#{@top_items_user.name}: $2,000.00")
-        expect(top_sold[1]).to have_content("#{@top_orders_user.name}: $500.00")
+        expect(top_sold[0]).to have_content("#{@top_orders_user.name}: $2,500.00")
+        expect(top_sold[1]).to have_content("#{@top_items_user.name}: $1,000.00")
         expect(top_sold[2]).to have_content("#{@user_wash.name}: $51.00")
       end
     end
@@ -140,7 +140,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
       expect(page).to have_content(@order_2.total_cost)
     end
 
-    expect(page).not_to have_selector('div', id:"order-#{@shipped_order.id}")
+    expect(page).not_to have_selector('div', id:"order-#{@shipped_order_utah.id}")
 
   end
 
