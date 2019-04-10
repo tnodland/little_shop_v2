@@ -118,8 +118,6 @@ RSpec.describe Order, type: :model do
 
     it '.top_user_items' do
       actual = Order.top_user_items(@merchant)
-      # binding.pry
-      # NOT PASSING
       expect(actual.name).to eq(@top_items_user.name)
       expect(actual.item_count).to eq(900)
     end
@@ -131,6 +129,7 @@ RSpec.describe Order, type: :model do
 
       actuals = Order.top_users_money(@merchant)
 
+      # binding.pry
       actuals.zip(expecteds).each do |actual, expected|
 
         expect(actual.name).to eq(expected[:name])

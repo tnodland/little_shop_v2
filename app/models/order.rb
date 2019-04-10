@@ -63,26 +63,27 @@ class Order < ApplicationRecord
   end
 
 
-  ### DEBUG
   def self.top_user_items(merchant)
-    select("users.name, sum(order_items.quantity) as item_count")
+    select("distinct users.name, sum(order_items.quantity) as item_count")
     .joins(:user)
-    .joins(items: :order_items)
+    .joins(:order_items, :items)
     .where("items.merchant_id = #{merchant.id}")
     .where(status: :shipped)
     .group("users.name")
-    .order("item_count DESC")
+    .order("item_count DESC").first
   end
 
   def self.top_users_money(merchant)
-    select("users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
+    select("distinct order_items.id, users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
     .joins(:user)
     .joins(items: :order_items)
     .where("items.merchant_id = #{merchant.id}")
     .where(status: :shipped)
+    .group("order_items.id")
     .group("users.name")
     .order("revenue DESC")
   end
+
   private
 
   def add_items(cart)
