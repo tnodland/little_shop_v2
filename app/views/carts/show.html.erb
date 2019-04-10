@@ -2,7 +2,7 @@
   <% if @items == {} %>
   Your cart is empty.
   <% else %>
-    <section class="cart-table shadowed-box">
+    <section class="data-table shadowed-box">
       <% @items.each do |item, quantity| %>
         <%= render 'cart_item', item:item, quantity:quantity %>
       <% end %>

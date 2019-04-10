@@ -54,7 +54,7 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       expect(page).to have_field("Description", with:@inactive_item.description)
       expect(page).to have_field("Price", with:@inactive_item.current_price)
       expect(page).to have_field("Image URL", with:@inactive_item.image_url)
-      expect(page).to have_field("Quantity", with:@inactive_item.quantity)
+      expect(page).to have_field("Inventory", with:@inactive_item.quantity)
     end
 
     it 'accepts valid info, messaging that item was edited' do
@@ -65,7 +65,7 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       fill_in "Description", with:new_info[:description]
       fill_in "Price", with:new_info[:current_price]
       fill_in "Image URL", with:new_info[:image_url]
-      fill_in "Quantity", with:new_info[:quantity]
+      fill_in "Inventory", with:new_info[:quantity]
 
       click_button "Edit Item"
 
@@ -96,20 +96,20 @@ RSpec.describe 'Merchant Item Update', type: :feature do
       end
       it 'cannot have a quantity of less than 0' do
         visit edit_dashboard_item_path(@inactive_item)
-        fill_in "Quantity", with:""
+        fill_in "Inventory", with:""
         click_button "Edit Item"
         expect(page).to have_content("Quantity can't be blank")
 
-        fill_in "Quantity", with:-10
+        fill_in "Inventory", with:-10
         click_button "Edit Item"
         expect(page).to have_content("Quantity must be greater than or equal to 0")
 
         # Below, this is a kludge-y test, form does not allow input of floats
         # So this is very sad-path of a forced input
-        fill_in "Quantity", with:1.5
+        fill_in "Inventory", with:1.5
         expect(page).to have_content("Quantity must be greater than or equal to 0")
 
-        fill_in "Quantity", with: 5
+        fill_in "Inventory", with: 5
         click_button "Edit Item"
         expect(current_path).to eq(dashboard_items_path)
 

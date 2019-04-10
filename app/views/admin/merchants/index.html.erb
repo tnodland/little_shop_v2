@@ -1,14 +1,17 @@
-<h1>All Merchants in the system</h1>
-
-<% @merchants.each do |merchant| %>
-<section id="merchant-<%= merchant.id %>">
-  <p>Name: <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %></p>
-  <p>Located in <%= merchant.city %>, <%= merchant.state %></p>
-  <p>Joined the store on <%= merchant.created_at %></p>
-  <% if merchant.enabled? %>
-    <%= link_to "Disable this Merchant", admin_merchant_change_status_path(merchant), method: :patch %>
-  <% elsif !merchant.enabled? %>
-    <%= link_to "Enable this Merchant", admin_merchant_change_status_path(merchant), method: :patch %>
+<main class="admin-merchant-index shadowed-box">
+  <h1>All Merchants in the system</h1>
+  <section class="data-table merchant-list">
+  <% @merchants.each do |merchant| %>
+    <section class="table-row" id="merchant-<%= merchant.id %>">
+      <span class="merchant-name"><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %></span>
+      <span class="merchant-city">Located in <%= merchant.city %>, <%= merchant.state %></span>
+      <span class="merchant-register-date">Joined the store on <%= merchant.created_at %></span>
+      <% if merchant.enabled? %>
+        <%= link_to "Disable this Merchant", admin_merchant_change_status_path(merchant), method: :patch, class: 'disable' %>
+      <% elsif !merchant.enabled? %>
+        <%= link_to "Enable this Merchant", admin_merchant_change_status_path(merchant), method: :patch, class: 'enable' %>
+      <% end %>
+    </section>
   <% end %>
-</section>
-<% end %>
+  </section>
+</main>

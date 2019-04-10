@@ -1,0 +1,175 @@
+#cart-actions {
+  margin-top: 20px;
+  padding-left: 15px;
+  font-size: 26px;
+
+  div, form {
+    display: inline-block;
+  }
+
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    margin: 5px 0 5px 20px;
+    font-size: 1em;
+  }
+}
+
+#checkout .action-required {
+  font-size: 0.66em;
+}
+
+.data-table {
+  padding: 10px;
+}
+
+.table-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  line-height: 34px;
+  border-top: 1px solid #CCCCCC;
+}
+
+.table-row:first-child {
+  border-top: 0;
+}
+
+.table-row {
+  form {
+    display: inline-block;
+  }
+
+  img,  {
+    object-fit: contain;
+    width: 20px;
+    height: 20px;
+    vertical-align: sub;
+  }
+
+  select {
+    height: 28px;
+    min-width: 36px;
+    background-color: #FFFFFF;
+  }
+}
+
+.cart-item {
+  div {
+    flex-grow: 1;
+  }
+
+  & > div > * {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+  }
+}
+
+.item-name, .item-merchant {
+  min-width: 180px;
+}
+
+.item-price {
+  min-width: 60px;
+}
+
+.item-subtotal {
+  min-width: 120px;
+}
+
+.merchant-item {
+  .item-id {
+    min-width: 35px;
+    margin-left: 20px;
+  }
+
+  .item-id::before {
+    content: '#';
+  }
+
+  .item-quantity {
+    min-width: 100px;
+  }
+
+  .item-quantity::before {
+    content: 'In stock: '
+  }
+
+  .item-price {
+    min-width: 150px;
+  }
+
+  .item-price::before {
+    content: 'List price: '
+  }
+
+  img, a, form {
+    padding: 0 5px;
+  }
+}
+
+.order-list {
+  .item-price {
+    min-width: 120px;
+  }
+
+  .item-quantity {
+    min-width: 150px;
+  }
+
+  .order-id {
+    min-width: 80px;
+  }
+
+  .order-created-at {
+    min-width: 240px;
+  }
+
+  .order-cost {
+    min-width: 120px;
+  }
+
+  .order-item-count {
+    min-width: 120px;
+  }
+}
+
+.merchant-list {
+  .merchant-name {
+    min-width: 120px;
+  }
+
+  .merchant-city {
+    min-width: 200px;
+  }
+
+  .merchant-register-date {
+    min-width: 310px;
+  }
+
+  .enable::before {
+    content: '\2611';
+    color: #009900;
+  }
+
+  .disable::before {
+    content: '\2612';
+    color: #990000;
+  }
+
+  a::before {
+    padding-right: 5px;
+  }
+}
+
+.user-list {
+  .user-name {
+    min-width: 120px;
+  }
+
+  .user-register-date {
+    min-width: 310px;
+  }
+}

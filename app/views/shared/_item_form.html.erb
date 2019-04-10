@@ -12,8 +12,8 @@
   <%= f.text_field :name %>
 </p>
 <p>
-  <%= f.label :description%>
-  <%= f.text_field :description %>
+  <%= f.label :description, class: 'textarea-label' %>
+  <%= f.text_area :description %>
 </p>
 <p>
   <%= f.label :image_url, "Image URL"%>
@@ -21,10 +21,10 @@
 </p>
 <p>
   <%= f.label :current_price, "Price" %>
-  <%= f.text_field :current_price %>
+  <%= f.number_field :current_price, class: 'currency', step: 0.01, min: 0.0 %>
 </p>
 <p>
-  <%= f.label :quantity%>
+  <%= f.label :quantity, "Inventory" %>
   <%= f.number_field :quantity %>
 </p>
 
