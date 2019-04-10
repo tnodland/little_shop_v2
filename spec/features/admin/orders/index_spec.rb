@@ -37,11 +37,9 @@ RSpec.describe 'As an Admin User' do
       observed = page.all('div', class:'order-row')
 
       observed.zip(desired).each do |obs, expected|
-        # binding.pry
         obs_id = obs[:id].split("-")[1].to_i
         expect(obs_id).to eq(expected.id)
       end
-
     end
 
     context 'can ship packaged orders' do
@@ -51,7 +49,6 @@ RSpec.describe 'As an Admin User' do
         visit admin_dashboard_path
 
         all_orders.each do |order|
-
           within "#order-#{order.id}" do
             if order.status == 'packaged'
               expect(page).to have_button("Ship")
@@ -73,9 +70,7 @@ RSpec.describe 'As an Admin User' do
           expect(page).to have_content("shipped")
           expect(page).not_to have_button("Ship")
         end
-
       end
     end
-
   end
 end
