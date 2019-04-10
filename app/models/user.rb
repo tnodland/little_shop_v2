@@ -61,6 +61,11 @@ class User < ApplicationRecord
     .sum("order_items.quantity")
   end
 
+  def pct_sold
+    inventory = items.sum(:quantity).to_f
+    items_sold/(inventory+items_sold) * 100
+  end
+
   def top_cities
     items
     .select("customers.state, customers.city, count(distinct orders.id) as order_count")

@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
     @admin = create(:admin)
 
     @merchant = create(:merchant)
-    @items = create_list(:item, 10,  user: @merchant, quantity: 8)
+    @items = create_list(:item, 10,  user: @merchant, quantity: 200)
 
     @user_wash = create(:user, name:"user_wash", state:"Washington", city:"Seattle")
     @user_2 = create(:user, name: "user_oregon", state:"Oregon")
@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
 
     @top_items_user = create(:user, name: "top_items_user")
     @big_order = create(:shipped_order, user: @top_items_user)
-    create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:900, order:@big_order)
+    create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:1463, order:@big_order)
 
     @shipped_orders_utah = create_list(:shipped_order,2, user: @utah_user)
     create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:@items[9], order:@shipped_orders_utah[0])
@@ -56,11 +56,11 @@ RSpec.describe User, type: :model do
     end
 
     it '.items_sold' do
-      expect(@merchant.items_sold).to eq(1437)
+      expect(@merchant.items_sold).to eq(2000)
     end
 
     it '.pct_sold' do
-      expect(Item.pct_sold(merchant)).to eq(90.0)
+      expect(@merchant.pct_sold).to eq(50.0)
     end
 
     it ".merchant_orders" do
@@ -111,12 +111,12 @@ RSpec.describe User, type: :model do
     it '.top_user_items' do
       actual = @merchant.top_user_items
       expect(actual.name).to eq(@top_items_user.name)
-      expect(actual.item_count).to eq(900)
+      expect(actual.item_count).to eq(1463)
     end
 
     it '.top_users_money' do
       expecteds = [{name: @top_orders_user.name, revenue: 2500.00},
-                   {name: @top_items_user.name, revenue: 900.00},
+                   {name: @top_items_user.name, revenue: 1463.00},
                    {name: @user_wash.name, revenue: 34.00}]
 
       actuals = @merchant.top_users_money
