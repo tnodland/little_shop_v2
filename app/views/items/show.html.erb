@@ -3,7 +3,7 @@
   <section class="item-details">
     <h1><%= @item.name %></h1>
     <h3>Seller: <%= @item.user.name %></h3>
-    <p><%= @item.description %></p>
+    <p><%= @item.description.gsub(/\n+/, '<br/><br/>').html_safe %></p>
     <p>Price: <%= number_to_currency(@item.current_price) %></p>
     <p>Number in stock: <%= @item.quantity %></p>
     <p>Average Processing Time: <%= @item.fullfillment_time %> Day(s)</p>

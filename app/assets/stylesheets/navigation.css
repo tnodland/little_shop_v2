@@ -5,6 +5,7 @@
   background-color: #FFFFFF;
   display: flex;
   justify-content: space-between;
+  z-index: 1000;
 }
 
 .main-nav a, .main-nav .nav-center {
