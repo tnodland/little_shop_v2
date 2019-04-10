@@ -145,5 +145,16 @@ RSpec.describe User, type: :model do
       expect(merchant1.total_revenue).to eq(25)
       expect(merchant2.total_revenue).to eq(50)
     end
+
+    it ".average_time" do
+      merchant = create(:merchant)
+      item = create(:item, user: merchant)
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+      create(:fast_fulfilled_order_item, order: order, item: item)
+      create(:slow_fulfilled_order_item, order: order, item: item)
+
+      expect(merchant.average_time).to eq(2)
+    end
   end
 end
