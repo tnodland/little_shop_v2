@@ -27,6 +27,14 @@ class Order < ApplicationRecord
     .distinct
   end
 
+  def self.largest_orders
+    joins(:order_items)
+    .select("orders.*, sum(order_items.quantity)as total_quantity")
+    .group(:id)
+    .order("total_quantity DESC")
+    .limit(3)
+  end
+
   def total_count
     self.order_items.sum(:quantity)
   end
@@ -77,6 +85,15 @@ class Order < ApplicationRecord
     .group("users.name")
     .order("revenue DESC")
     .limit(3)
+  end
+
+  def all_fulfilled?
+    ois = self.order_items.where(fulfilled: false).count
+    if ois == 0
+      true
+    else
+      false
+    end
   end
 
   private
