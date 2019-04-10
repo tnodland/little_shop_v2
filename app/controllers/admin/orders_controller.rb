@@ -1,10 +1,10 @@
 class Admin::OrdersController < Admin::BaseController
-  include Profile::OrdersController::UserOrder
+  include UserOrder
 
   def index
     @orders = Order.admin_ordered
   end
-  
+
   def cancel
     super(admin_dashboard_path)
   end

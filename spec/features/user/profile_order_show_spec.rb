@@ -14,11 +14,10 @@ RSpec.describe 'Profile Orders Show', type: :feature do
 
     it 'is linked to from the order index page' do
       visit profile_orders_path
-
       click_link "Order ID: #{@order_1.id}"
-
       expect(current_path).to eq("/profile/orders/#{@order_1.id}")
     end
+
     it 'shows information about the order' do
       visit profile_order_path(@order_1)
 
@@ -52,7 +51,7 @@ RSpec.describe 'Profile Orders Show', type: :feature do
       end
 
       expect(current_path).to eq(profile_path)
-      expect(page).to have_content("Your order has been cancelled")
+      expect(page).to have_content("The order has been cancelled")
 
       visit profile_order_path(@order_1)
 
