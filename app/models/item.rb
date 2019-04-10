@@ -9,7 +9,9 @@ class Item < ApplicationRecord
   has_many :orders, through: :order_items
 
   def self.enabled_items
-    where(enabled: true)
+    where(enabled: true, users: {enabled: true})
+    .joins(:user)
+    .select('items.*, users.name AS merchant_name')
   end
 
   def self.sort_sold(order)
