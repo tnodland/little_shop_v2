@@ -17,8 +17,14 @@ class Order < ApplicationRecord
     self.create(user: user, status: 'pending', cart: cart_contents)
   end
 
+  def self.admin_ordered
+    order("status=3, status=2, status=0, status=1", created_at: :desc)
+  end
+
   def self.find_by_merchant(merchant)
-    joins(:items).where("items.merchant_id = ?", merchant.id).distinct
+    joins(:items)
+    .where(items: {merchant_id: merchant.id})
+    .distinct
   end
 
   def self.largest_orders
@@ -35,6 +41,61 @@ class Order < ApplicationRecord
 
   def total_cost
     self.order_items.sum("quantity*ordered_price").to_f
+  end
+
+  def self.top_states(merchant)
+    select("users.state, count(distinct orders.id) as order_count")
+    .joins(:user)
+    .joins(items: :order_items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.state")
+    .order("order_count DESC")
+    .limit(3)
+  end
+
+  def self.top_cities(merchant)
+    select("users.state, users.city, count(distinct orders.id) as order_count")
+    .joins(:user)
+    .joins(items: :order_items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.state")
+    .group("users.city")
+    .order("order_count DESC")
+    .limit(3)
+  end
+
+  def self.top_user_orders(merchant)
+    select("users.name, count(distinct orders.id) as order_count")
+    .joins(:user)
+    .joins(items: :order_items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.id")
+    .order("order_count DESC").first
+  end
+
+
+  def self.top_user_items(merchant)
+    select("distinct users.name, sum(order_items.quantity) as item_count")
+    .joins(:user)
+    .joins(:order_items, :items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.name")
+    .order("item_count DESC").first
+  end
+
+  def self.top_users_money(merchant)
+    select("users.name, sum(order_items.quantity*order_items.ordered_price) as revenue")
+    .joins(:user)
+    .joins(:items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.name")
+    .order("revenue DESC")
+    .limit(3)
   end
 
   private

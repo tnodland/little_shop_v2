@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get '/users/:id/upgrade', to: "users#upgrade", as: 'upgrade_user'
     get '/merchants/:id/downgrade', to: "merchants#downgrade", as: 'downgrade_merchant'
     resources :merchants, only: [:index, :show]
+    resources :orders, only: [:update]
     patch '/merchant/:merchant_id/', to: "merchants#update", as: :merchant_change_status
   end
 
@@ -24,7 +25,9 @@ Rails.application.routes.draw do
   scope :dashboard, module: :merchants, as: :dashboard do
     resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
     get '/', to: 'orders#index'
+    get '/order/:id', to: 'orders#show', as: 'order'
   end
+  patch '/dashboard/:order/:item/fulfill', to: "merchants/orders#update", as: :fulfill_item
 
   get '/cart', to: 'carts#show'
   delete '/cart', to: 'carts#destroy'

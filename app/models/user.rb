@@ -6,13 +6,9 @@ class User < ApplicationRecord
                         :zip_code,
                         :email,
                         :role
-
-  # validates_presence_of :password, require: true
-  validates :password, presence: true, length: {minimum: 5, maximum: 120}, on: :create
-  validates :password, length: {minimum: 5, maximum: 120}, on: :update, allow_blank: true
+  validates :password, presence: true, length: {minimum: 5}, on: :create
+  validates :password, length: {minimum: 5}, on: :update, allow_blank: true
   validates_uniqueness_of :email
-
-  # validates_exclusion_of :enabled, in: [nil]
 
   has_many :orders
   has_many :items, foreign_key: "merchant_id"
@@ -65,7 +61,11 @@ class User < ApplicationRecord
   end
 
   def pending_orders
-    items.select("orders.id").joins(:orders).where("orders.status": 0).distinct.pluck("orders.id")
+    items.select("orders.id")
+         .joins(:orders)
+         .where(orders: {status: 0})
+         .distinct
+         .pluck("orders.id")
   end
 
   def average_time

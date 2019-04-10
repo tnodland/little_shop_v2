@@ -52,7 +52,7 @@ RSpec.describe 'Cart show page' do
     within "#cart-item-#{@item_1.id}" do
       expect(page).to have_selector('div', class:"item-name", text:@item_1.name)
       expect(page).to have_selector('div', class:"item-merchant", text:@item_1.user.name)
-      expect(page).to have_selector('div', class:"item-price", text:@item_1.current_price)
+      expect(page).to have_selector('div', class:"item-price", text:number_to_currency(@item_1.current_price))
       expect(page).to have_selector('div', class:"item-quantity", text:"1")
 
       expect(page).to have_xpath("//img[@src='#{@item_1.image_url}']")
@@ -74,7 +74,7 @@ RSpec.describe 'Cart show page' do
       expect(page).to have_button("Update")
       expect(page).to have_button("Remove")
 
-      expect(page).to have_selector('div', class:"item-subtotal", text:"#{@item_2.current_price * 2}")
+      expect(page).to have_selector('div', class:"item-subtotal", text:"#{number_to_currency(@item_2.current_price * 2)}")
     end
 
     within "#cart-item-#{@item_4.id}" do
@@ -88,13 +88,13 @@ RSpec.describe 'Cart show page' do
       expect(page).to have_button("Update")
       expect(page).to have_button("Remove")
 
-      expect(page).to have_selector('div', class:"item-subtotal", text:"#{@item_4.current_price * 4}")
+      expect(page).to have_selector('div', class:"item-subtotal", text:"#{number_to_currency(@item_4.current_price * 4)}")
     end
 
     expect(page).not_to have_selector('div', id:"cart-item-#{@item_3.id}")
 
-    total = @item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4)
-    expect(page).to have_selector('div', id:"cart-actions", text:total.round(2))
+    total = number_to_currency(@item_1.current_price + (@item_2.current_price * 2) + (@item_4.current_price * 4))
+    expect(page).to have_selector('div', id:"cart-actions", text:total)
   end
 
   it 'can update quantities of items in the cart' do
@@ -212,6 +212,6 @@ RSpec.describe 'partial for items in cart' ,type: :view do
     expect(rendered).to have_button("Update")
     expect(rendered).to have_button("Remove")
 
-    expect(rendered).to have_selector('div', class:"item-subtotal", text:"#{item.current_price * quantity}")
+    expect(rendered).to have_selector('div', class:"item-subtotal", text:"#{number_to_currency(item.current_price * quantity)}")
   end
 end
