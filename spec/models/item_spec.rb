@@ -63,38 +63,38 @@ RSpec.describe Item, type: :model do
     end
 
     it '.items_sold' do
-        merchant = create(:merchant)
-        items = create_list(:item, 10,  user: merchant, quantity: 8)
+      merchant = create(:merchant)
+      items = create_list(:item, 10,  user: merchant, quantity: 8)
 
-        user_wash = create(:user, name:"user_wash", state:"Washington", city:"Seattle")
-        user_2 = create(:user, name: "user_oregon", state:"Oregon")
-        utah_user = create(:user, name: "user_utah", state:"Utah", city: "nothere")
+      user_wash = create(:user, name:"user_wash", state:"Washington", city:"Seattle")
+      user_2 = create(:user, name: "user_oregon", state:"Oregon")
+      utah_user = create(:user, name: "user_utah", state:"Utah", city: "nothere")
 
-        top_orders_user = create(:user, name:"top_orders_user", state:"Utah")
-        many_orders = create_list(:shipped_order, 50, user:top_orders_user)
-        many_orders.each do |order|
-          create(:fulfilled_order_item, ordered_price: 5.0, item:items[1], quantity:10, order:order)
-        end
+      top_orders_user = create(:user, name:"top_orders_user", state:"Utah")
+      many_orders = create_list(:shipped_order, 50, user:top_orders_user)
+      many_orders.each do |order|
+        create(:fulfilled_order_item, ordered_price: 5.0, item:items[1], quantity:10, order:order)
+      end
 
-        top_items_user = create(:user, name: "top_items_user")
-        big_order = create(:shipped_order, user: top_items_user)
-        create(:fulfilled_order_item, ordered_price: 1.0, item:items[0], quantity:900, order:big_order)
+      top_items_user = create(:user, name: "top_items_user")
+      big_order = create(:shipped_order, user: top_items_user)
+      create(:fulfilled_order_item, ordered_price: 1.0, item:items[0], quantity:900, order:big_order)
 
-        shipped_orders_utah = create_list(:shipped_order,2, user: utah_user)
-        create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:items[9], order:shipped_orders_utah[0])
-        create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:items[9], order:shipped_orders_utah[1])
+      shipped_orders_utah = create_list(:shipped_order,2, user: utah_user)
+      create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:items[9], order:shipped_orders_utah[0])
+      create(:fulfilled_order_item, ordered_price: 0.1, quantity: 10, item:items[9], order:shipped_orders_utah[1])
 
-        shipped_orders_user_wash = create_list(:shipped_order,4, user: user_wash)
-        create(:fulfilled_order_item, ordered_price: 2.0, quantity: 4, item:items[2], order:shipped_orders_user_wash[0])
-        create(:fulfilled_order_item, ordered_price: 2.0, quantity: 3, item:items[3], order:shipped_orders_user_wash[1])
-        create(:fulfilled_order_item, ordered_price: 2.0, quantity: 9, item:items[9], order:shipped_orders_user_wash[2])
-        create(:fulfilled_order_item, ordered_price: 2.0, quantity: 1, item:items[8], order:shipped_orders_user_wash[3])
+      shipped_orders_user_wash = create_list(:shipped_order,4, user: user_wash)
+      create(:fulfilled_order_item, ordered_price: 2.0, quantity: 4, item:items[2], order:shipped_orders_user_wash[0])
+      create(:fulfilled_order_item, ordered_price: 2.0, quantity: 3, item:items[3], order:shipped_orders_user_wash[1])
+      create(:fulfilled_order_item, ordered_price: 2.0, quantity: 9, item:items[9], order:shipped_orders_user_wash[2])
+      create(:fulfilled_order_item, ordered_price: 2.0, quantity: 1, item:items[8], order:shipped_orders_user_wash[3])
 
-        order_1 = create(:order, user: user_wash)
-        order_2 = create(:order, user: user_2)
-        create(:fulfilled_order_item, item:items[0], order:order_1)
-        create(:fulfilled_order_item, item:items[0], order:order_2)
-        create(:fulfilled_order_item, item:items[1], order:order_2)
+      order_1 = create(:order, user: user_wash)
+      order_2 = create(:order, user: user_2)
+      create(:fulfilled_order_item, item:items[0], order:order_1)
+      create(:fulfilled_order_item, item:items[0], order:order_2)
+      create(:fulfilled_order_item, item:items[1], order:order_2)
 
       expect(Item.items_sold(merchant)).to eq(1437)
     end

@@ -45,6 +45,13 @@ class Item < ApplicationRecord
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
   end
 
+  def self.items_sold(merchant)
+    joins(orders: :order_items)
+    .where(user:merchant)
+    .where("orders.status = ?", 2)
+    .sum("order_items.quantity")
+  end
+
   def fullfillment_time
     order_items.where("order_items.fulfilled = true")
                .average("order_items.updated_at - order_items.created_at")
