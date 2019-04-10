@@ -30,9 +30,31 @@ class Item < ApplicationRecord
     .distinct
   end
 
+  def self.merchant_top_items(merchant)
+    select("items.*, sum(order_items.quantity) AS number")
+    .joins(orders: :order_items)
+    .where(user:merchant)
+    .where( "orders.status = ?", 2)
+    .group(:id)
+    .order("number DESC")
+    .limit(5)
+  end
+
   def total_sold
     orders.where("orders.status = ?", 2)
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
+  end
+
+  def self.items_sold(merchant)
+    joins(orders: :order_items)
+    .where(user:merchant)
+    .where("orders.status = ?", 2)
+    .sum("order_items.quantity")
+  end
+
+  def self.pct_sold(merchant)
+    in_stock = Item.where(user:merchant).sum(:quantity).to_f
+    ((1- (in_stock / (in_stock + items_sold(merchant))))*100).round(2)
   end
 
   def fullfillment_time
