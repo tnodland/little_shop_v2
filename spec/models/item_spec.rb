@@ -188,10 +188,6 @@ RSpec.describe Item, type: :model do
       create(:fast_fulfilled_order_item, order: @order2, item: @item2, quantity: 7, created_at: "Mon, 01 Apr 2019 14:11:25 UTC +00:00", updated_at: "Thu, 04 Apr 2019 14:11:25 UTC +00:00")
     end
 
-    it ".total_sold" do
-      expect(@item1.total_sold).to eq(15)
-    end
-
     it ".fullfillment_time" do
       expect(@item1.fullfillment_time).to eq(1)
     end

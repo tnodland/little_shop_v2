@@ -59,22 +59,24 @@ RSpec.describe "Items index page" do
 
       visit items_path
 
+
+
       within "#most-popular-items" do
         expect(page).to have_content("5 Most Popular Items:")
-        expect(page.all("#item")[0]).to have_content("#{item10.name}: #{item10.total_sold} sold")
-        expect(page.all("#item")[1]).to have_content("#{item9.name}: #{item9.total_sold} sold")
-        expect(page.all("#item")[2]).to have_content("#{item8.name}: #{item8.total_sold} sold")
-        expect(page.all("#item")[3]).to have_content("#{item7.name}: #{item7.total_sold} sold")
-        expect(page.all("#item")[4]).to have_content("#{item6.name}: #{item6.total_sold} sold")
+        expect(page.all("#item")[0]).to have_content("#{item10.name}: #{item10.quantity} sold")
+        expect(page.all("#item")[1]).to have_content("#{item9.name}: #{item9.quantity} sold")
+        expect(page.all("#item")[2]).to have_content("#{item8.name}: #{item8.quantity} sold")
+        expect(page.all("#item")[3]).to have_content("#{item7.name}: #{item7.quantity} sold")
+        expect(page.all("#item")[4]).to have_content("#{item6.name}: #{item6.quantity} sold")
       end
 
       within "#least-popular-items" do
         expect(page).to have_content("5 Least Popular Items:")
-        expect(page.all("#item")[0]).to have_content("#{@item1.name}: #{@item1.total_sold} sold")
-        expect(page.all("#item")[1]).to have_content("#{@item2.name}: #{@item2.total_sold} sold")
-        expect(page.all("#item")[2]).to have_content("#{@item3.name}: #{@item3.total_sold} sold")
-        expect(page.all("#item")[3]).to have_content("#{item4.name}: #{item4.total_sold} sold")
-        expect(page.all("#item")[4]).to have_content("#{item5.name}: #{item5.total_sold} sold")
+        expect(page.all("#item")[0]).to have_content("#{@item1.name}: #{@item1.quantity} sold")
+        expect(page.all("#item")[1]).to have_content("#{@item2.name}: #{@item2.quantity} sold")
+        expect(page.all("#item")[2]).to have_content("#{@item3.name}: #{@item3.quantity} sold")
+        expect(page.all("#item")[3]).to have_content("#{item4.name}: #{item4.quantity} sold")
+        expect(page.all("#item")[4]).to have_content("#{item5.name}: #{item5.quantity} sold")
       end
     end
   end
