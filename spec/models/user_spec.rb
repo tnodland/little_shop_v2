@@ -64,7 +64,6 @@ RSpec.describe User, type: :model do
                   {state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
       actuals = @merchant.top_states
-      binding.pry
       actuals.zip(expecteds).each do |actual, expected|
         expect(actual.state).to eq(expected[:state])
         expect(actual.order_count).to eq(expected[:orders])

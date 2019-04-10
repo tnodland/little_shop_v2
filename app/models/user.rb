@@ -78,6 +78,17 @@ class User < ApplicationRecord
     .first
   end
 
+  def top_users_money
+    items
+    .select("customers.name, sum(order_items.quantity * order_items.ordered_price) as revenue")
+    .joins(:orders)
+    .joins('INNER JOIN "users" as "customers" ON "customers"."id" = "orders"."user_id"')
+    .where("orders.status = 2")
+    .group("customers.name")
+    .order("revenue DESC")
+    .limit(3)
+  end
+
   def pending_orders
     items.select("orders.id")
          .joins(:orders)
