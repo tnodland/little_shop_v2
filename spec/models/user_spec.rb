@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before :each do
+  before :each, big_setup: true do
     @user = create(:user)
     @merchant1 = create(:merchant)
     @merchant2 = create(:merchant)
@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'instance methods' do
-    it ".top_merchant_items" do
+    it ".top_merchant_items" , :big_setup do
 
       top_items_actual = @merchant.top_items
       top_items_expected = [@items[0], @items[1], @items[9], @items[2], @items[3]]
@@ -55,11 +55,11 @@ RSpec.describe User, type: :model do
 
     end
 
-    it '.items_sold' do
+    it '.items_sold', :big_setup  do
       expect(@merchant.items_sold).to eq(2000)
     end
 
-    it '.pct_sold' do
+    it '.pct_sold', :big_setup  do
       expect(@merchant.pct_sold).to eq(50.0)
     end
 
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
       expect(merchant2.merchant_orders[0].id).to eq(order2.id)
     end
 
-    it '.top_states' do
+    it '.top_states', :big_setup  do
       expecteds = [{state:"Utah", orders:52},
                   {state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
@@ -89,7 +89,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    it '.top_cities' do
+    it '.top_cities', :big_setup  do
       expecteds = [{city: "Testville", state:"Utah", orders:50},
                   {city: "Seattle", state:"Washington", orders:4},
                   {city: "nothere", state:"Utah", orders:2}]
@@ -102,19 +102,19 @@ RSpec.describe User, type: :model do
       end
     end
 
-    it '.top_user_orders' do
+    it '.top_user_orders', :big_setup  do
       actual = @merchant.top_user_orders
       expect(actual.name).to eq(@top_orders_user.name)
       expect(actual.order_count).to eq(50)
     end
 
-    it '.top_user_items' do
+    it '.top_user_items', :big_setup  do
       actual = @merchant.top_user_items
       expect(actual.name).to eq(@top_items_user.name)
       expect(actual.item_count).to eq(1463)
     end
 
-    it '.top_users_money' do
+    it '.top_users_money', :big_setup  do
       expecteds = [{name: @top_orders_user.name, revenue: 2500.00},
                    {name: @top_items_user.name, revenue: 1463.00},
                    {name: @user_wash.name, revenue: 34.00}]
@@ -171,11 +171,11 @@ RSpec.describe User, type: :model do
 
   describe "class methods" do
 
-    it ".active_merchants" do
+    it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
     end
 
-    it ".all_merchants" do
+    it ".all_merchants", :big_setup  do
       expect(User.all_merchants).to eq([@merchant1, @merchant2, @merchant3, @im, @merchant])
     end
 
@@ -261,24 +261,24 @@ RSpec.describe User, type: :model do
   describe "instance methods" do
     describe '.pending_orders' do
       it 'retrieves all of the orders which are pending' do
-        @merchants = create_list(:merchant,2)
+        merchants = create_list(:merchant,2)
 
-        @users = create_list(:user, 2)
-        @items = create_list(:item, 2,  user: @merchants[0])
-        @other_item = create(:item, user: @merchants[1])
-        @orders = create_list(:order,3)
-        @shipped_order = create(:shipped_order)
-        @packaged_order = create(:packaged_order)
+        users = create_list(:user, 2)
+        items = create_list(:item, 2,  user: merchants[0])
+        other_item = create(:item, user: merchants[1])
+        orders = create_list(:order,3)
+        shipped_order = create(:shipped_order)
+        packaged_order = create(:packaged_order)
 
-        @order_items_1 = create(:order_item, item:@items[0], order:@orders[0])
-        @order_items_2 = create(:order_item, item:@items[0], order:@orders[1])
-        @order_items_3 = create(:order_item, item:@items[1], order:@orders[1])
-        @order_items_4 = create(:order_item, item:@other_item, order:@orders[2])
-        @order_items_5 = create(:order_item, item:@items[1], order:@shipped_order)
-        @order_items_6 = create(:order_item, item:@items[1], order:@packaged_order)
+        order_items_1 = create(:order_item, item:items[0], order:orders[0])
+        order_items_2 = create(:order_item, item:items[0], order:orders[1])
+        order_items_3 = create(:order_item, item:items[1], order:orders[1])
+        order_items_4 = create(:order_item, item:other_item, order:orders[2])
+        order_items_5 = create(:order_item, item:items[1], order:shipped_order)
+        order_items_6 = create(:order_item, item:items[1], order:packaged_order)
 
 
-        expect(@merchants[0].pending_orders).to eq(@orders[0..1].map{|o| o.id})
+        expect(merchants[0].pending_orders).to eq(orders[0..1].map{|o| o.id})
       end
     end
 
