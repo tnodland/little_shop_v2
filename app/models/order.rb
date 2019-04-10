@@ -46,12 +46,3 @@ class Order < ApplicationRecord
   end
 
 end
-
-Order.order(%q{
-  CASE status
-  WHEN "packaged" THEN '1'
-  WHEN 'pending' THEN '2'
-  WHEN 'shipped' THEN '3'
-  WHEN 'cancelled' THEN '4'
-  END
-})
