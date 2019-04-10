@@ -97,6 +97,22 @@ RSpec.describe Order, type: :model do
       expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
 
+    it ".largest_orders" do
+      merchant1 = create(:merchant)
+      shopper = create(:user)
+      item1 = create(:item, quantity: 100, user: merchant1)
+      order1 = create(:shipped_order, user: shopper)
+      order2 = create(:shipped_order, user: shopper)
+      order3 = create(:shipped_order, user: shopper)
+      order4 = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, order: order1, item: item1, quantity: 20)
+      create(:fulfilled_order_item, order: order2, item: item1, quantity: 15)
+      create(:fulfilled_order_item, order: order3, item: item1, quantity: 10)
+      create(:fulfilled_order_item, order: order4, item: item1, quantity: 5)
+
+      expect(Order.largest_orders).to eq([order1, order2, order3])
+    end
+
     it '.top_states', shared_setup: true do
       expecteds = [{state:"Utah", orders:52},
                   {state:"Washington", orders:4},
@@ -170,6 +186,23 @@ RSpec.describe Order, type: :model do
         create(:order_item, quantity: 5, ordered_price: 5.0, order: order, item: item)
 
         expect(order.total_cost).to eq(75.0)
+      end
+    end
+
+    describe '.all_fulfilled?' do
+      it 'checks to see if all order_items have been fulfilled' do
+        order = create(:order)
+        item1 = create(:item)
+        item2 = create(:item)
+        oi1 = create(:order_item, item: item1, order: order, fulfilled: true)
+        oi2 = create(:order_item, item: item2, order: order)
+
+        expect(order.all_fulfilled?).to eq(false)
+
+        oi2.fulfilled = true
+        oi2.save
+
+        expect(order.all_fulfilled?).to eq(true)
       end
     end
   end

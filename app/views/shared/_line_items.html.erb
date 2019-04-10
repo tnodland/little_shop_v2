@@ -1,0 +1,8 @@
+<section class="order-item" id="item-<%= line.item.id %>">
+  <%= image_tag "#{line.item.image_url.gsub('500x500', '100x100')}", size: "100x100" %>
+  <span class="item-name">Item: <%= link_to line.item.name, item_path(line.item.id) %></span><br>
+  <span class="item-price">Individual Price: <%= number_to_currency(line.ordered_price) %></span>
+  <span class="item-quantity">QTY: <%= line.quantity %></span>
+  <span class="item-subtotal">Subtotal: <%= number_to_currency(line.subtotal) %></span><br>
+  <span class="item-description">Description: <%= line.item.description.gsub(/(.{125}).{4,}/m,'\1…') %></span>
+</section>

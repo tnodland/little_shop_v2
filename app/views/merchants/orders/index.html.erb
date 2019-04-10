@@ -10,35 +10,35 @@
     <h3>Top Stats</h3>
     <ul class="top-stats">
     <li id="percent-sold">
-      You have sold <%= @items_sold %> items, which is <%= @pct_sold %>% of your inventory
+      You have sold <%= @merchant.items_sold %> items, which is <%= @merchant.pct_sold %>% of your inventory
     </li>
 
-    <% if @top_user_orders %>
+    <% if @merchant.top_user_orders %>
     <li id="top-user-orders">
-      <%= @top_user_orders.name %> has made the most orders with you, with <%= @top_user_orders.order_count %> orders
+      <%= @merchant.top_user_orders.name %> has made the most orders with you, with <%= @merchant.top_user_orders.order_count %> orders
     </li>
     <% end %>
 
-    <% if @top_user_items %>
+    <% if @merchant.top_user_items %>
     <li id="top-user-items">
-      <%= @top_user_items.name %> has ordered the most items from you, with <%= @top_user_items.item_count %> items ordered
+      <%= @merchant.top_user_items.name %> has ordered the most items from you, with <%= @merchant.top_user_items.item_count %> items ordered
     </li>
     <% end %>
     </ul>
 
-    <% if @top_merchant_items %><div id="popular-items">
+    <% if @merchant.top_items %><div id="popular-items">
       <ul>
         <h3>Top-performing Items</h3>
-        <%@top_merchant_items.each do |item|  %>
+        <%@merchant.top_items.each do |item|  %>
         <li class="item"><%= render 'shared/admin_item', item:item %></li>
         <% end %>
       </ul>
     </div><% end %>
 
-    <% if @top_states %><div id="top-states">
+    <% if @merchant.top_states %><div id="top-states">
       <h3>Top States</h3>
       <ul>
-      <% @top_states.each do |state|%>
+      <% @merchant.top_states.each do |state|%>
         <li class="state">
           <%= state.state %>: <%= state.order_count %> orders
         </li>
@@ -46,10 +46,10 @@
       </ul>
     </div><% end %>
 
-    <% if @top_cities %><div id="top-cities">
+    <% if @merchant.top_cities %><div id="top-cities">
       <h3>Top Cities</h3>
       <ul>
-      <% @top_cities.each do |city|%>
+      <% @merchant.top_cities.each do |city|%>
         <li class="city">
           <%= city.city %>, <%= city.state %>: <%= city.order_count %> orders
         </li>
@@ -57,9 +57,9 @@
       </ul>
     </div><% end %>
 
-    <% if @top_users_money %><div id="top-users-money">
+    <% if @merchant.top_users_money %><div id="top-users-money">
       <h3>Highest Spending Customers</h3>
-      <% @top_users_money.each do |user|%>
+      <% @merchant.top_users_money.each do |user|%>
         <li class="user">
           <%= user.name %>: <%= number_to_currency(user.revenue) %>
         </li>

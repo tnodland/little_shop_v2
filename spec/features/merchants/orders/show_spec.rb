@@ -72,5 +72,32 @@ RSpec.describe "order show page" do
         expect(page).to have_content("You do not have enough #{item.name} to fulfill this order, please update your stock")
       end
     end
+
+    it "will set an order to 'packaged' when all items are fulfilled" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
+
+      visit dashboard_order_path(@order)
+
+      within "#ordered-item-#{@item1.id}" do
+        click_link("Fullfill this item")
+      end
+
+      visit dashboard_order_path(@order)
+
+      within "#ordered-item-#{@item3.id}" do
+        click_link("Fullfill this item")
+      end
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant2)
+
+      visit dashboard_order_path(@order)
+
+      within "#ordered-item-#{@item2.id}" do
+        click_link("Fullfill this item")
+      end
+
+      actual_order = Order.first.packaged?
+      expect(actual_order).to eq(true)
+    end
   end
 end

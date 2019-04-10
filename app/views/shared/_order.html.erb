@@ -1,0 +1,15 @@
+<section class="table-row user-orders" id="order-info">
+  <span class="order-id">Order ID: <%= @order.id %></span>
+  <span class="order-status">Order Status: <%= @order.status %></span>
+  <span class="order-quantity">QTY of Items: <%= @order.total_count %></span>
+  <span class="order-total">Grand Total: <%= number_to_currency(@order.total_cost) %></span>
+  <span class="order-placed">Order Placed: <%= @order.created_at.strftime("%m/%d/%Y") %></span>
+  <span class="order-updated">Last Updated: <%= @order.updated_at.strftime("%m/%d/%Y") %></span>
+  <% if @order.pending? %>
+    <%= button_to "Cancel Order" %>
+  <% end %>
+</section>
+
+<% order.order_items.each do |line| %>
+  <%= render 'shared/line_items', line:line %>
+<% end %>
