@@ -90,6 +90,15 @@ class Order < ApplicationRecord
     .limit(3)
   end
 
+  def all_fulfilled?
+    ois = self.order_items.where(fulfilled: false).count
+    if ois == 0
+      true
+    else
+      false
+    end
+  end
+
   private
 
   def add_items(cart)
