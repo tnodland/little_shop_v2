@@ -1,0 +1,8 @@
+<section id="item-<%= line.item.id %>">
+  <%= image_tag "#{line.item.image_url}", size: "100x100" %>
+  <p>Item: <%= line.item.name %></p>
+  <p>Individual Price: <%=  %></p>
+  <p>Description: <%= line.item.description %></p>
+  <p>QTY: <%= line.quantity %></p>
+  <p>Subtotal: <%= line.subtotal %></p>
+</section>
