@@ -22,7 +22,7 @@
       <section class="item-card card shadowed-box" id="item-<%= item.id %>">
         <%= link_to item_path(item) do %>
           <h3><%= item.name %></h3>
-          <%= image_tag "#{item.image_url}", size: "100x100" %>
+          <%= image_tag "#{item.image_url.gsub('500x500', '100x100')}", size: "100x100" %>
         <% end %>
         <p>Sold by: <%= item.merchant_name %></p>
         <p>Number in stock: <%= item.quantity %></p>
