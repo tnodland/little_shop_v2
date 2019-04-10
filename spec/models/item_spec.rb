@@ -53,7 +53,7 @@ RSpec.describe Item, type: :model do
       order_items_3 = create(:fulfilled_order_item, item:items[1], order:order_2)
 
       top_items_actual = Item.merchant_top_items(merchant)
-      top_items_expected = [@items[0], @items[1], @items[9], @items[2], @items[3]]
+      top_items_expected = [items[0], items[1], items[9], items[2], items[3]]
 
       top_items_actual.zip(top_items_expected).each do |actual, expected|
         expect(actual.id).to eq(expected.id)

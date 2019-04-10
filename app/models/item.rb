@@ -30,6 +30,16 @@ class Item < ApplicationRecord
     .distinct
   end
 
+  def self.merchant_top_items(merchant)
+    select("items.*, sum(order_items.quantity) AS number")
+    .joins(orders: :order_items)
+    .where(user:merchant)
+    .where( "orders.status = ?", 2)
+    .group(:id)
+    .order("number DESC")
+    .limit(5)
+  end
+
   def total_sold
     orders.where("orders.status = ?", 2)
                .sum('order_items.quantity') #check that order status is 'shipped' joins with orders
