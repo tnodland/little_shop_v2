@@ -22,7 +22,7 @@ E-Mail: <%= @merchant.email %>
   <div id=top-states>
     <% @top_states.each do |state|%>
       <li class=state>
-        <%= state %>
+        <%= state.state %>: <%=state.order_count%>
       </li>
     <%end%>
   </div>

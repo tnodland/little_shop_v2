@@ -1,6 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
+
+  before :each do
+    @merchant = create(:merchant)
+    @items = create_list(:item, 10,  user: @merchant, quantity: 8)
+
+    @user_wash = create(:user, state:"Washington", city:"Seattle")
+    @user_2 = create(:user, state:"Oregon")
+    @utah_user = create(:user, state:"Utah", city: "nothere")
+
+    @top_orders_user = create(:user, state:"Utah")
+    @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
+    @many_orders.each do |order|
+      create(:fulfilled_order_item, item:@items[1], quantity:10, order:order)
+    end
+
+    @top_items_user = create(:user)
+    @big_order = create(:shipped_order, user: @top_items_user)
+    create(:fulfilled_order_item, item:@items[0], quantity:900, order:@big_order)
+
+
+    @shipped_orders_utah = create_list(:shipped_order,2, user: @utah_user)
+    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 42, item:@items[9], order:@shipped_orders_utah[0])
+    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 42, item:@items[9], order:@shipped_orders_utah[1])
+
+    @shipped_orders_user_wash = create_list(:shipped_order,4, user: @user_wash)
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 4, item:@items[2], order:@shipped_orders_user_wash[0])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[1])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 9, item:@items[9], order:@shipped_orders_user_wash[2])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[3])
+
+    @order_1 = create(:order, user: @user_wash)
+    @order_2 = create(:order, user: @user_2)
+    create(:fulfilled_order_item, item:@items[0], order:@order_1)
+    create(:fulfilled_order_item, item:@items[0], order:@order_2)
+    create(:fulfilled_order_item, item:@items[1], order:@order_2)
+  end
+
   describe 'validations' do
     it {should validate_presence_of :user_id}
     it {should validate_presence_of :status}
@@ -48,41 +85,22 @@ RSpec.describe Order, type: :model do
     end
 
     it '.top_states' do
-      merchant = create(:merchant)
-      items = create_list(:item, 10,  user: merchant, quantity: 8)
 
-      user_wash = create(:user, state:"Washington", city:"Seattle")
-      user_2 = create(:user, state:"Oregon")
-      utah_user = create(:user, state:"Utah", city: "nothere")
-
-      top_orders_user = create(:user, state:"Utah")
-      many_orders = create_list(:shipped_order, 50, user:top_orders_user)
-      many_orders.each do |order|
-        create(:fulfilled_order_item, item:items[1], quantity:10, order:order)
-      end
-
-      top_items_user = create(:user)
-      big_order = create(:shipped_order, user: top_items_user)
-      create(:fulfilled_order_item, item:items[0], quantity:900, order:big_order)
-
-
-      shipped_order_utah = create(:shipped_order, user: utah_user)
-      create(:fulfilled_order_item, ordered_price: 0.1, quantity: 83, item:items[9], order:shipped_order_utah)
-
-      shipped_orders_user_wash = create_list(:shipped_order,4, user: user_wash)
-      create(:fulfilled_order_item, ordered_price: 3.0, quantity: 4, item:items[2], order:shipped_orders_user_wash[0])
-      create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:items[3], order:shipped_orders_user_wash[1])
-      create(:fulfilled_order_item, ordered_price: 3.0, quantity: 9, item:items[9], order:shipped_orders_user_wash[2])
-      create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:items[8], order:shipped_orders_user_wash[3])
-
-      order_1 = create(:order, user: user_wash)
-      order_2 = create(:order, user: user_2)
-      create(:fulfilled_order_item, item:items[0], order:order_1)
-      create(:fulfilled_order_item, item:items[0], order:order_2)
-      create(:fulfilled_order_item, item:items[1], order:order_2)
-
-      expecteds = [{state:"Utah", orders:51},
+      expecteds = [{state:"Utah", orders:52},
                   {state:"Washington", orders:4},
+                  {state:"Colorado", orders:1}]
+      actuals = Order.top_states(@merchant)
+      
+      actuals.zip(expecteds).each do |actual, expected|
+        expect(actual.state).to eq(expected[:state])
+        expect(actual.order_count).to eq(expected[:orders])
+      end
+    end
+
+    it '.top_cities' do
+
+      expecteds = [{city: "Testville", state:"Utah", orders:50},
+                  {city: "Seattle", state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
       actuals = Order.top_states(merchant)
 
@@ -93,8 +111,6 @@ RSpec.describe Order, type: :model do
         expect(actual.order_count).to eq(expected[:orders])
       end
     end
-
-    it '.top_cities'
 
     it '.top_user_orders'
 
