@@ -79,7 +79,6 @@ RSpec.describe Order, type: :model do
       desired_order =  packaged_orders + pending_orders + shipped_orders + cancelled_orders
 
       actual_order = Order.admin_ordered
-      # binding.pry
       actual_order.zip(desired_order).each do |actual, desired|
         expect(actual.id).to eq(desired.id)
       end
@@ -101,7 +100,6 @@ RSpec.describe Order, type: :model do
     end
 
     it '.top_states' do
-
       expecteds = [{state:"Utah", orders:52},
                   {state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
@@ -114,7 +112,6 @@ RSpec.describe Order, type: :model do
     end
 
     it '.top_cities' do
-
       expecteds = [{city: "Testville", state:"Utah", orders:50},
                   {city: "Seattle", state:"Washington", orders:4},
                   {city: "nothere", state:"Utah", orders:2}]
@@ -147,7 +144,6 @@ RSpec.describe Order, type: :model do
       actuals = Order.top_users_money(@merchant)
 
       actuals.zip(expecteds).each do |actual, expected|
-
         expect(actual.name).to eq(expected[:name])
         expect(actual.revenue).to eq(expected[:revenue])
       end
