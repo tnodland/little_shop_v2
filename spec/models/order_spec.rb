@@ -46,7 +46,44 @@ RSpec.describe Order, type: :model do
       expect(Order.find_by_merchant(merchant1)).to eq([order])
       expect(Order.find_by_merchant(merchant2)).to eq([order2])
     end
+
+    it '.top_states' do
+      merchant = create(:merchant)
+      items = create_list(:item, 10,  user: merchant, quantity: 8)
+
+      user_wash = create(:user, state:"Washington", city:"Seattle")
+      user_2 = create(:user, state:"Oregon")
+      utah_user = create(:user, state:"Utah", city: "nothere")
+
+      top_orders_user = create(:user, state:"Utah")
+      many_orders = create_list(:shipped_order, 50, user:top_orders_user)
+
+      top_items_user = create(:user)
+      big_order = create(:shipped_order, user: top_items_user)
+
+      shipped_order_utah = create(:shipped_order, user: utah_user)
+
+      shipped_orders_user_wash = create_list(:shipped_order,2, user: user_wash)
+
+      order_1 = create(:order, user: user_wash)
+      order_2 = create(:order, user: user_2)
+      expected = [{state:"Utah", orders:51},
+                  {state:"Washington", orders:2},
+                  {state:"Colorado", orders:1}]
+      actual = Order.top_states
+      expect(actual).to eq(expected)
+    end
+
+    it '.top_cities'
+
+    it '.top_user_orders'
+
+    it '.top_user_items'
+
+    it '.top_users_money'
   end
+
+
   describe 'instance methods' do
     describe '.total_count' do
       it 'totals the items of a particular order' do
