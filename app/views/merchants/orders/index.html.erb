@@ -38,7 +38,7 @@
           </li>
         <%end%>
     </div>
-
+    <%if @merchant.top_user_items%>
       <div id=top-user-orders>
         <%= @merchant.top_user_orders.name%>: <%= @merchant.top_user_orders.order_count%> orders
       </div>
@@ -46,6 +46,7 @@
       <div id=top-user-items>
         <%= @merchant.top_user_items.name%>: <%= @merchant.top_user_items.item_count%> items
       </div>
+      <%end%>
 
     <div id=top-users-money>
         <% @merchant.top_users_money.each do |user|%>
@@ -58,7 +59,7 @@
   <div>
 
   <section class="data-table order-list">
-  <% @merchant.merchant_orders.each do |order| %>
+  <% @orders.each do |order| %>
     <%= render 'shared/pending_order', order:order %>
   <% end %>
   </section>
