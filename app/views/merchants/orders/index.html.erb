@@ -16,27 +16,39 @@ E-Mail: <%= @merchant.email %>
   </div>
 
   <div id=percent-sold>
-    <%= %>
+    <%= %> items sold, which is <%= %>% of your inventory
   </div>
 
   <div id=top-states>
-    <%= %>
+    <% @top_states.each do |state|%>
+      <li class=state>
+        <%= state %>
+      </li>
+    <%end%>
   </div>
 
   <div id=top-cities>
-    <%= %>
+    <% @top_cities.each do |city|%>
+      <li class=city>
+        <%= city.city%>, <%= city.state%>
+      </li>
+    <%end%>
   </div>
 
   <div id=top-user-orders>
-    <%= %>
+    <%= @top_user_orders.name%>: <%= @top_users_orders.quantity%> orders
   </div>
 
   <div id=top-user-items>
-    <%= %>
+    <%= @top_user_items.name%>: <%= @top_users_items.quantity%> items
   </div>
 
-  <div id=top-user-money>
-    <%= %>
+  <div id=top-users-money>
+    <% @top_users_money.each do |user|%>
+      <li class=user>
+        <%=user.name %>: <%=number_to_currency(user.money) %>
+      </li>
+    <%end%>
   </div>
 <div>
 
