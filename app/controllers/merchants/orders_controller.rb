@@ -2,6 +2,8 @@ class Merchants::OrdersController < Merchants::BaseController
   def index
     @merchant = User.find(current_user.id)
     @orders = Order.find_by_merchant(@merchant).where(status: 0)
+    @top_merchant_items = Item.merchant_top_items(@merchant)
+
   end
 
   def show

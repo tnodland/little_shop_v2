@@ -10,9 +10,9 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     @utah_user = create(:user, state:"Utah", city: "nothere")
 
     @top_orders_user = create(:user, state:"Utah")
-    @many_orders = create_list(:shipped_order, 500, user:@top_orders_user)
+    @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
     @many_orders.each do |order|
-      create(:fulfilled_order_item, item:@items[1], quantity:1, order:order)
+      create(:fulfilled_order_item, item:@items[1], quantity:10, order:order)
     end
 
     @top_items_user = create(:user)
@@ -20,20 +20,19 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     create(:fulfilled_order_item, item:@items[0], quantity:1000, order:@big_order)
 
     @shipped_order_utah = create(:shipped_order, user: @utah_user)
-    @order_items_7 = create(:fulfilled_order_item, quantity: 83, item:@items[10], order:@shipped_order_utah)
+    create(:fulfilled_order_item, ordered_price: 0.1, quantity: 83, item:@items[9], order:@shipped_order_utah)
 
-    @shipped_orders_user_wash = create_list(:shipped_order,2, user: @user_wash)
-    @order_items_4 = create(:fulfilled_order_item, ordered_proce: 3.0, quantity: 4, item:@items[2], order:@shipped_orders_user_wash[0])
-    @order_items_5 = create(:fulfilled_order_item, ordered_proce: 3.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[1])
-    @order_items_6 = create(:fulfilled_order_item, ordered_proce: 3.0, quantity: 9, item:@items[10], order:@shipped_orders_user_wash[0])
-    @order_items_6 = create(:fulfilled_order_item, ordered_proce: 3.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[1])
+    @shipped_orders_user_wash = create_list(:shipped_order,4, user: @user_wash)
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 9, item:@items[9], order:@shipped_orders_user_wash[0])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 4, item:@items[2], order:@shipped_orders_user_wash[1])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[2])
+    create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[3])
 
     @order_1 = create(:order, user: @user_wash)
     @order_2 = create(:order, user: @user_2)
-    @order_items_1 = create(:fulfilled_order_item, item:@items[0], order:@order_1)
-    @order_items_2 = create(:fulfilled_order_item, item:@items[0], order:@order_2)
-    @order_items_3 = create(:fulfilled_order_item, item:@items[1], order:@order_2)
-
+    create(:fulfilled_order_item, item:@items[0], order:@order_1)
+    create(:fulfilled_order_item, item:@items[0], order:@order_2)
+    create(:fulfilled_order_item, item:@items[1], order:@order_2)
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
@@ -42,12 +41,13 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     visit dashboard_path
     within ".stats" do
       within "#popular-items" do
+        # binding.pry
         items = page.all("li", class:"item")
-        expect(items[0]).to have_content("#{@item[0].name}: 1000 sold")
-        expect(items[1]).to have_content("#{@item[1].name}: 500 sold")
-        expect(items[2]).to have_content("#{@item[10].name}: 92 sold")
-        expect(items[3]).to have_content("#{@item[2].name}: 4 sold")
-        expect(items[4]).to have_content("#{@item[3].name}: 3 sold")
+        expect(items[0]).to have_content("#{@items[0].name}: 1000 sold")
+        expect(items[1]).to have_content("#{@items[1].name}: 500 sold")
+        expect(items[2]).to have_content("#{@items[9].name}: 92 sold")
+        expect(items[3]).to have_content("#{@items[2].name}: 4 sold")
+        expect(items[4]).to have_content("#{@items[3].name}: 3 sold")
       end
     end
   end
@@ -66,8 +66,8 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     within ".stats" do
       within "#top-states" do
         states = page.all("li", class:"state")
-        expect(states[0]).to have_content("Utah: 501 orders")
-        expect(states[1]).to have_content("Washington: 2 orders")
+        expect(states[0]).to have_content("Utah: 51 orders")
+        expect(states[1]).to have_content("Washington: 4 orders")
         expect(states[2]).to have_content("Colorado: 1 orders")
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
       within "#top-states" do
         city = page.all("li", class:"city")
         expect(city[0]).to have_content("Testville, Utah: 500 orders")
-        expect(city[1]).to have_content("Seattle, Washington: 2 orders")
+        expect(city[1]).to have_content("Seattle, Washington: 4 orders")
         expect(city[2]).to have_content("Testville, Colorado: 1 order")
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     visit dashboard_path
     within ".stats" do
       within "#top-user-orders" do
-        expect(page).to have_content("#{@top_orders_user.name}: 500 orders)
+        expect(page).to have_content("#{@top_orders_user.name}: 500 orders")
       end
     end
   end
