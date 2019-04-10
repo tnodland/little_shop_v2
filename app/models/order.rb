@@ -40,6 +40,18 @@ class Order < ApplicationRecord
     .limit(3)
   end
 
+  def self.top_cities(merchant)
+    select("users.state, count(distinct orders.id) as order_count")
+    .joins(:user)
+    .joins(items: :order_items)
+    .where("items.merchant_id = #{merchant.id}")
+    .where(status: :shipped)
+    .group("users.state")
+    .group("users.city")
+    .order("order_count DESC")
+    .limit(3)
+  end
+
   private
 
   def add_items(cart)
