@@ -90,7 +90,7 @@ RSpec.describe Order, type: :model do
                   {state:"Washington", orders:4},
                   {state:"Colorado", orders:1}]
       actuals = Order.top_states(@merchant)
-      
+
       actuals.zip(expecteds).each do |actual, expected|
         expect(actual.state).to eq(expected[:state])
         expect(actual.order_count).to eq(expected[:orders])
@@ -101,10 +101,9 @@ RSpec.describe Order, type: :model do
 
       expecteds = [{city: "Testville", state:"Utah", orders:50},
                   {city: "Seattle", state:"Washington", orders:4},
-                  {state:"Colorado", orders:1}]
-      actuals = Order.top_states(merchant)
+                  {city: "nothere", state:"Utah", orders:2}]
+      actuals = Order.top_cities(@merchant)
 
-      binding.pry
       actuals.zip(expecteds).each do |actual, expected|
 
         expect(actual.state).to eq(expected[:state])
