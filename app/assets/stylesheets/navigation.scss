@@ -1,0 +1,44 @@
+.main-nav {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+
+  a, .nav-center {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #000000;
+  }
+
+  a:visited {
+    color: #666666;
+  }
+
+  a:hover {
+    background-color: #DDDDDD;
+    color: #000000;
+  }
+
+  a.home-link {
+    background-color: #DD0000;
+    color: #FFFFFF;
+  }
+
+  a.home-link:hover {
+    background-color: #BB0000;
+    color: #FFFFFF;
+  }
+
+  span {
+    display: inline-block;
+  }
+}
+
+
+main {
+  margin: 65px 15px 10px;
+  position: relative;
+}
