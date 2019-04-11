@@ -1,7 +1,7 @@
-<div class="order-row" id=<%="order-#{order.id}"%>>
+<div class="table-row admin-order-list" id=<%="order-#{order.id}"%>>
   <span class="order-id"><%= link_to "Order ID: #{order.id}", admin_user_order_path(order.user_id, order.id) %></span>
   <span class="order-status"><%= order.status %></span>
-  <span class="order-user"><%= link_to order.user.id, admin_user_path(order.user) %></span>
+  <span class="order-user"><%= link_to "User ID: #{order.user.id}", admin_user_path(order.user) %></span>
   <span class="order-creation"><%= order.created_at %></span>
   <div class="actions">
     <% if order.status == 'packaged' %>
