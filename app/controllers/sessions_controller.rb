@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:email].downcase)
-    if @user&.authenticate(params[:password])
+    if @user&.authenticate(params[:password]) && @user.enabled?
       session[:user_id] = @user.id.to_s
       login_redirect("You are now logged in.")
     else
