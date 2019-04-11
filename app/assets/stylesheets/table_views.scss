@@ -136,6 +136,28 @@
   }
 }
 
+.admin-order-list {
+  .order-id, .order-user {
+    min-width: 100px;
+  }
+
+  .order-status {
+    min-width: 80px;
+  }
+
+  .order-creation {
+    min-width: 180px;
+  }
+
+  .order-cost {
+    min-width: 120px;
+  }
+
+  .order-item-count {
+    min-width: 120px;
+  }
+}
+
 .merchant-list {
   .merchant-name {
     min-width: 120px;

@@ -37,6 +37,18 @@
   content: 'User ID #';
 }
 
+.merchants-index {
+  .merchant-stats {
+    padding: 10px;
+
+    li {
+      display: inline-block;
+      width: 33%;
+      vertical-align: top;
+    }
+  }
+}
+
 .merchant-stats {
   padding: 0px;
 

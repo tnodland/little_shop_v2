@@ -1,6 +1,6 @@
 module UserOrder
   def show
-    @order = Order.find(params[:id])
+    @order = Order.includes(:items).find(params[:id])
   end
 
   def cancel(redirect_path = profile_path)

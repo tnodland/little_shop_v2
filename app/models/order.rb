@@ -19,6 +19,7 @@ class Order < ApplicationRecord
 
   def self.admin_ordered
     order("status=3, status=2, status=0, status=1", created_at: :desc)
+    .includes(:user)
   end
 
   def self.find_by_merchant(merchant)
