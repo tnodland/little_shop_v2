@@ -4,6 +4,7 @@ class Admin::MerchantsController < Admin::BaseController
     if @merchant.user?
       redirect_to admin_user_path(@merchant)
     end
+    @orders = Order.find_by_merchant(@merchant).where(status: 0)
   end
 
   def index
