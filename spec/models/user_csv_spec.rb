@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
     @other_merchant = create(:merchant)
     @other_items = create_list(:item, 10, user:@other_merchant)
 
-    @user_wash = create(:user, name: "A", state:"Washington", city:"Seattle")
+    @user_wash = create(:user, name: "A", state:"Washington", city:"Seattle", email:'wash@mail.com')
     @user_oregon = create(:user, name: "B", state:"Oregon")
     @utah_user = create(:user, name: "Z", state:"Utah", city: "nothere")
     @other_users = create_list(:user, 4, state:"California")
@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    @top_orders_user = create(:user, name: "C" ,state:"Utah")
+    @top_orders_user = create(:user, name: "C" ,state:"Utah", email:'utah@mail.com')
     @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
     @many_orders.each do |order|
       create(:fulfilled_order_item, ordered_price: 5.0, item:@items[1], quantity:10, order:order)
@@ -71,8 +71,21 @@ RSpec.describe User, type: :model do
     end
   end
   context 'instance methods' do
+    it '.potential_customer_info' do
+      expected = {name: 'A', email: 'wash@mail.com', orders: 4, spent:51}
+      actual = @user_wash.potential_customer_info
 
+      expect(actual.name).to eq(expected[:name])
+      expect(actual.email).to eq(expected[:email])
+      expect(actual.orders).to eq(expected[:orders])
+      expect(actual.spent).to eq(expected[:spent])
+    end
 
+    it '.current_customer_info' do
+      expected = {name: 'c', email: 'utah@mail.com', merchant_revenue: 2500, total_revenue:7500}
+      actual = @top_orders_user.current_customer_info(@merchant)
+
+    end
     it '.user_money_spent_by_merchant(merchant)' do
       expected = 1800
       actual = @top_items_user.user_money_spent_by_merchant(@other_merchant)
