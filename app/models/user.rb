@@ -33,6 +33,16 @@ class User < ApplicationRecord
     .sum("order_items.quantity * order_items.ordered_price")
   end
 
+  def user_money_spent_by_merchant(merchant)
+    orders
+    .where("orders.status = 2")
+    .joins(:order_items)
+    .joins(:items)
+    .where("items.merchant_id = ?", merchant.id)
+    .sum("order_items.quantity * order_items.ordered_price")
+    
+  end
+
   def merchant_orders
     items
     .joins(:orders)
