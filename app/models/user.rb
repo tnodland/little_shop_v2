@@ -72,6 +72,16 @@ class User < ApplicationRecord
     all_potential.sort_by{ |user| user.name}
   end
 
+  def self.potential_customer_info(user)
+    joins(:orders)
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .where("orders.status = 2")
+    .where(id: user.id)
+    .select("users.name, users.email, COUNT(DISTINCT orders.id) AS num_orders, SUM(order_items.quantity * order_items.ordered_price) AS spent")
+    .group(:id).first
+
+  end
+
   def merchant_orders
     items
     .joins(:orders)

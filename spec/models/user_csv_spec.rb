@@ -69,17 +69,19 @@ RSpec.describe User, type: :model do
 
       expect(actual).to eq(expected)
     end
-  end
-  context 'instance methods' do
+
     it '.potential_customer_info' do
       expected = {name: 'A', email: 'wash@mail.com', orders: 4, spent:51}
-      actual = @user_wash.potential_customer_info
+      actual = User.potential_customer_info(@user_wash)
 
+      binding.pry
       expect(actual.name).to eq(expected[:name])
       expect(actual.email).to eq(expected[:email])
-      expect(actual.orders).to eq(expected[:orders])
+      expect(actual.num_orders).to eq(expected[:orders])
       expect(actual.spent).to eq(expected[:spent])
     end
+  end
+  context 'instance methods' do
 
     it '.current_customer_info' do
       expected = {name: 'c', email: 'utah@mail.com', merchant_revenue: 2500, total_revenue:7500}
