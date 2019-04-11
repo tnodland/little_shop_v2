@@ -34,7 +34,7 @@ RSpec.describe 'As an Admin User' do
 
       desired = @packaged_orders + @pending_orders + @shipped_orders + @cancelled_orders
 
-      observed = page.all('div', class:'order-row')
+      observed = page.all('div', class:'table-row')
 
       observed.zip(desired).each do |obs, expected|
         obs_id = obs[:id].split("-")[1].to_i
