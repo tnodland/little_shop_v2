@@ -56,20 +56,22 @@ RSpec.describe User, type: :model do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
   end
 
-  context 'instance methods' do
+  context 'class methods' do
     it '.current_customers' do
-      expected = [@user_wash, @top_orders_user, @top_items_user, @user_utah]
-      actual = @merchant.current_customers
-
+      expected = [@user_wash, @top_orders_user, @top_items_user, @utah_user]
+      actual = User.current_customers(@merchant)
       expect(actual).to eq(expected)
     end
 
     it 'potential_customers' do
-      expected = [@user_oregon] + @other_users
-      actual = @merchant.potential_customers
+      expected =  [@user_oregon] + @other_users
+      actual = User.potential_customers(@merchant)
 
       expect(actual).to eq(expected)
     end
+  end
+  context 'instance methods' do
+
 
     it '.user_money_spent_by_merchant(merchant)' do
       expected = 1800

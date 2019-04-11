@@ -48,6 +48,30 @@ class User < ApplicationRecord
     .count
   end
 
+  def self.current_customers(merchant)
+    joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .where('items.merchant_id = ?', merchant.id)
+    .where("orders.status = 2")
+    .select('DISTINCT users.*')
+    .order('users.name ASC')
+  end
+
+  def self.potential_customers(merchant)
+    with_order = joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .group("users.id")
+    .where("orders.status = 2")
+    .select("users.*")
+    .having("COUNT(case when items.merchant_id = #{merchant.id} then 1 else null end) = 0")
+
+    no_orders = left_outer_joins(:orders).where(role: :user).where("orders.id IS NULL")
+    all_potential = with_order + no_orders
+    all_potential.sort_by{ |user| user.name}
+  end
+
   def merchant_orders
     items
     .joins(:orders)
