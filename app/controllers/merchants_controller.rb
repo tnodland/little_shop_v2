@@ -1,6 +1,10 @@
 class MerchantsController < ApplicationController
   def index
-    @merchants = User.active_merchants
+    if current_admin?
+      @merchants = User.where(role: :merchant)
+    else
+      @merchants = User.active_merchants
+    end
     @top_three_sellers = @merchants.top_three_sellers
     @fastest_three = @merchants.sort_by_fulfillment(:asc)
     @slowest_three = @merchants.sort_by_fulfillment(:desc)

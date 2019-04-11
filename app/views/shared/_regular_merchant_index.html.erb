@@ -1,0 +1,54 @@
+<main class="merchants-index">
+  <h1>All Merchants:</h1>
+
+  <section id="top-three-sellers">
+    <p>Top 3 merchants by revenue </p>
+    <% @top_three_sellers.each do |merchant| %>
+      <p><%= merchant.name %>, making <%= number_to_currency(merchant.total_revenue)  %> in revenue</p>
+    <% end %>
+  </section>
+
+  <section id="fastest-merchants">
+    <p>Top 3 Fastest merchants</p>
+    <% @fastest_three.each do |merchant| %>
+      <p><%= merchant.name %> takes on average <%= merchant.average_time %> days to complete an order</p>
+    <% end %>
+  </section>
+
+  <section id="slowest-merchants">
+    <p>Top 3 Slowest merchants</p>
+    <% @slowest_three.each do |merchant| %>
+      <p><%= merchant.name %> takes on average <%= merchant.average_time %> days to complete an order</p>
+    <% end %>
+  </section>
+
+  <section id="top-three-cities">
+    <% @top_three_cities.each do |user| %>
+      <p><%= user.count_of_orders %> orders have been shipped to <%= user.city %></p>
+    <% end %>
+  </section>
+
+  <section id="top-three-states">
+    <% @top_three_states.each do |user| %>
+      <p><%= user.count_of_orders %> orders have been shipped to <%= user.state %></p>
+    <% end %>
+  </section>
+
+
+  <section id="3-largest-orders">
+    <p>Top 3 Largest Orders</p>
+    <% @three_largest_orders.each do |order| %>
+      <p>Order <%= order.id %> with <%= order.total_count %> items sold</p>
+    <% end %>
+  </section>
+
+  <section class="index-list">
+    <% @merchants.each do |merchant| %>
+    <section class="merchant-card card shadowed-box" id="merchant-<%= merchant.id %>">
+      <h3><%= merchant.name %></h3>
+      <p>Located in <%= merchant.city %>, <%= merchant.state %></p>
+      <p>Joined the store on <%= merchant.created_at %></p>
+    </section>
+    <% end %>
+  </section>
+</main>

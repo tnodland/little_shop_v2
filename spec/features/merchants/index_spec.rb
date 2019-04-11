@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe "Merchant index page" do
+
+  describe 'as an admin user' do
+    it 'shows the same information but with disable buttons' do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant, enabled: false)
+      admin = create(:admin)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+      visit merchants_path
+
+      expect(page).to have_content("Disable this Merchant")
+      expect(page).to have_content("Enable this Merchant")
+
+    end
+  end
   context "any type of user can see statistics about merchants" do
     it "shows top 3 merchants by price and quantity" do
       merchant1 = create(:merchant)
