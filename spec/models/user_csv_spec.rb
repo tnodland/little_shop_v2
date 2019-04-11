@@ -7,9 +7,9 @@ RSpec.describe User, type: :model do
     @other_merchant = create(:merchant)
     @other_items = create_list(:item, 10, user:@other_merchant)
 
-    @user_wash = create(:user, state:"Washington", city:"Seattle")
-    @user_2 = create(:user, state:"Oregon")
-    @utah_user = create(:user, state:"Utah", city: "nothere")
+    @user_wash = create(:user, name: "A", state:"Washington", city:"Seattle")
+    @user_oregon = create(:user, name: "B", state:"Oregon")
+    @utah_user = create(:user, name: "Z", state:"Utah", city: "nothere")
     @other_users = create_list(:user, 4, state:"California")
 
     @other_users.each do |user|
@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    @top_orders_user = create(:user, state:"Utah")
+    @top_orders_user = create(:user, name: "C" ,state:"Utah")
     @many_orders = create_list(:shipped_order, 50, user:@top_orders_user)
     @many_orders.each do |order|
       create(:fulfilled_order_item, ordered_price: 5.0, item:@items[1], quantity:10, order:order)
@@ -31,7 +31,7 @@ RSpec.describe User, type: :model do
       create(:fulfilled_order_item, ordered_price: 10.0, item:@other_items[1], quantity:10, order:order)
     end
 
-    @top_items_user = create(:user)
+    @top_items_user = create(:user, name: "D")
     @big_order = create(:shipped_order, user: @top_items_user)
     create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:1000, order:@big_order)
 
@@ -57,6 +57,20 @@ RSpec.describe User, type: :model do
   end
 
   context 'instance methods' do
+    it '.current_customers' do
+      expected = [@user_wash, @top_orders_user, @top_items_user, @user_utah]
+      actual = @merchant.current_customers
+
+      expect(actual).to eq(expected)
+    end
+
+    it 'potential_customers' do
+      expected = [@user_oregon] + @other_users
+      actual = @merchant.potential_customers
+
+      expect(actual).to eq(expected)
+    end
+
     it '.user_money_spent_by_merchant(merchant)' do
       expected = 1800
       actual = @top_items_user.user_money_spent_by_merchant(@other_merchant)
@@ -83,5 +97,6 @@ RSpec.describe User, type: :model do
 
       expect(actual).to eq(expected)
     end
+
   end
 end
