@@ -5,19 +5,24 @@ Order.destroy_all
 Item.destroy_all
 User.destroy_all
 
-a_1 = User.create(role: 'admin',    enabled: true,  name: "Jane Siteowner", street_address: "123 Sorich Drive",       city: "Winning",          state: "OK", zip_code: "12345", email: "admin1@example.com",    password: "supersecure")
-a_2 = User.create(role: 'admin',    enabled: true,  name: "Jack Siteowner", street_address: "123 Sorich Drive",       city: "Winning",          state: "OK", zip_code: "12345", email: "admin2@example.com",    password: "supersecure")
-m_1 = User.create(role: 'merchant', enabled: true,  name: "Valerie Vendor", street_address: "257 Pine Street",        city: "Fairfax",          state: "VT", zip_code: "05454", email: "merchant1@example.com", password: "mostlysecure")
-m_2 = User.create(role: 'merchant', enabled: true,  name: "Miles Merchant", street_address: "3521 Hardline Road",     city: "Salinas",          state: "CA", zip_code: "93907", email: "merchant2@example.com", password: "mostlysecure")
-u_1 = User.create(role: 'user',     enabled: true,  name: "Robert Morgan",  street_address: "2817 Norman Street",     city: "Los Angeles",      state: "CA", zip_code: "90015", email: "user1@example.com",     password: "password")
-u_2 = User.create(role: 'user',     enabled: true,  name: "Shari Gable",    street_address: "2207 Euclid Avenue",     city: "Colorado Springs", state: "CO", zip_code: "80903", email: "user2@example.com",     password: "password")
-u_3 = User.create(role: 'user',     enabled: true,  name: "Edward Lehmann", street_address: "356 Coulter Lane",       city: "Richmond",         state: "VA", zip_code: "23260", email: "user3@example.com",     password: "password")
-m_3 = User.create(role: 'merchant', enabled: false, name: "Sally Sellers",  street_address: "3868 Geneva Street",     city: "Fresno",           state: "CA", zip_code: "93714", email: "merchant3@example.com", password: "mostlysecure")
-u_4 = User.create(role: 'user',     enabled: true,  name: "Robert Douglas", street_address: "1327 Sussex Court",      city: "Bellmar",          state: "NJ", zip_code: "08099", email: "user4@example.com",     password: "password")
-u_5 = User.create(role: 'user',     enabled: false, name: "Vickie Brown",   street_address: "3369 Freed Drive",       city: "Turlock",          state: "CA", zip_code: "95380", email: "user5@example.com",     password: "password")
-m_4 = User.create(role: 'merchant', enabled: true,  name: "Ben Busker",     street_address: "699 Cemetery Street",    city: "Clarksburg",       state: "WV", zip_code: "26302", email: "merchant4@example.com", password: "mostlysecure")
-u_6 = User.create(role: 'user',     enabled: true,  name: "Isiah James",    street_address: "1087 Washington Street", city: "Corpus Christi",   state: "TX", zip_code: "78476", email: "user6@example.com",     password: "password")
-m_5 = User.create(role: 'merchant', enabled: false, name: "Tina Tycoon",    street_address: "2890 Center Street",     city: "Havelock",         state: "NC", zip_code: "28532", email: "merchant5@example.com", password: "mostlysecure")
+@time_rng = Random.new(104771926725897930682341174863059830501)
+def rand_time(from: 0.0, to: Time.now)
+  Time.at(@time_rng.rand(from..to))
+end
+
+a_1 = User.create(role: 'admin',    enabled: true,  name: "Jane Siteowner", street_address: "123 Sorich Drive",       city: "Winning",          state: "OK", zip_code: "12345", email: "admin1@example.com",    password: "supersecure",  created_at: rand_time(from: 7.years.ago, to: 6.years.ago))
+a_2 = User.create(role: 'admin',    enabled: true,  name: "Jack Siteowner", street_address: "123 Sorich Drive",       city: "Winning",          state: "OK", zip_code: "12345", email: "admin2@example.com",    password: "supersecure",  created_at: rand_time(from: 7.years.ago, to: 6.years.ago))
+m_1 = User.create(role: 'merchant', enabled: true,  name: "Valerie Vendor", street_address: "257 Pine Street",        city: "Fairfax",          state: "VT", zip_code: "05454", email: "merchant1@example.com", password: "mostlysecure", created_at: rand_time(from: 6.years.ago, to: 5.years.ago))
+m_2 = User.create(role: 'merchant', enabled: true,  name: "Miles Merchant", street_address: "3521 Hardline Road",     city: "Salinas",          state: "CA", zip_code: "93907", email: "merchant2@example.com", password: "mostlysecure", created_at: rand_time(from: 6.years.ago, to: 5.years.ago))
+u_1 = User.create(role: 'user',     enabled: true,  name: "Robert Morgan",  street_address: "2817 Norman Street",     city: "Los Angeles",      state: "CA", zip_code: "90015", email: "user1@example.com",     password: "password",     created_at: rand_time(from: 5.years.ago, to: 4.years.ago))
+u_2 = User.create(role: 'user',     enabled: true,  name: "Shari Gable",    street_address: "2207 Euclid Avenue",     city: "Colorado Springs", state: "CO", zip_code: "80903", email: "user2@example.com",     password: "password",     created_at: rand_time(from: 5.years.ago, to: 4.years.ago))
+u_3 = User.create(role: 'user',     enabled: true,  name: "Edward Lehmann", street_address: "356 Coulter Lane",       city: "Richmond",         state: "VA", zip_code: "23260", email: "user3@example.com",     password: "password",     created_at: rand_time(from: 5.years.ago, to: 4.years.ago))
+m_3 = User.create(role: 'merchant', enabled: false, name: "Sally Sellers",  street_address: "3868 Geneva Street",     city: "Fresno",           state: "CA", zip_code: "93714", email: "merchant3@example.com", password: "mostlysecure", created_at: rand_time(from: 4.years.ago, to: 3.years.ago))
+u_4 = User.create(role: 'user',     enabled: true,  name: "Robert Douglas", street_address: "1327 Sussex Court",      city: "Bellmar",          state: "NJ", zip_code: "08099", email: "user4@example.com",     password: "password",     created_at: rand_time(from: 4.years.ago, to: 3.years.ago))
+u_5 = User.create(role: 'user',     enabled: false, name: "Vickie Brown",   street_address: "3369 Freed Drive",       city: "Turlock",          state: "CA", zip_code: "95380", email: "user5@example.com",     password: "password",     created_at: rand_time(from: 4.years.ago, to: 3.years.ago))
+m_4 = User.create(role: 'merchant', enabled: true,  name: "Ben Busker",     street_address: "699 Cemetery Street",    city: "Clarksburg",       state: "WV", zip_code: "26302", email: "merchant4@example.com", password: "mostlysecure", created_at: rand_time(from: 3.years.ago, to: 2.years.ago))
+u_6 = User.create(role: 'user',     enabled: true,  name: "Isiah James",    street_address: "1087 Washington Street", city: "Corpus Christi",   state: "TX", zip_code: "78476", email: "user6@example.com",     password: "password",     created_at: rand_time(from: 3.years.ago, to: 2.years.ago))
+m_5 = User.create(role: 'merchant', enabled: false, name: "Tina Tycoon",    street_address: "2890 Center Street",     city: "Havelock",         state: "NC", zip_code: "28532", email: "merchant5@example.com", password: "mostlysecure", created_at: rand_time(from: 3.years.ago, to: 2.years.ago))
 
 merchants = [m_1, m_2, m_3, m_4, m_5]
 users = [u_1, u_2, u_3, u_4, u_5, u_6]
@@ -54,7 +59,8 @@ products.each do |item, base_price|
                          quantity: rng.rand(5..80),
                          enabled: (rng.rand(1..100) > 85 ? false : true),
                          image_url: "https://imgplaceholder.com/500x500?text=#{prefix}+#{item}",
-                         merchant_id: merchants.sample(random: rng).id)
+                         merchant_id: merchants.sample(random: rng).id,
+                         created_at: rand_time(from: 2.years.ago, to: 1.year.ago))
   end
 end
 
@@ -73,19 +79,25 @@ end
     cart[item_id] = quantity
   end
   order = Order.from_cart(order_user, cart)
+  created_at = rand_time(from: 1.year.ago, to: 1.week.ago)
+  @updated_at = rand_time(from: created_at)
   # this will generate an even distribution or order statuses, which isn't
   # entirely realistic, but doing 42 orders gives us some breathing room
   status = rng.rand(0..3)
   if status == 1 || status == 2
     # all items for packaged and shipped orders should be fulfulled
     order.order_items.each do |item|
-      item.update(fulfilled: true)
+      updated = rand_time(from: created_at)
+      @updated_at = updated if updated > @updated_at
+      item.update(fulfilled: true, created_at: created_at, updated_at: updated)
     end
   elsif status == 0
     # some items for pending orders should be in fulfilled status, some should not
     order.order_items.each do |item|
-      item.update(fulfilled: true) if rng.rand(0..1) == 1
+      updated = rand_time(from: created_at)
+      @updated_at = updated if updated > @updated_at
+      item.update(fulfilled: true, created_at: created_at, updated_at: updated) if rng.rand(0..1) == 1
     end
   end
-  order.update(status: status)
+  order.update(status: status, created_at: created_at, updated_at: @updated_at)
 end
