@@ -47,8 +47,8 @@ RSpec.describe User, type: :model do
     create(:fulfilled_order_item, ordered_price: 3.0, quantity: 3, item:@items[3], order:@shipped_orders_user_wash[2])
     create(:fulfilled_order_item, ordered_price: 3.0, quantity: 1, item:@items[8], order:@shipped_orders_user_wash[3])
 
-    @order_1 = create(:order, user: @user_wash)
-    @order_2 = create(:order, user: @user_2)
+    @order_1 = create(:order, user: @top_orders_user)
+    @order_2 = create(:order, user: @top_items_user)
     create(:fulfilled_order_item, item:@items[0], order:@order_1)
     create(:fulfilled_order_item, item:@items[0], order:@order_2)
     create(:fulfilled_order_item, item:@items[1], order:@order_2)

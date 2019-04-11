@@ -26,6 +26,13 @@ class User < ApplicationRecord
     User.where(role: 1)
   end
 
+  def user_money_spent_total
+    orders
+    .where("orders.status = 2") # order shipped
+    .joins(:order_items)
+    .sum("order_items.quantity * order_items.ordered_price")
+  end
+
   def merchant_orders
     items
     .joins(:orders)
