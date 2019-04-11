@@ -12,15 +12,15 @@ This is a student project from the Turing School of Software & Design as part of
 
 ### Tools
 
-  -Ruby on Rails 5.1.6
-  -ActiveRecord - PostgreSQL
+  * Ruby on Rails 5.1.6
+  * ActiveRecord - PostgreSQL
 
 ## Gems
-  -FactoryBot
-  -RSpec-rails
-  -Shoulda-Matchers
-  -Capybara
-  -simplecov
+  * FactoryBot
+  * RSpec-rails
+  * Shoulda-Matchers
+  * Capybara
+  * simplecov
 
 ### Testing
   RSpec was used as the primary testing suite
