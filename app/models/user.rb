@@ -40,7 +40,6 @@ class User < ApplicationRecord
     .joins(:items)
     .where("items.merchant_id = ?", merchant.id)
     .sum("order_items.quantity * order_items.ordered_price")
-
   end
 
   def total_user_orders
