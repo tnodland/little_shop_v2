@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
     get '/', to: 'orders#index'
     get '/order/:id', to: 'orders#show', as: 'order'
+    get '/current_customers', to:'current_customers#index', as:'current_csv'
+    get '/potential_customers', to:'potential_customers#index', as:'potential_csv'
   end
   patch '/dashboard/:order/:item/fulfill', to: "merchants/orders#update", as: :fulfill_item
 
@@ -46,4 +48,6 @@ Rails.application.routes.draw do
 
   resources :items, only: [:index, :show]
   resources :orders, only: [:create]
+
+
 end
