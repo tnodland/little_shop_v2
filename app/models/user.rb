@@ -54,14 +54,16 @@ class User < ApplicationRecord
       customers = potential_customers(merchant)
       info_method = :potential_customer_info
       columns = ["name", "email", "num_orders", "spent"]
+      headers = ["Name", "Email", "Orders", "Spent"]
       when false
       customers = current_customers(merchant)
       info_method = :current_customer_info
       columns = ["name", "email", "merchant_revenue", "total_revenue"]
+      headers = ["Name", "Email", "Merchant Revenue", "Total Revenue"]
     end
 
     CSV.generate do |csv|
-      csv << ["Name", "Email", "Orders", "Spent"]
+      csv << headers
       customers.each do |customer|
         info = send info_method, customer, merchant
         csv << info.attributes.values_at(*columns)
