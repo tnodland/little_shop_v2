@@ -95,7 +95,7 @@ RSpec.describe User, type: :model do
     end
 
     context '.to_csv(merchant = nil, potential = false)' do
-      it 'not a merchant and potential:true, collects potential customer info' do
+      it 'collects correct customer info' do
         merchants = create_list(:merchant,2)
         item_0 = create(:item, user:merchants[0])
         item_1 = create(:item, user:merchants[1])
@@ -104,7 +104,7 @@ RSpec.describe User, type: :model do
         users_0.each_with_index do |user, index|
           orders = create_list(:shipped_order,2, user:user)
           orders.each do |order|
-            create(:fulfilled_order_item, order:order, quantity:index, ordered_price:1, item:item_0)
+            create(:fulfilled_order_item, order:order, quantity:index+1, ordered_price:1, item:item_0)
           end
         end
 
@@ -119,11 +119,16 @@ RSpec.describe User, type: :model do
           end
         end
 
-        # binding.pry
         expected = "Name,Email,Orders,Spent\n"+
                    "#{users_1[0].name},#{users_1[0].email},2,2.0\n"+
                    "#{users_1[1].name},#{users_1[1].email},2,4.0\n"
         actual = User.to_csv(merchants[0], true)
+        expect(actual).to eq(expected)
+
+        expected = "Name,Email,Merchant Revenue,Total Revenue\n"+
+                   "#{users_0[0].name},#{users_0[0].email},2.0,12.0\n"+
+                   "#{users_0[1].name},#{users_0[1].email},4.0,4.0\n"
+        actual = User.to_csv(merchants[0], false)
         expect(actual).to eq(expected)
       end
     end
