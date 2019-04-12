@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before :each do
+  before :each, big_setup:true do
     @merchant = create(:merchant)
     @items = create_list(:item, 10,  user: @merchant, quantity: 160)
     @other_merchant = create(:merchant)
@@ -61,32 +61,30 @@ RSpec.describe User, type: :model do
   end
 
   context 'class methods' do
-    it '.current_customers' do
+    it '.current_customers', :big_setup do
       expected = [@user_wash, @top_orders_user, @top_items_user, @utah_user]
       actual = User.current_customers(@merchant)
       expect(actual).to eq(expected)
     end
 
-    it 'potential_customers' do
+    it 'potential_customers', :big_setup  do
       expected =  [@user_oregon] + @other_users
       actual = User.potential_customers(@merchant)
 
       expect(actual).to eq(expected)
     end
 
-    it '.potential_customer_info' do
+    it '.potential_customer_info', :big_setup  do
       expected = {name: 'A', email: 'wash@mail.com', orders: 4, spent:51}
-      actual = User.potential_customer_info(@user_wash)
+      actual = User.potential_customer_info(@user_wash, nil)
 
       expect(actual.name).to eq(expected[:name])
       expect(actual.email).to eq(expected[:email])
       expect(actual.num_orders).to eq(expected[:orders])
       expect(actual.spent).to eq(expected[:spent])
     end
-  end
-  context 'instance methods' do
 
-    it '.current_customer_info' do
+    it '.current_customer_info', :big_setup  do
       expected = {name: 'C', email: 'utah@mail.com', merchant_revenue: 2500, total_revenue:7500}
       actual = User.current_customer_info(@top_orders_user, @merchant)
 
@@ -94,9 +92,50 @@ RSpec.describe User, type: :model do
       expect(actual.email).to eq(expected[:email])
       expect(actual.merchant_revenue).to eq(expected[:merchant_revenue])
       expect(actual.total_revenue).to eq(expected[:total_revenue])
-
     end
-    it '.user_money_spent_by_merchant(merchant)' do
+
+    context '.to_csv(merchant = nil, potential = false)' do
+      it 'collects correct customer info' do
+        merchants = create_list(:merchant,2)
+        item_0 = create(:item, user:merchants[0])
+        item_1 = create(:item, user:merchants[1])
+
+        users_0 = create_list(:user,2)
+        users_0.each_with_index do |user, index|
+          orders = create_list(:shipped_order,2, user:user)
+          orders.each do |order|
+            create(:fulfilled_order_item, order:order, quantity:index+1, ordered_price:1, item:item_0)
+          end
+        end
+
+        order = create(:shipped_order, user:users_0[0])
+        create(:fulfilled_order_item, order:order, quantity:1, ordered_price:10, item:item_1)
+
+        users_1 = create_list(:user,2)
+        users_1.each_with_index do |user, index|
+          orders = create_list(:shipped_order,2, user:user)
+          orders.each do |order|
+            create(:fulfilled_order_item, order:order, quantity:index+1, ordered_price:1, item:item_1)
+          end
+        end
+
+        expected = "Name,Email,Orders,Spent\n"+
+                   "#{users_1[0].name},#{users_1[0].email},2,2.0\n"+
+                   "#{users_1[1].name},#{users_1[1].email},2,4.0\n"
+        actual = User.to_csv(merchants[0], true)
+        expect(actual).to eq(expected)
+
+        expected = "Name,Email,Merchant Revenue,Total Revenue\n"+
+                   "#{users_0[0].name},#{users_0[0].email},2.0,12.0\n"+
+                   "#{users_0[1].name},#{users_0[1].email},4.0,4.0\n"
+        actual = User.to_csv(merchants[0], false)
+        expect(actual).to eq(expected)
+      end
+    end
+  end
+  context 'instance methods' do
+
+    it '.user_money_spent_by_merchant(merchant)', :big_setup  do
       expected = 1800
       actual = @top_items_user.user_money_spent_by_merchant(@other_merchant)
       expect(actual).to eq(expected)
@@ -106,7 +145,7 @@ RSpec.describe User, type: :model do
       expect(actual).to eq(expected)
     end
 
-    it '.user_money_spent_total' do
+    it '.user_money_spent_total', :big_setup  do
       expected = 2800
       actual = @top_items_user.user_money_spent_total
       expect(actual).to eq(expected)
@@ -116,7 +155,7 @@ RSpec.describe User, type: :model do
       expect(actual).to eq(expected)
     end
 
-    it '.total_user_orders' do
+    it '.total_user_orders', :big_setup  do
       expected = 100
       actual = @top_orders_user.total_user_orders
 
