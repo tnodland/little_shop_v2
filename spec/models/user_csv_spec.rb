@@ -76,7 +76,7 @@ RSpec.describe User, type: :model do
 
     it '.potential_customer_info', :big_setup  do
       expected = {name: 'A', email: 'wash@mail.com', orders: 4, spent:51}
-      actual = User.potential_customer_info(@user_wash)
+      actual = User.potential_customer_info(@user_wash, nil)
 
       expect(actual.name).to eq(expected[:name])
       expect(actual.email).to eq(expected[:email])
@@ -121,8 +121,8 @@ RSpec.describe User, type: :model do
 
         # binding.pry
         expected = "Name,Email,Orders,Spent\n"+
-                   "User 3,test5@mail.com,2,2.0\n"+
-                   "User 4,test6@mail.com,2,4.0\n"
+                   "#{users_1[0].name},#{users_1[0].email},2,2.0\n"+
+                   "#{users_1[1].name},#{users_1[1].email},2,4.0\n"
         actual = User.to_csv(merchants[0], true)
         expect(actual).to eq(expected)
       end

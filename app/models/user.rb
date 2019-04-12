@@ -49,17 +49,22 @@ class User < ApplicationRecord
   end
 
   def self.to_csv(merchant, potential = false)
-    customers = potential ? potential_customers(merchant): current_customers(merchant)
-    # binding.pry
+    case potential
+      when true
+      customers = potential_customers(merchant)
+      info_method = :potential_customer_info
+      columns = ["name", "email", "num_orders", "spent"]
+      when false
+      customers = current_customers(merchant)
+      info_method = :current_customer_info
+      columns = ["name", "email", "merchant_revenue", "total_revenue"]
+    end
 
     CSV.generate do |csv|
       csv << ["Name", "Email", "Orders", "Spent"]
       customers.each do |customer|
-        binding.pry
-        csv << [customer.name,
-                customer.email,
-                customer.total_user_orders,
-                customer.user_money_spent_total]
+        info = send info_method, customer, merchant
+        csv << info.attributes.values_at(*columns)
       end
     end
   end
@@ -90,7 +95,7 @@ class User < ApplicationRecord
     all_potential.sort_by{ |user| user.name}
   end
 
-  def self.potential_customer_info(user)
+  def self.potential_customer_info(user, merchant)
     joins(:orders)
     .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
     .where("orders.status = 2")
