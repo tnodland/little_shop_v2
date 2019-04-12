@@ -11,6 +11,10 @@ RSpec.describe User, type: :model do
     @user_oregon = create(:user, name: "B", state:"Oregon")
     @utah_user = create(:user, name: "Z", state:"Utah", city: "nothere")
     @other_users = create_list(:user, 4, state:"California")
+    @inactive_users = create_list(:inactive_user, 2)
+
+    @inactive_order = create(:shipped_order, user:@inactive_users[0])
+    create(:fulfilled_order_item, item: @items[0], order:@inactive_order)
 
     @other_users.each do |user|
       orders = create_list(:shipped_order, 2, user:user)
