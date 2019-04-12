@@ -4,6 +4,7 @@
     Name: <%=@merchant.name %><br>
     Address: <%= render 'shared/address', user:@merchant %><br>
     E-Mail: <%= @merchant.email %>
+    <%= link_to "Current Customer Data" %><%= link_to "Potential Customer Data" %>
   </section>
 
   <div class="merchant-stats" >
