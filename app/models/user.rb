@@ -48,6 +48,22 @@ class User < ApplicationRecord
     .count
   end
 
+  def self.to_csv(merchant, potential = false)
+    customers = potential ? potential_customers(merchant): current_customers(merchant)
+    # binding.pry
+
+    CSV.generate do |csv|
+      csv << ["Name", "Email", "Orders", "Spent"]
+      customers.each do |customer|
+        binding.pry
+        csv << [customer.name,
+                customer.email,
+                customer.total_user_orders,
+                customer.user_money_spent_total]
+      end
+    end
+  end
+
   def self.current_customers(merchant)
     joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
     .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')

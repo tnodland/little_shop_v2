@@ -115,13 +115,14 @@ RSpec.describe User, type: :model do
         users_1.each_with_index do |user, index|
           orders = create_list(:shipped_order,2, user:user)
           orders.each do |order|
-            create(:fulfilled_order_item, order:order, quantity:index, ordered_price:1, item:item_1)
+            create(:fulfilled_order_item, order:order, quantity:index+1, ordered_price:1, item:item_1)
           end
         end
 
-        expected = "Name,Email,Orders,Spent\n
-                    User 3,test5@mail.com,2,2\n
-                    User 4,test6@mail.com,2,4\n"
+        # binding.pry
+        expected = "Name,Email,Orders,Spent\n"+
+                   "User 3,test5@mail.com,2,2.0\n"+
+                   "User 4,test6@mail.com,2,4.0\n"
         actual = User.to_csv(merchants[0], true)
         expect(actual).to eq(expected)
       end
