@@ -26,6 +26,75 @@ class User < ApplicationRecord
     User.where(role: 1)
   end
 
+  def user_money_spent_total
+    orders
+    .where("orders.status = 2") # order shipped
+    .joins(:order_items)
+    .sum("order_items.quantity * order_items.ordered_price")
+  end
+
+  def user_money_spent_by_merchant(merchant)
+    orders
+    .where("orders.status = 2")
+    .joins(:order_items)
+    .joins(:items)
+    .where("items.merchant_id = ?", merchant.id)
+    .sum("order_items.quantity * order_items.ordered_price")
+  end
+
+  def total_user_orders
+    orders
+    .where("orders.status = 2")
+    .count
+  end
+
+  def self.current_customers(merchant)
+    joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .where('items.merchant_id = ?', merchant.id)
+    .where("orders.status = 2")
+    .select('DISTINCT users.*')
+    .order('users.name ASC')
+  end
+
+  def self.potential_customers(merchant)
+    with_order = joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .group("users.id")
+    .where("orders.status = 2")
+    .select("users.*")
+    .having("COUNT(case when items.merchant_id = #{merchant.id} then 1 else null end) = 0")
+
+    no_orders = left_outer_joins(:orders).where(role: :user).where("orders.id IS NULL")
+    all_potential = with_order + no_orders
+    all_potential.sort_by{ |user| user.name}
+  end
+
+  def self.potential_customer_info(user)
+    joins(:orders)
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .where("orders.status = 2")
+    .where(id: user.id)
+    .select("users.name, users.email, COUNT(DISTINCT orders.id) AS num_orders, SUM(order_items.quantity * order_items.ordered_price) AS spent")
+    .group(:id).first
+  end
+
+  def self.current_customer_info(user, merchant)
+    joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .where("orders.status = 2")
+    .where("users.id = #{user.id}")
+    .group("users.id")
+    .select("users.name")
+    .select("users.email")
+    .select("SUM(order_items.quantity * order_items.ordered_price) AS total_revenue")
+    .select("SUM(CASE WHEN items.merchant_id = #{merchant.id} THEN (order_items.quantity * order_items.ordered_price) ELSE null END) AS merchant_revenue")
+    .first
+  end
+
   def merchant_orders
     items
     .joins(:orders)
