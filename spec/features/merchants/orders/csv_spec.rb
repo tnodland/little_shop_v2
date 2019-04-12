@@ -61,10 +61,12 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
 
     expect(page).to have_link("Current Customer Data", href:dashboard_current_csv_path(format: :csv))
     click_link "Current Customer Data"
+    expect(page).to have_content("Name")
 
     visit dashboard_path
     expect(page).to have_link("Potential Customer Data", href:dashboard_potential_csv_path(format: :csv))
     click_link "Potential Customer Data"
+    expect(page).to have_content("Name")
   end
 
 end
