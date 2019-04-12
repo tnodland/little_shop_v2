@@ -59,8 +59,8 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'has a link to two csv pages, one for current users, and one for non-users that are on the site' do
     visit dashboard_path
 
-    expect(page).to have_link("Current Customer Data")
-    expect(page).to have_link("Potential Customer Data")
+    expect(page).to have_link("Current Customer Data", href:current_csv_path(format: :csv))
+    expect(page).to have_link("Potential Customer Data", href:potential_csv_path(format: :csv))
   end
 
 end
