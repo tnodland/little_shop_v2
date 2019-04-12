@@ -74,3 +74,25 @@ Convert statistics blocks on the application to visual charts using charting Jav
 - ActiveRecord
 - Software Testing
 - HTML/CSS layout and styling
+
+
+
+```
+ "SELECT users.name, users.email,
+ SUM(order_items.quantity * order_items.ordered_price) AS total_revenue,
+ SUM(
+   CASE
+    WHEN items.merchant_id = 1084
+      THEN (order_items.quantity * order_items.ordered_price)
+    ELSE
+      null
+   END
+  ) AS merchant_revenue
+  FROM users
+  INNER JOIN orders ON orders.user_id = users.id
+  INNER JOIN order_items ON order_items.order_id = orders.id
+  INNER JOIN items ON items.id = order_items.item_id
+  WHERE (orders.status = 2) AND (users.id = 1093)
+  GROUP BY users.id"
+
+ ```

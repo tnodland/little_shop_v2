@@ -74,7 +74,6 @@ RSpec.describe User, type: :model do
       expected = {name: 'A', email: 'wash@mail.com', orders: 4, spent:51}
       actual = User.potential_customer_info(@user_wash)
 
-      binding.pry
       expect(actual.name).to eq(expected[:name])
       expect(actual.email).to eq(expected[:email])
       expect(actual.num_orders).to eq(expected[:orders])
@@ -84,8 +83,13 @@ RSpec.describe User, type: :model do
   context 'instance methods' do
 
     it '.current_customer_info' do
-      expected = {name: 'c', email: 'utah@mail.com', merchant_revenue: 2500, total_revenue:7500}
-      actual = @top_orders_user.current_customer_info(@merchant)
+      expected = {name: 'C', email: 'utah@mail.com', merchant_revenue: 2500, total_revenue:7500}
+      actual = User.current_customer_info(@top_orders_user, @merchant)
+
+      expect(actual.name).to eq(expected[:name])
+      expect(actual.email).to eq(expected[:email])
+      expect(actual.merchant_revenue).to eq(expected[:merchant_revenue])
+      expect(actual.total_revenue).to eq(expected[:total_revenue])
 
     end
     it '.user_money_spent_by_merchant(merchant)' do

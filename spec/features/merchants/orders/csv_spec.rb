@@ -16,7 +16,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
       orders = create_list(:shipped_order, 2, user:user)
 
       orders.each do |order|
-        create(:fulfilled_order_item, ordered_price, 1.0, item:@other_items[2], quantity:2, order:order)
+        create(:fulfilled_order_item, ordered_price: 1.0, item:@other_items[2], quantity:2, order:order)
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
     create(:fulfilled_order_item, ordered_price: 1.0, item:@items[0], quantity:1000, order:@big_order)
 
     @other_big_order = create(:shipped_order, user: @top_items_user)
-      create(:fulfilled_order_item, orderd_price: 2.0, item: @other_items[0], quantity:900, order: @other_big_order)
+      create(:fulfilled_order_item, ordered_price: 2.0, item: @other_items[0], quantity:900, order: @other_big_order)
 
     @shipped_order_utah = create(:shipped_order, user: @utah_user)
     create(:fulfilled_order_item, ordered_price: 0.1, quantity: 83, item:@items[9], order:@shipped_order_utah)

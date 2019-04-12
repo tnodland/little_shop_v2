@@ -79,7 +79,20 @@ class User < ApplicationRecord
     .where(id: user.id)
     .select("users.name, users.email, COUNT(DISTINCT orders.id) AS num_orders, SUM(order_items.quantity * order_items.ordered_price) AS spent")
     .group(:id).first
+  end
 
+  def self.current_customer_info(user, merchant)
+    joins('INNER JOIN "orders" ON "orders"."user_id" = "users"."id"')
+    .joins('INNER JOIN "order_items" ON "order_items"."order_id" = "orders"."id"')
+    .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
+    .where("orders.status = 2")
+    .where("users.id = #{user.id}")
+    .group("users.id")
+    .select("users.name")
+    .select("users.email")
+    .select("SUM(order_items.quantity * order_items.ordered_price) AS total_revenue")
+    .select("SUM(CASE WHEN items.merchant_id = #{merchant.id} THEN (order_items.quantity * order_items.ordered_price) ELSE null END) AS merchant_revenue")
+    .first
   end
 
   def merchant_orders
