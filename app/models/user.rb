@@ -54,6 +54,7 @@ class User < ApplicationRecord
     .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
     .where('items.merchant_id = ?', merchant.id)
     .where("orders.status = 2")
+    .where(enabled: true)
     .select('DISTINCT users.*')
     .order('users.name ASC')
   end
@@ -64,10 +65,11 @@ class User < ApplicationRecord
     .joins('INNER JOIN "items" ON "items"."id" = "order_items"."item_id"')
     .group("users.id")
     .where("orders.status = 2")
+    .where(enabled: true)
     .select("users.*")
     .having("COUNT(case when items.merchant_id = #{merchant.id} then 1 else null end) = 0")
 
-    no_orders = left_outer_joins(:orders).where(role: :user).where("orders.id IS NULL")
+    no_orders = left_outer_joins(:orders).where(role: :user).where("orders.id IS NULL").where(enabled: true)
     all_potential = with_order + no_orders
     all_potential.sort_by{ |user| user.name}
   end
