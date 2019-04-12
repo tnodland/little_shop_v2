@@ -4,7 +4,8 @@
     Name: <%=@merchant.name %><br>
     Address: <%= render 'shared/address', user:@merchant %><br>
     E-Mail: <%= @merchant.email %>
-    <%= link_to "Current Customer Data", dashboard_current_csv_path(format: :csv) %><%= link_to "Potential Customer Data", dashboard_potential_csv_path(format: :csv) %>
+    <br>
+    <%= link_to "Current Customer Data", dashboard_current_csv_path(format: :csv) %> <%= link_to "Potential Customer Data", dashboard_potential_csv_path(format: :csv) %>
   </section>
 
   <div class="merchant-stats" >
