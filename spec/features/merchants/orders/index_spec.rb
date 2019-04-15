@@ -54,8 +54,10 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'shows percentage of inventory sold (sold / sold+remaining)'do
     visit dashboard_path
     within ".merchant-stats" do
-      within "#percent-sold" do
-        expect(page).to have_content("You have sold 1600 items, which is 50.0% of your inventory")
+      within '.top-stats' do
+        within "#percent-sold" do
+          expect(page).to have_content("You have sold 1600 items, which is 50.0% of your inventory")
+        end
       end
     end
   end
@@ -63,7 +65,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'shows top 3 states where orders have shipped' do
     visit dashboard_path
     within ".merchant-stats" do
-      within "#top-states" do
+      within "div#top-states" do
         states = page.all("li", class:"state")
         expect(states[0]).to have_content("Utah: 51 orders")
         expect(states[1]).to have_content("Washington: 4 orders")
@@ -75,7 +77,7 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   it 'shows top 3 cities (state dependent) where orders were shipped and quantity' do
     visit dashboard_path
     within ".merchant-stats" do
-      within "#top-cities" do
+      within "div#top-cities" do
         city = page.all("li", class:"city")
         expect(city[0]).to have_content("Testville, Utah: 50 orders")
         expect(city[1]).to have_content("Seattle, Washington: 4 orders")
