@@ -482,5 +482,16 @@ RSpec.describe User, type: :model do
 
       expect(merchant.average_time).to eq(2)
     end
+
+    it ".total_money_spent" do
+      merchant = create(:merchant)
+      item = create(:item, user: merchant)
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, item: item, order: order)
+      create(:fulfilled_order_item, item: item, order: order)
+      
+      expect(shopper.total_money_spent).to eq(12.5)
+    end
   end
 end

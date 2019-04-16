@@ -211,4 +211,8 @@ class User < ApplicationRecord
     items.joins(:order_items)
          .average('order_items.updated_at - order_items.created_at')
   end
+
+  def total_money_spent
+    orders.joins(:order_items).pluck("sum(order_items.ordered_price * order_items.quantity)").first
+  end
 end
