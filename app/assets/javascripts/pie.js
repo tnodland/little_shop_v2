@@ -3,8 +3,27 @@ var test_data = [{"label":"one", "value":20},
       {"label":"three", "value":10}];
 
 $(function(){
-  drawPie("percent-sold", test_data);
+  getData();
 });
+
+function parseData(data){
+  drawPie("percent-sold", data)
+}
+
+function getData(){
+               $.ajax({
+                 type: 'GET',
+                 contentType: 'application/json; charset=utf-8',
+                 url: '/dashboard',
+                 dataType: 'json',
+                 success: function(data){
+                   parseData(data);
+                 },
+                 failure: function(result){
+                   error();
+                 }
+               });
+             };
 
 function drawPie(id, data){
   var width = 200,
