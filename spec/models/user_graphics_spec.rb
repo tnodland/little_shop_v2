@@ -85,16 +85,19 @@ RSpec.describe User, type: :model do
 
     it '.revenue_by_month_for_graphic' do
       merchant = create(:merchant)
+      item = create(:item, user:merchant)
       expected = []
-      13.times do |months|
+      26.times do |months|
         time = months.month.ago
         shipped_orders = create_list(:shipped_order,2, created_at:time, updated_at:time)
         not_shipped_order = create(:order, created_at:time, updated_at:time)
-        create(:fulfilled_order_item, order: shipped_orders[0], quantity:months+1, ordered_price: 1.0, created_at:time, updated_at:time)
-        create(:fulfilled_order_item, order: shipped_orders[1], quantity:months+1, ordered_price: 1.0, created_at:time+2.days, updated_at:time+2.days)
-        create(:fulfilled_order_item, order: not_shipped_order, quantity:months+1, ordered_price: 1.0, created_at:time-2.days, updated_at:time-2.days)
+        create(:fulfilled_order_item, order: shipped_orders[0], item:item, quantity:months+1, ordered_price: 1.0, created_at:time, updated_at:time)
+        create(:fulfilled_order_item, order: shipped_orders[1], item:item, quantity:months+1, ordered_price: 1.0, created_at:time+2.days, updated_at:time+2.days)
+        create(:fulfilled_order_item, order: not_shipped_order, item:item, quantity:months+1, ordered_price: 1.0, created_at:time-2.days, updated_at:time-2.days)
 
-        expected << {'month' => Date.new(time.year, time.month), 'revenue' =>(months+1)*2}
+        if months <13
+          expected << {'date' => Date.new(time.year, time.month), 'revenue' =>(months+1)*2}
+        end
       end
       expected.reverse!
       actual = merchant.revenue_by_month_for_graphic

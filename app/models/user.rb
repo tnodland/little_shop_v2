@@ -172,6 +172,24 @@ class User < ApplicationRecord
     end
   end
 
+  def revenue_by_month_for_graphic
+    today = DateTime.now
+    this_month = Date.new(today.year, today.month)
+    from_db = items
+    .joins(:orders)
+    .where("orders.status = 2")
+    .where("orders.updated_at": (this_month - 1.year)..today)
+    .select("EXTRACT( YEAR FROM orders.updated_at) as year, EXTRACT( MONTH FROM orders.updated_at) as month")
+    .select("SUM(order_items.quantity * order_items.ordered_price) as revenue")
+    .group("year,month")
+    .order("year ASC, month ASC")
+
+    from_db.map do |active_record|
+      {'date'=>Date.new(active_record.year, active_record.month),
+       'revenue' => active_record.revenue}
+    end
+  end
+
   def top_cities_for_graphic
     top_cities.map do |active_record|
       {'label'=>active_record.city + ', ' + active_record.state,
