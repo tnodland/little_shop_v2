@@ -19,7 +19,7 @@ RSpec.describe "order show page" do
     it "can see information about an order" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant1)
 
-      visit dashboard_path(@merchant1)
+      visit dashboard_path
 
       expect(page).to have_link("Order #{@order.id}")
 

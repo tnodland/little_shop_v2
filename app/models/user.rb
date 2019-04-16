@@ -160,6 +160,73 @@ class User < ApplicationRecord
     items_sold/(inventory+items_sold) * 100
   end
 
+  def percent_sold_data_for_graphic
+    [{'label'=> 'Sold', 'value'=>pct_sold},
+     {'label'=> 'Unsold', 'value'=>100-pct_sold}]
+  end
+
+  def top_states_for_graphic
+    top = top_states.map do |active_record|
+      {'label'=>active_record.state,
+       'value'=>active_record.order_count}
+     end
+
+     total = items.joins(:orders).where("orders.status = 2").count("DISTINCT(orders.id)")
+     top << {'label'=>'Other', 'value'=> total-top.sum{|r|r['value']}}
+  end
+
+  def self.merchant_performance
+    top = joins(:items)
+    .joins('INNER JOIN "order_items" ON "order_items"."item_id" = "items"."id"')
+    .joins('INNER JOIN "orders" ON "orders"."id" = "order_items"."order_id"')
+    .where("orders.status = 2")
+    .select("users.name, SUM(order_items.quantity * order_items.ordered_price) as revenue")
+    .group(:id)
+    .order("revenue DESC")
+
+    total = top.sum{|merchant| merchant.revenue}
+    to_return = top[0..2].map do |merchant|
+      {'label'=>merchant.name, 'value' => merchant.revenue}
+    end
+
+    to_return<< {'label' => 'other', 'value'=> total -to_return.sum{|m| m['value']}}
+
+end
+  def revenue_by_month_for_graphic
+    today = DateTime.now
+    this_month = Date.new(today.year, today.month)
+    from_db = items
+    .joins(:orders)
+    .where("orders.status = 2")
+    .where("orders.updated_at": (this_month - 1.year)..today)
+    .select("EXTRACT( YEAR FROM orders.updated_at) as year, EXTRACT( MONTH FROM orders.updated_at) as month")
+    .select("SUM(order_items.quantity * order_items.ordered_price) as revenue")
+    .group("year,month")
+    .order("year ASC, month ASC")
+
+    from_db.map do |active_record|
+      {'date'=>Date.new(active_record.year, active_record.month),
+       'revenue' => active_record.revenue}
+    end
+  end
+
+  def top_cities_for_graphic
+    top = top_cities.map do |active_record|
+      {'label'=>active_record.city + ', ' + active_record.state,
+       'value'=>active_record.order_count}
+    end
+
+    total = items.joins(:orders).where("orders.status = 2").count("DISTINCT(orders.id)")
+    top << {'label'=>'Other', 'value'=> total-top.sum{|r|r['value']}}
+  end
+
+  def graphics_data
+    {'percent-sold'=> percent_sold_data_for_graphic,
+     'top-states' => top_states_for_graphic,
+     'top-cities' => top_cities_for_graphic,
+     'revenue' => revenue_by_month_for_graphic}
+ end
+
   def top_cities
     items
     .select("customers.state, customers.city, count(distinct orders.id) as order_count")

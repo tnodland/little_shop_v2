@@ -2,6 +2,11 @@ class Merchants::OrdersController < Merchants::BaseController
   def index
     @merchant = User.find(current_user.id)
     @orders = Order.find_by_merchant(@merchant).where(status: 0)
+
+    respond_to do |format|
+      format.html
+      format.json {render json: @merchant.graphics_data}
+    end
   end
 
   def show
