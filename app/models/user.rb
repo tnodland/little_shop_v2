@@ -196,6 +196,12 @@ class User < ApplicationRecord
        'value'=>active_record.order_count}
     end
   end
+  def graphics_data
+    {'percent-sold'=> percent_sold_data_for_graphic,
+     'top-states' => top_states_for_graphic,
+     'top-cities' => top_cities_for_graphic,
+     'revenue' => revenue_by_month_for_graphic}
+ end
 
   def top_cities
     items
