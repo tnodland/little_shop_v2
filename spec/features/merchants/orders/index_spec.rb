@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
+  context "downloadable csv data" do
+    it "sees links for customers who have and haven't ordered items" do
+      merchant = create(:merchant)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+
+      visit dashboard_path
+
+      within "#csv-links" do
+        expect(page).to have_link("Download information about your shoppers")
+        expect(page).to have_link("Download information about your potential market")
+      end
+    end
+  end
+
   before :each do
     @merchant = create(:merchant)
     @items = create_list(:item, 10,  user: @merchant, quantity: 160)

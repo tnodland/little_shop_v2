@@ -13,5 +13,6 @@ class MerchantsController < ApplicationController
     @top_three_states = User.top_three_states
     @top_ten_sellers_this_month = User.top_ten_sellers_this_month
     @top_ten_sellers_last_month = User.top_ten_sellers_last_month
+    @top_ten_fulfillers_this_month = User.top_ten_fulfillers_this_month
   end
 end

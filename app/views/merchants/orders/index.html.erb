@@ -67,6 +67,12 @@
     </div><% end %>
   </div>
 
+  <section id="csv-links">
+    <h2>Downloadable CSVs</h2>
+    <p><%= link_to "Download information about your shoppers" %></p>
+    <p><%= link_to "Download information about your potential market" %></p>
+  </section>
+
   <h2>Current Orders</h2>
   <section class="data-table order-list">
   <% @orders.each do |order| %>

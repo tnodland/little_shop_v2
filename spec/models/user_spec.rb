@@ -256,6 +256,48 @@ RSpec.describe User, type: :model do
       expect(User.top_ten_sellers_last_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
     end
 
+    it ".top_ten_fulfillers_this_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+      item7 = create(:item, user: merchant7, quantity: 100)
+      item8 = create(:item, user: merchant8, quantity: 100)
+      item9 = create(:item, user: merchant9, quantity: 100)
+      item10 = create(:item, user: merchant10, quantity: 100)
+      item11 = create(:item, user: merchant11, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fulfilled_order_item, 10, item: item1, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 9, item: item2, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 8, item: item3, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 7, item: item4, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 6, item: item5, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 5, item: item6, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 4, item: item7, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 3, item: item8, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 2, item: item9, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 1, item: item10, order: order, quantity: 1)
+
+      expect(User.top_ten_fulfillers_this_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
+
     it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
     end
