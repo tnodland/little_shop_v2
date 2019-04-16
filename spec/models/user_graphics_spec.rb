@@ -67,7 +67,8 @@ RSpec.describe User, type: :model do
     it '.top_states_for_graphic', big_setup: true do
       expected = [{'label'=>"Utah", 'value'=>52},
                   {'label'=>"Washington", 'value'=>4},
-                  {'label'=>"Colorado", 'value'=>1}]
+                  {'label'=>"Colorado", 'value'=>1},
+                  {'label'=>"Other", 'value' => 0}]
 
       actual = @merchant.top_states_for_graphic
 
@@ -77,7 +78,8 @@ RSpec.describe User, type: :model do
     it '.top_cities_for_graphic', big_setup: true do
       expected = [{'label'=> "Testville, Utah", 'value'=>50},
                   {'label'=> "Seattle, Washington", 'value'=>4},
-                  {'label'=> "nothere, Utah", 'value'=>2}]
+                  {'label'=> "nothere, Utah", 'value'=>2},
+                  {'label'=>"Other", 'value' => 1}]
       actual = @merchant.top_cities_for_graphic
 
       expect(actual).to eq(expected)
@@ -100,7 +102,6 @@ RSpec.describe User, type: :model do
         end
       end
       expected.reverse!
-      binding.pry
       actual = merchant.revenue_by_month_for_graphic
       expect(actual).to eq(expected)
     end
