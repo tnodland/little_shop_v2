@@ -132,25 +132,32 @@ class User < ApplicationRecord
   end
 
   def self.top_ten_fulfillers_this_month
-    joins(items: :order_items)
+    joins(items: {order_items: :order})
     .select("users.*, count(order_items) as total_orders")
     .where('extract(month from order_items.created_at) = ?', Date.today.month)
     .where(role: 1)
     .where("order_items.fulfilled = true")
+    .where.not("orders.status = 3")
     .group(:id)
     .order("total_orders DESC")
     .limit(10)
   end
 
   def self.top_ten_fulfillers_last_month
-    joins(items: :order_items)
+    joins(items: {order_items: :order})
     .select("users.*, count(order_items) as total_orders")
     .where('extract(month from order_items.created_at) = ?', DateTime.now.last_month.month)
     .where(role: 1)
     .where("order_items.fulfilled = true")
+    .where.not("orders.status = 3")
     .group(:id)
     .order("total_orders DESC")
     .limit(10)
+  end
+
+  def self.find_by_shopper(merchant)
+    # binding.pry
+    joins(orders: {order_items: :item}).where("items.merchant_id = #{merchant.id}")
   end
 
   def self.top_three_sellers

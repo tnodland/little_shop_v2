@@ -340,6 +340,25 @@ RSpec.describe User, type: :model do
       expect(User.top_ten_fulfillers_last_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
     end
 
+    it ".find_by_shopper" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      shopper1 = create(:user)
+      shopper2 = create(:user)
+      shopper3 = create(:user)
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper3)
+      create(:fulfilled_order_item, item: item1, order: order1)
+      create(:fulfilled_order_item, item: item1, order: order2)
+      create(:fulfilled_order_item, item: item2, order: order3)
+
+      expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
+      expect(User.find_by_shopper(merchant2)).to eq([shopper3])
+    end
+
     it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
     end
