@@ -160,6 +160,11 @@ class User < ApplicationRecord
     items_sold/(inventory+items_sold) * 100
   end
 
+  def percent_sold_data_for_graphic
+    [{'label'=> 'Sold', 'value'=>pct_sold},
+     {'label'=> 'Unsold', 'value'=>100-pct_sold}]
+  end
+
   def top_cities
     items
     .select("customers.state, customers.city, count(distinct orders.id) as order_count")
