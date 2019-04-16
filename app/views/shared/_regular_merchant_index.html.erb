@@ -23,13 +23,31 @@
         <li id="merchant"><%= merchant.name %></li>
       <% end %>
     </section>
-    
+
     <section id="top-ten-fulfillers-last-month">
       <h3>Top 10 merchants of fulfilled orders last month</h3>
       <% @top_ten_fulfillers_last_month.each do |merchant| %>
         <li id="merchant"><%= merchant.name %></li>
       <% end %>
     </section>
+
+    <% if current_user %>
+      <section id="top-five-to-city">
+        <h3>Top 5 fastest merchants to <%= current_user.city %></h3>
+        <% @top_five_to_city.each do |merchant| %>
+          <li id="merchant"><%= merchant.name %></li>
+        <% end %>
+      </section>
+
+      <section id="top-five-to-state">
+        <h3>Top 5 fastest merchants to <%= current_user.state %></h3>
+        <% @top_five_to_state.each do |merchant| %>
+          <li id="merchant"><%= merchant.name %></li>
+        <% end %>
+      </section>
+
+
+    <% end %>
 
     <section id="top-three-sellers">
       <h3>Top 3 Merchants by Revenue </h3>

@@ -19,6 +19,92 @@ RSpec.describe "Merchant index page" do
     end
   end
 
+  context "as a logged in user" do
+    it "shows top 5 merchants to fulfill orders fastest to my city" do
+      shopper = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(shopper)
+
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      visit merchants_path
+
+      within "#top-five-to-city" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+      end
+    end
+
+    it "shows top 5 merchants to fulfill orders fastest to my state" do
+      shopper = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(shopper)
+
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      visit merchants_path
+
+      within "#top-five-to-state" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+      end
+    end
+  end
+
   context "any type of user can see statistics about merchants" do
     it "can see top ten sellers this month" do
       shopper = create(:user)
