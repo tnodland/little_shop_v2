@@ -101,9 +101,9 @@ function getMerchantData(){
                 }
               });
             };
-            
-function drawPie(id, data){
 
+function drawPie(id, data){
+  console.log()
   var width = 200,
     height = 200,
     radius = 100,
