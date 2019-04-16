@@ -213,6 +213,15 @@ class User < ApplicationRecord
   end
 
   def total_money_spent
-    orders.joins(:order_items).pluck("sum(order_items.ordered_price * order_items.quantity)").first
+    orders.joins(:order_items)
+          .pluck("sum(order_items.ordered_price * order_items.quantity)")
+          .first
+  end
+
+  def total_spent_on_merchant(merchant)
+    orders.joins(items: :order_items)
+          .where("items.merchant_id = #{merchant.id}")
+          .pluck("sum(order_items.ordered_price * order_items.quantity)")
+          .first
   end
 end

@@ -490,8 +490,22 @@ RSpec.describe User, type: :model do
       order = create(:shipped_order, user: shopper)
       create(:fulfilled_order_item, item: item, order: order)
       create(:fulfilled_order_item, item: item, order: order)
-      
+
       expect(shopper.total_money_spent).to eq(12.5)
+    end
+
+    it ".total_spent_on_merchant" do
+      merchant = create(:merchant)
+      merchant2 = create(:merchant)
+      item = create(:item, user: merchant)
+      item2 = create(:item, user: merchant2)
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, item: item, order: order)
+      create(:fulfilled_order_item, item: item2, order: order)
+
+      expect(shopper.total_spent_on_merchant(merchant)).to eq(5)
+      expect(shopper.total_spent_on_merchant(merchant2)).to eq(7.5)
     end
   end
 end
