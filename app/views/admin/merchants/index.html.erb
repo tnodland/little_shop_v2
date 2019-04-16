@@ -1,5 +1,10 @@
 <main class="admin-merchant-index shadowed-box">
   <h1>All Merchants in the system</h1>
+
+  <div id=graphics>
+    <svg id=total-sales></svg>
+  </div>
+
   <section class="data-table merchant-list">
   <% @merchants.each do |merchant| %>
     <section class="table-row" id="merchant-<%= merchant.id %>">
@@ -15,3 +20,9 @@
   <% end %>
   </section>
 </main>
+
+<script type="text/javascript">
+  $(function(){
+    loadMerchantData();
+  });
+</script>
