@@ -170,6 +170,48 @@ RSpec.describe User, type: :model do
   end
 
   describe "class methods" do
+    it ".top_ten_sellers_this_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 20)
+      item4 = create(:item, user: merchant4, quantity: 20)
+      item5 = create(:item, user: merchant5, quantity: 20)
+      item6 = create(:item, user: merchant6, quantity: 20)
+      item7 = create(:item, user: merchant7, quantity: 20)
+      item8 = create(:item, user: merchant8, quantity: 20)
+      item9 = create(:item, user: merchant9, quantity: 20)
+      item10 = create(:item, user: merchant10, quantity: 20)
+      item11 = create(:item, user: merchant11, quantity: 20)
+
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, item: item1, order: order, quantity: 20)
+      create(:fulfilled_order_item, item: item2, order: order, quantity: 19)
+      create(:fulfilled_order_item, item: item3, order: order, quantity: 18)
+      create(:fulfilled_order_item, item: item4, order: order, quantity: 17)
+      create(:fulfilled_order_item, item: item5, order: order, quantity: 16)
+      create(:fulfilled_order_item, item: item6, order: order, quantity: 15)
+      create(:fulfilled_order_item, item: item7, order: order, quantity: 14)
+      create(:fulfilled_order_item, item: item8, order: order, quantity: 13)
+      create(:fulfilled_order_item, item: item9, order: order, quantity: 12)
+      create(:fulfilled_order_item, item: item10, order: order, quantity: 11)
+      create(:fulfilled_order_item, item: item11, order: order, quantity: 10)
+
+      expect(User.top_ten_sellers_this_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
 
     it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])

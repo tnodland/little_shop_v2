@@ -1,7 +1,15 @@
 <main class="merchants-index">
   <h1>All Merchants:</h1>
 
+
   <section class="merchant-stats shadowed-box">
+    <section id="top-ten-this-month">
+      <h3>Top 10 sellers this month</h3>
+      <% @top_ten_sellers_this_month.each do |merchant| %>
+        <li id="merchant"><%= merchant.name %></li>
+      <% end %>
+    </section>
+
     <section id="top-three-sellers">
       <h3>Top 3 Merchants by Revenue </h3>
       <% @top_three_sellers.each do |merchant| %>

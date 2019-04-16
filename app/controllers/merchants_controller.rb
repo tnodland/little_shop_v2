@@ -11,5 +11,6 @@ class MerchantsController < ApplicationController
     @three_largest_orders = Order.largest_orders
     @top_three_cities = User.top_three_cities
     @top_three_states = User.top_three_states
+    @top_ten_sellers_this_month = User.top_ten_sellers_this_month
   end
 end
