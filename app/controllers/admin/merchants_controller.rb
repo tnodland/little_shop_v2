@@ -9,6 +9,11 @@ class Admin::MerchantsController < Admin::BaseController
 
   def index
     @merchants = User.all_merchants
+
+    respond_to do |format|
+      format.html
+      format.json {render json: User.merchant_performance}
+    end
   end
 
   def update
