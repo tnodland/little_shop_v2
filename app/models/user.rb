@@ -173,7 +173,10 @@ class User < ApplicationRecord
   end
 
   def top_cities_for_graphic
-
+    top_cities.map do |active_record|
+      {'label'=>active_record.city + ', ' + active_record.state,
+       'value'=>active_record.order_count}
+    end
   end
 
   def top_cities
