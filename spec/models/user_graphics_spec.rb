@@ -44,78 +44,94 @@ RSpec.describe User, type: :model do
     create(:fulfilled_order_item, item:@items[1], order:@order_2)
   end
 
-  context 'instance_methods' do
-    it '.percent_sold_data_for_graphic', :big_setup do
-      expected = [{'label'=> 'Sold', 'value' => @merchant.pct_sold},
-                  {'label'=> 'Unsold', 'value' => (100- @merchant.pct_sold)}]
-      actual = @merchant.percent_sold_data_for_graphic
+  it '.percent_sold_data_for_graphic', :big_setup do
+    expected = [{'label'=> 'Sold', 'value' => @merchant.pct_sold},
+                {'label'=> 'Unsold', 'value' => (100- @merchant.pct_sold)}]
+    actual = @merchant.percent_sold_data_for_graphic
 
-      expect(actual).to eq(expected)
+    expect(actual).to eq(expected)
 
-      other_merchant = create(:merchant)
-      user = create(:user)
-      other_item = create(:item, user:other_merchant, quantity:4)
-      create(:order_item, item:other_item, quantity:6)
+    other_merchant = create(:merchant)
+    user = create(:user)
+    other_item = create(:item, user:other_merchant, quantity:4)
+    create(:order_item, item:other_item, quantity:6)
 
-      expected = [{'label'=> 'Sold', 'value' => other_merchant.pct_sold},
-                  {'label'=> 'Unsold', 'value' => (100- other_merchant.pct_sold)}]
-      actual = other_merchant.percent_sold_data_for_graphic
+    expected = [{'label'=> 'Sold', 'value' => other_merchant.pct_sold},
+                {'label'=> 'Unsold', 'value' => (100- other_merchant.pct_sold)}]
+    actual = other_merchant.percent_sold_data_for_graphic
 
-      expect(actual).to eq(expected)
-    end
+    expect(actual).to eq(expected)
+  end
 
-    it '.top_states_for_graphic', big_setup: true do
-      expected = [{'label'=>"Utah", 'value'=>52},
-                  {'label'=>"Washington", 'value'=>4},
-                  {'label'=>"Colorado", 'value'=>1},
-                  {'label'=>"Other", 'value' => 0}]
+  it '.top_states_for_graphic', big_setup: true do
+    expected = [{'label'=>"Utah", 'value'=>52},
+                {'label'=>"Washington", 'value'=>4},
+                {'label'=>"Colorado", 'value'=>1},
+                {'label'=>"Other", 'value' => 0}]
 
-      actual = @merchant.top_states_for_graphic
+    actual = @merchant.top_states_for_graphic
 
-      expect(actual).to eq(expected)
-    end
+    expect(actual).to eq(expected)
+  end
 
-    it '.top_cities_for_graphic', big_setup: true do
-      expected = [{'label'=> "Testville, Utah", 'value'=>50},
-                  {'label'=> "Seattle, Washington", 'value'=>4},
-                  {'label'=> "nothere, Utah", 'value'=>2},
-                  {'label'=>"Other", 'value' => 1}]
-      actual = @merchant.top_cities_for_graphic
+  it '.top_cities_for_graphic', big_setup: true do
+    expected = [{'label'=> "Testville, Utah", 'value'=>50},
+                {'label'=> "Seattle, Washington", 'value'=>4},
+                {'label'=> "nothere, Utah", 'value'=>2},
+                {'label'=>"Other", 'value' => 1}]
+    actual = @merchant.top_cities_for_graphic
 
-      expect(actual).to eq(expected)
-    end
+    expect(actual).to eq(expected)
+  end
 
-    it '.revenue_by_month_for_graphic' do
-      merchant = create(:merchant)
-      item = create(:item, user:merchant)
-      expected = []
-      26.times do |months|
-        time = months.month.ago
-        shipped_orders = create_list(:shipped_order,2, created_at:time, updated_at:time)
-        not_shipped_order = create(:order, created_at:time, updated_at:time)
-        create(:fulfilled_order_item, order: shipped_orders[0], item:item, quantity:months+1, ordered_price: 1.0, created_at:time, updated_at:time)
-        create(:fulfilled_order_item, order: shipped_orders[1], item:item, quantity:months+1, ordered_price: 1.0, created_at:time+2.days, updated_at:time+2.days)
-        create(:fulfilled_order_item, order: not_shipped_order, item:item, quantity:months+1, ordered_price: 1.0, created_at:time-2.days, updated_at:time-2.days)
+  it '.revenue_by_month_for_graphic' do
+    merchant = create(:merchant)
+    item = create(:item, user:merchant)
+    expected = []
+    26.times do |months|
+      time = months.month.ago
+      shipped_orders = create_list(:shipped_order,2, created_at:time, updated_at:time)
+      not_shipped_order = create(:order, created_at:time, updated_at:time)
+      create(:fulfilled_order_item, order: shipped_orders[0], item:item, quantity:months+1, ordered_price: 1.0, created_at:time, updated_at:time)
+      create(:fulfilled_order_item, order: shipped_orders[1], item:item, quantity:months+1, ordered_price: 1.0, created_at:time+2.days, updated_at:time+2.days)
+      create(:fulfilled_order_item, order: not_shipped_order, item:item, quantity:months+1, ordered_price: 1.0, created_at:time-2.days, updated_at:time-2.days)
 
-        if months <13
-          expected << {'date' => Date.new(time.year, time.month), 'revenue' =>(months+1)*2}
-        end
+      if months <13
+        expected << {'date' => Date.new(time.year, time.month), 'revenue' =>(months+1)*2}
       end
-      expected.reverse!
-      actual = merchant.revenue_by_month_for_graphic
-      expect(actual).to eq(expected)
+    end
+    expected.reverse!
+    actual = merchant.revenue_by_month_for_graphic
+    expect(actual).to eq(expected)
+  end
+
+  it '.graphics_data', big_setup:true do
+    expected = {
+                  'percent-sold'=> @merchant.percent_sold_data_for_graphic,
+                  'top-states' => @merchant.top_states_for_graphic,
+                  'top-cities' => @merchant.top_cities_for_graphic,
+                  'revenue' => @merchant.revenue_by_month_for_graphic
+              }
+    actual =  @merchant.graphics_data
+
+    expect(actual).to eq(expected)
+  end
+
+  it '.merchant_performance' do
+    merchants = create_list(:merchant,5)
+    merchants.each_with_index do |merchant, index|
+      item = create(:item)
+      order = create(:shipped_order)
+      create(:fulfilled_order_item, order:order, item:item, quantity:index+1, ordered_price:1)
     end
 
-    it '.graphics_data', big_setup:true do
-      expected = {
-                    'percent-sold'=> @merchant.percent_sold_data_for_graphic,
-                    'top-states' => @merchant.top_states_for_graphic,
-                    'top-cities' => @merchant.top_cities_for_graphic,
-                    'revenue' => @merchant.revenue_by_month_for_graphic
-                }
-      actual =  @merchant.graphics_data
+    expected = [
+      {'label' => merchants[4].name, 'value'=> 5},
+      {'label' => merchants[3].name, 'value'=> 4},
+      {'label' => merchants[2].name, 'value'=> 3},
+      {'label' => 'other', 'value'=> 3},
+    ]
 
-      expect(actual).to eq(expected)
-    end
+    expect(User.merchant_performance).to eq(expected)
   end
 end
