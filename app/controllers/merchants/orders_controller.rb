@@ -5,7 +5,7 @@ class Merchants::OrdersController < Merchants::BaseController
 
     respond_to do |format|
       format.html
-      format.json {render json: @merchant.percent_sold_data_for_graphic}
+      format.json {render json: @merchant.graphics_data}
     end
   end
 

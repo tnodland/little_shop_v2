@@ -17,21 +17,21 @@ var line_test_data = [{"date":new Date(2018,3), "revenue":26},
                       {"date":new Date(2019,3), "revenue":2}]
 
 $(function(){
-  lineGraph(line_test_data);
+  getData();
 });
 
 function lineGraph(data){
+  console.log(data)
 
+  var dateParse = d3.timeParse("%Y-%m-%d")
   var margin = {top: 0, right: 10, bottom: 50, left: 50},
     canvas_width = 350,
     canvas_height = 200,
     plot_width = canvas_width - margin.left - margin.right,
     plot_height = canvas_height - margin.top - margin.bottom;
 
-
   var xScale = d3.scaleTime().range([0, plot_width]);
   var yScale = d3.scaleLinear().range([plot_height, 0]);
-
 
   var line = d3.line()
       .x(function(d,i) { return xScale(d.date); })
@@ -44,7 +44,10 @@ function lineGraph(data){
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-
+    data.forEach(function(d){
+      d.date = dateParse(d.date);
+      d.revenue = +d.revenue
+    })
     xScale.domain(d3.extent(data, function(d) { return d.date; }));
     yScale.domain([0, d3.max(data, function(d) { return d.revenue; })]);
 
@@ -53,25 +56,24 @@ function lineGraph(data){
         .attr("class", "line")
         .attr("d", line);
 
-    // Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0," + plot_height + ")")
         .call(d3.axisBottom(xScale))
         .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-.8em")
-        .attr("dy", ".15em")
-        .attr("transform", "rotate(-35)")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-35)")
 
-    // Add the Y Axis
     svg.append("g")
-        .call(d3.axisLeft(yScale).ticks(5));
-
-
+       .call(d3.axisLeft(yScale).ticks(5));
 };
 
 function parseData(data){
-  drawPie("percent-sold", data)
+  drawPie("percent-sold", data['percent-sold']);
+  drawPie("top-cities", data['top-cities']);
+  drawPie("top-states", data['top-states']);
+  lineGraph(data['revenue'])
 }
 
 function getData(){
@@ -90,6 +92,7 @@ function getData(){
              };
 
 function drawPie(id, data){
+
   var width = 200,
     height = 200,
     radius = 100,
@@ -106,7 +109,7 @@ function drawPie(id, data){
   var pie = d3.pie().value(function(d){return d.value});
 
   var arc = d3.arc()
-              .innerRadius(50)
+              .innerRadius(30)
               .outerRadius(radius);
 
   var arcs = vis.selectAll("arc")
@@ -123,7 +126,7 @@ function drawPie(id, data){
 
   arcs.append("text")
       .attr("transform", function(d) {
-        d.innerRadius = 50;
+        d.innerRadius = 30;
         d.outerRadius = radius;
         return "translate(" + arc.centroid(d) + ")";
       })
