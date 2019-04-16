@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
       expect(actual).to eq(expected)
     end
 
-    it '.top_states_for_graphic' do
+    it '.top_states_for_graphic', big_setup: true do
       expected = [{'label'=>"Utah", 'value'=>52},
                   {'label'=>"Washington", 'value'=>4},
                   {'label'=>"Colorado", 'value'=>1}]
@@ -72,9 +72,9 @@ RSpec.describe User, type: :model do
       actual = @merchant.top_states_for_graphic
 
       expect(actual).to eq(expected)
-
     end
-    it '.top_cities_for_graphic' do
+
+    it '.top_cities_for_graphic', big_setup: true do
       expected = [{'label'=> "Testville, Utah", 'value'=>50},
                   {'label'=> "Seattle, Washington", 'value'=>4},
                   {'label'=> "nothere, Utah", 'value'=>2}]

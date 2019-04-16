@@ -165,6 +165,17 @@ class User < ApplicationRecord
      {'label'=> 'Unsold', 'value'=>100-pct_sold}]
   end
 
+  def top_states_for_graphic
+    top_states.map do |active_record|
+      {'label'=>active_record.state,
+       'value'=>active_record.order_count}
+    end
+  end
+
+  def top_cities_for_graphic
+
+  end
+
   def top_cities
     items
     .select("customers.state, customers.city, count(distinct orders.id) as order_count")
