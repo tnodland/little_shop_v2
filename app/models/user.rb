@@ -155,6 +155,34 @@ class User < ApplicationRecord
     .limit(10)
   end
 
+  def self.fastest_to_city(city)
+    joins("as merchants JOIN items ON items.merchant_id = merchants.id")
+    .joins("JOIN order_items ON order_items.item_id = items.id")
+    .joins("JOIN orders ON orders.id = order_items.order_id")
+    .joins("JOIN users ON users.id = orders.user_id")
+    .select("merchants.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time")
+    .where("users.city = ?", city)
+    .where("merchants.enabled = true")
+    .where.not("orders.status = 3")
+    .group("merchants.id")
+    .order("fulfillment_time ASC")
+    .limit(5)
+  end
+
+  def self.fastest_to_state(state)
+    joins("as merchants JOIN items ON items.merchant_id = merchants.id")
+    .joins("JOIN order_items ON order_items.item_id = items.id")
+    .joins("JOIN orders ON orders.id = order_items.order_id")
+    .joins("JOIN users ON users.id = orders.user_id")
+    .select("merchants.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time")
+    .where("users.state = ?", state)
+    .where("merchants.enabled = true")
+    .where.not("orders.status = 3")
+    .group("merchants.id")
+    .order("fulfillment_time ASC")
+    .limit(5)
+  end
+
   def self.find_by_shopper(merchant)
     joins(orders: {order_items: :item})
     .where("items.merchant_id = #{merchant.id}")

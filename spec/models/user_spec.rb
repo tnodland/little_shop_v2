@@ -361,6 +361,39 @@ RSpec.describe User, type: :model do
       expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
     end
 
+    it ".fastest_to_city and .fastest_to_state" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      expect(User.fastest_to_city(shopper.city)).to eq([merchant1, merchant2, merchant3, merchant4, merchant5])
+      expect(User.fastest_to_state(shopper.state)).to eq([merchant1, merchant2, merchant3, merchant4, merchant5])
+    end
+
     it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
     end
@@ -506,6 +539,11 @@ RSpec.describe User, type: :model do
 
       expect(shopper.total_spent_on_merchant(merchant)).to eq(5)
       expect(shopper.total_spent_on_merchant(merchant2)).to eq(7.5)
+    end
+
+    it ".total_orders_placed" do
+      merchant = create(:merchant)
+      item = create(:item, user: merchant)
     end
   end
 end
