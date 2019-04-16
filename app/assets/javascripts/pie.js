@@ -21,60 +21,51 @@ $(function(){
 });
 
 function lineGraph(data){
-  console.log(data)
-  var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
-  var parseTime = d3.timeParse("%d-%b-%y");
-  console.log(parseTime("01-Apr-18"))
-  console.log(data[0].date)
-  console.log(data[0].date==parseTime("01-Apr-18"))
-  // set the ranges
-  var xScale = d3.scaleTime().range([0, width]);
-  var yScale = d3.scaleLinear().range([height, 0]);
+  var margin = {top: 0, right: 10, bottom: 50, left: 50},
+    canvas_width = 350,
+    canvas_height = 200,
+    plot_width = canvas_width - margin.left - margin.right,
+    plot_height = canvas_height - margin.top - margin.bottom;
 
-  // define the line
-  var valueline = d3.line()
+
+  var xScale = d3.scaleTime().range([0, plot_width]);
+  var yScale = d3.scaleLinear().range([plot_height, 0]);
+
+
+  var line = d3.line()
       .x(function(d,i) { return xScale(d.date); })
       .y(function(d,i) { return yScale(d.revenue); })
       .curve(d3.curveCardinal);
 
-  // append the svg obgect to the body of the page
-  // appends a 'group' element to 'svg'
-  // moves the 'group' element to the top left margin
   var svg = d3.select("svg#revenue")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", canvas_width)
+      .attr("height", canvas_height)
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-
-    // // format the data
-    // data.forEach(function(d) {
-    //     d.date = parseTime(d.date);
-    //     d.revenue = +d.revenue;
-    // });
-
-    // Scale the range of the data
     xScale.domain(d3.extent(data, function(d) { return d.date; }));
     yScale.domain([0, d3.max(data, function(d) { return d.revenue; })]);
 
-    // Add the valueline path.
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .attr("d", valueline);
+        .attr("d", line);
 
     // Add the X Axis
     svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale));
+        .attr("transform", "translate(0," + plot_height + ")")
+        .call(d3.axisBottom(xScale))
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-35)")
 
     // Add the Y Axis
     svg.append("g")
-        .call(d3.axisLeft(yScale));
+        .call(d3.axisLeft(yScale).ticks(5));
 
 
 };
