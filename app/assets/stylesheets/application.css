@@ -22,7 +22,20 @@
    stroke: black;
    stroke-width: 2px;
  }
- 
+
+ #graphics {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+ }
+
+ .pie-chart {
+   margin: 5px;
+   box-sizing: border-box;
+   padding: 10px;
+   background-color: #FFFFFF;
+ }
+
 html, body {
   margin: 0;
   padding: 0;
