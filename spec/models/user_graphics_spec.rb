@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
     create(:fulfilled_order_item, item:@items[0], order:@order_2)
     create(:fulfilled_order_item, item:@items[1], order:@order_2)
   end
-  
+
   context 'instance_methods' do
     it '.percent_sold_data_for_graphic', :big_setup do
       expected = [{'label'=> 'Sold', 'value' => @merchant.pct_sold},
@@ -60,6 +60,25 @@ RSpec.describe User, type: :model do
       expected = [{'label'=> 'Sold', 'value' => other_merchant.pct_sold},
                   {'label'=> 'Unsold', 'value' => (100- other_merchant.pct_sold)}]
       actual = other_merchant.percent_sold_data_for_graphic
+
+      expect(actual).to eq(expected)
+    end
+
+    it '.top_states_for_graphic' do
+      expected = [{'label'=>"Utah", 'value'=>52},
+                  {'label'=>"Washington", 'value'=>4},
+                  {'label'=>"Colorado", 'value'=>1}]
+
+      actual = @merchant.top_states_for_graphic
+
+      expect(actual).to eq(expected)
+
+    end
+    it '.top_cities_for_graphic' do
+      expected = [{'label'=> "Testville, Utah", 'value'=>50},
+                  {'label'=> "Seattle, Washington", 'value'=>4},
+                  {'label'=> "nothere, Utah", 'value'=>2}]
+      actual = @merchant.top_cities_for_graphic
 
       expect(actual).to eq(expected)
     end
