@@ -173,9 +173,25 @@ class User < ApplicationRecord
 
      total = items.joins(:orders).where("orders.status = 2").count("DISTINCT(orders.id)")
      top << {'label'=>'Other', 'value'=> total-top.sum{|r|r['value']}}
-
   end
 
+  def self.merchant_performance
+    top = joins(:items)
+    .joins('INNER JOIN "order_items" ON "order_items"."item_id" = "items"."id"')
+    .joins('INNER JOIN "orders" ON "orders"."id" = "order_items"."order_id"')
+    .where("orders.status = 2")
+    .select("users.name, SUM(order_items.quantity * order_items.ordered_price) as revenue")
+    .group(:id)
+    .order("revenue DESC")
+
+    total = top.sum{|merchant| merchant.revenue}
+    to_return = top[0..2].map do |merchant|
+      {'label'=>merchant.name, 'value' => merchant.revenue}
+    end
+
+    to_return<< {'label' => 'other', 'value'=> total -to_return.sum{|m| m['value']}}
+
+end
   def revenue_by_month_for_graphic
     today = DateTime.now
     this_month = Date.new(today.year, today.month)

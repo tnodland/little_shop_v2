@@ -120,11 +120,10 @@ RSpec.describe User, type: :model do
   it '.merchant_performance' do
     merchants = create_list(:merchant,5)
     merchants.each_with_index do |merchant, index|
-      item = create(:item)
+      item = create(:item, user:merchant)
       order = create(:shipped_order)
       create(:fulfilled_order_item, order:order, item:item, quantity:index+1, ordered_price:1)
     end
-
     expected = [
       {'label' => merchants[4].name, 'value'=> 5},
       {'label' => merchants[3].name, 'value'=> 4},
