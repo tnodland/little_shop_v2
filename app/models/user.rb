@@ -166,10 +166,14 @@ class User < ApplicationRecord
   end
 
   def top_states_for_graphic
-    top_states.map do |active_record|
+    top = top_states.map do |active_record|
       {'label'=>active_record.state,
        'value'=>active_record.order_count}
-    end
+     end
+
+     total = items.joins(:orders).where("orders.status = 2").count("DISTINCT(orders.id)")
+     top << {'label'=>'Other', 'value'=> total-top.sum{|r|r['value']}}
+
   end
 
   def revenue_by_month_for_graphic
@@ -199,6 +203,7 @@ class User < ApplicationRecord
     total = items.joins(:orders).where("orders.status = 2").count("DISTINCT(orders.id)")
     top << {'label'=>'Other', 'value'=> total-top.sum{|r|r['value']}}
   end
+
   def graphics_data
     {'percent-sold'=> percent_sold_data_for_graphic,
      'top-states' => top_states_for_graphic,
