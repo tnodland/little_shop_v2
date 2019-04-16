@@ -100,6 +100,7 @@ RSpec.describe User, type: :model do
         end
       end
       expected.reverse!
+      binding.pry
       actual = merchant.revenue_by_month_for_graphic
       expect(actual).to eq(expected)
     end
