@@ -87,6 +87,21 @@ function getDashboardData(){
                });
              };
 
+function getMerchantData(){
+              $.ajax({
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                url: '/admin/merchants',
+                dataType: 'json',
+                success: function(data){
+                  drawPie("total-sales", data);
+                },
+                failure: function(result){
+                  error();
+                }
+              });
+            };
+            
 function drawPie(id, data){
 
   var width = 200,
