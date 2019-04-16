@@ -103,5 +103,17 @@ RSpec.describe User, type: :model do
       actual = merchant.revenue_by_month_for_graphic
       expect(actual).to eq(expected)
     end
+
+    it '.graphics_data', big_setup:true do
+      expected = {
+                    'percent-sold'=> @merchant.percent_sold_data_for_graphic,
+                    'top-states' => @merchant.top_states_for_graphic,
+                    'top-cities' => @merchant.top_cities_for_graphic,
+                    'revenue' => @merchant.revenue_by_month_for_graphic
+                }
+      actual =  @merchant.graphics_data
+
+      expect(actual).to eq(expected)
+    end
   end
 end
