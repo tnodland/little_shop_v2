@@ -142,6 +142,17 @@ class User < ApplicationRecord
     .limit(10)
   end
 
+  def self.top_ten_fulfillers_last_month
+    joins(items: :order_items)
+    .select("users.*, count(order_items) as total_orders")
+    .where('extract(month from order_items.created_at) = ?', DateTime.now.last_month.month)
+    .where(role: 1)
+    .where("order_items.fulfilled = true")
+    .group(:id)
+    .order("total_orders DESC")
+    .limit(10)
+  end
+
   def self.top_three_sellers
     joins(items: :order_items)
     .select('users.*, sum(order_items.quantity * order_items.ordered_price) AS total_revenue')

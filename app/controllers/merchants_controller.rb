@@ -14,5 +14,6 @@ class MerchantsController < ApplicationController
     @top_ten_sellers_this_month = User.top_ten_sellers_this_month
     @top_ten_sellers_last_month = User.top_ten_sellers_last_month
     @top_ten_fulfillers_this_month = User.top_ten_fulfillers_this_month
+    @top_ten_fulfillers_last_month = User.top_ten_fulfillers_last_month
   end
 end

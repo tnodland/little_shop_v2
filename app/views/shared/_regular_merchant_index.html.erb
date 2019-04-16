@@ -18,8 +18,15 @@
     </section>
 
     <section id="top-ten-fulfillers-this-month">
-      <h3>Top 10 merchants of fulfilled orders </h3>
+      <h3>Top 10 merchants of fulfilled orders this month</h3>
       <% @top_ten_fulfillers_this_month.each do |merchant| %>
+        <li id="merchant"><%= merchant.name %></li>
+      <% end %>
+    </section>
+    
+    <section id="top-ten-fulfillers-last-month">
+      <h3>Top 10 merchants of fulfilled orders last month</h3>
+      <% @top_ten_fulfillers_last_month.each do |merchant| %>
         <li id="merchant"><%= merchant.name %></li>
       <% end %>
     </section>
