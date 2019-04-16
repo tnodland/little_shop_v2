@@ -3,8 +3,20 @@ require 'rails_helper'
 RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
   context "downloadable csv data" do
     it "sees links for customers who have and haven't ordered items" do
-      merchant = create(:merchant)
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant)
+      shopper1 = create(:user)
+      shopper2 = create(:user)
+      potential1 = create(:user)
+      potential2 = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      create(:fulfilled_order_item, item: item1, order: order1)
+      create(:fulfilled_order_item, item: item2, order: order2)
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant1)
 
       visit dashboard_path
 
@@ -12,6 +24,14 @@ RSpec.describe 'Merchant Orders Index (Dashboard)', type: :feature do
         expect(page).to have_link("Download information about your shoppers")
         expect(page).to have_link("Download information about your potential market")
       end
+
+      click_link "Download information about your shoppers"
+
+      expect(current_path).to eq(dashboard_path)
+
+      click_link "Download information about your potential market"
+
+      expect(current_path).to eq(dashboard_path)
     end
   end
 

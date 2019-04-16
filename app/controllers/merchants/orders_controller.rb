@@ -25,4 +25,22 @@ class Merchants::OrdersController < Merchants::BaseController
     flash[:success] = "Item fulfilled!"
     redirect_to dashboard_order_path(order)
   end
+
+  def current
+    merchant = User.find(params[:merchant_id])
+    @users = User.find_by_shopper(merchant)
+
+    respond_to do |format|
+      format.csv { send_data @users.to_current_csv(@users, merchant)}
+    end
+  end
+
+  def potential
+    merchant = User.find(params[:merchant_id])
+    @users = User.find_by_potential(merchant)
+
+    respond_to do |format|
+      format.csv { send_data @users.to_potential_csv(@users, merchant)}
+    end
+  end
 end

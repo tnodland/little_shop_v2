@@ -69,8 +69,8 @@
 
   <section id="csv-links">
     <h2>Downloadable CSVs</h2>
-    <p><%= link_to "Download information about your shoppers" %>, </p>
-    <p><%= link_to "Download information about your potential market" %></p>
+    <p><%= link_to "Download information about your shoppers", dashboard_download_current_path(format: "csv", merchant_id: current_user.id) %></p>
+    <p><%= link_to "Download information about your potential market", dashboard_download_potential_path(format: "csv", merchant_id: current_user.id) %></p>
   </section>
 
   <h2>Current Orders</h2>

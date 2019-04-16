@@ -521,8 +521,8 @@ RSpec.describe User, type: :model do
       item = create(:item, user: merchant)
       shopper = create(:user)
       order = create(:shipped_order, user: shopper)
-      create(:fulfilled_order_item, item: item, order: order)
-      create(:fulfilled_order_item, item: item, order: order)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 2)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 3)
 
       expect(shopper.total_money_spent).to eq(12.5)
     end
@@ -534,16 +534,29 @@ RSpec.describe User, type: :model do
       item2 = create(:item, user: merchant2)
       shopper = create(:user)
       order = create(:shipped_order, user: shopper)
-      create(:fulfilled_order_item, item: item, order: order)
-      create(:fulfilled_order_item, item: item2, order: order)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 2)
+      create(:fulfilled_order_item, item: item2, order: order, ordered_price: 2.5, quantity: 3)
 
       expect(shopper.total_spent_on_merchant(merchant)).to eq(5)
       expect(shopper.total_spent_on_merchant(merchant2)).to eq(7.5)
     end
 
     it ".total_orders_placed" do
+      shopper1 = create(:user)
+      shopper2 = create(:user)
       merchant = create(:merchant)
-      item = create(:item, user: merchant)
+      item = create(:item, user: merchant, quantity: 100)
+
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper1)
+
+      create(:fulfilled_order_item, item: item, order: order1)
+      create(:fulfilled_order_item, item: item, order: order2)
+      create(:fulfilled_order_item, item: item, order: order3)
+
+      expect(shopper1.total_orders_placed).to eq(2)
+      expect(shopper2.total_orders_placed).to eq(1)
     end
   end
 end

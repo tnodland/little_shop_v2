@@ -183,14 +183,39 @@ class User < ApplicationRecord
     .limit(5)
   end
 
+  def self.to_current_csv(users, merchant)
+    attributes = %w{name email total_spent total_spent_on_me}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      users.each do |user|
+        csv << [user.name, user.email, user.total_money_spent, user.total_spent_on_merchant(merchant)]
+      end
+    end
+  end
+
+  def self.to_potential_csv(users, merchant)
+    attributes = %w{name email total_spent total_spent_on_me}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      users.each do |user|
+        csv << [user.name, user.email, user.total_money_spent, user.total_orders_placed]
+      end
+    end
+  end
+
   def self.find_by_shopper(merchant)
     joins(orders: {order_items: :item})
     .where("items.merchant_id = #{merchant.id}")
+    .where(role: 0)
+    .distinct
   end
 
   def self.find_by_potential(merchant)
     joins(orders: {order_items: :item})
     .where.not("items.merchant_id = #{merchant.id}")
+    .where(role: 0)
   end
 
   def self.top_three_sellers
@@ -251,5 +276,9 @@ class User < ApplicationRecord
           .where("items.merchant_id = #{merchant.id}")
           .pluck("sum(order_items.ordered_price * order_items.quantity)")
           .first
+  end
+
+  def total_orders_placed
+    orders.count
   end
 end
