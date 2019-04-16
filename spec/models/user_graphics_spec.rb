@@ -82,5 +82,23 @@ RSpec.describe User, type: :model do
 
       expect(actual).to eq(expected)
     end
+
+    it '.revenue_by_month_for_graphic' do
+      merchant = create(:merchant)
+      expected = []
+      13.times do |months|
+        time = months.month.ago
+        shipped_orders = create_list(:shipped_order,2, created_at:time, updated_at:time)
+        not_shipped_order = create(:order, created_at:time, updated_at:time)
+        create(:fulfilled_order_item, order: shipped_orders[0], quantity:months+1, ordered_price: 1.0, created_at:time, updated_at:time)
+        create(:fulfilled_order_item, order: shipped_orders[1], quantity:months+1, ordered_price: 1.0, created_at:time+2.days, updated_at:time+2.days)
+        create(:fulfilled_order_item, order: not_shipped_order, quantity:months+1, ordered_price: 1.0, created_at:time-2.days, updated_at:time-2.days)
+
+        expected << {'month' => Date.new(time.year, time.month), 'revenue' =>(months+1)*2}
+      end
+      expected.reverse!
+      actual = merchant.revenue_by_month_for_graphic
+      expect(actual).to eq(expected)
+    end
   end
 end
