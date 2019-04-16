@@ -156,8 +156,13 @@ class User < ApplicationRecord
   end
 
   def self.find_by_shopper(merchant)
-    # binding.pry
-    joins(orders: {order_items: :item}).where("items.merchant_id = #{merchant.id}")
+    joins(orders: {order_items: :item})
+    .where("items.merchant_id = #{merchant.id}")
+  end
+
+  def self.find_by_potential(merchant)
+    joins(orders: {order_items: :item})
+    .where.not("items.merchant_id = #{merchant.id}")
   end
 
   def self.top_three_sellers

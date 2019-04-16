@@ -340,7 +340,7 @@ RSpec.describe User, type: :model do
       expect(User.top_ten_fulfillers_last_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
     end
 
-    it ".find_by_shopper" do
+    it ".find_by_shopper and .find_by_potential" do
       merchant1 = create(:merchant)
       merchant2 = create(:merchant)
       shopper1 = create(:user)
@@ -357,6 +357,8 @@ RSpec.describe User, type: :model do
 
       expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
       expect(User.find_by_shopper(merchant2)).to eq([shopper3])
+      expect(User.find_by_potential(merchant1)).to eq([shopper3])
+      expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
     end
 
     it ".active_merchants", :big_setup  do
