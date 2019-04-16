@@ -16,10 +16,6 @@ var line_test_data = [{"date":new Date(2018,3), "revenue":26},
                       {"date":new Date(2019,2), "revenue":4},
                       {"date":new Date(2019,3), "revenue":2}]
 
-$(function(){
-  getData();
-});
-
 function lineGraph(data){
   console.log(data)
 
@@ -76,7 +72,7 @@ function parseData(data){
   lineGraph(data['revenue'])
 }
 
-function getData(){
+function getDashboardData(){
                $.ajax({
                  type: 'GET',
                  contentType: 'application/json; charset=utf-8',
