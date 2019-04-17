@@ -18,7 +18,320 @@ RSpec.describe "Merchant index page" do
 
     end
   end
+
+  context "as a logged in user" do
+    it "shows top 5 merchants to fulfill orders fastest to my city" do
+      shopper = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(shopper)
+
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      visit merchants_path
+
+      within "#top-five-to-city" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+      end
+    end
+
+    it "shows top 5 merchants to fulfill orders fastest to my state" do
+      shopper = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(shopper)
+
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      visit merchants_path
+
+      within "#top-five-to-state" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+      end
+    end
+  end
+
   context "any type of user can see statistics about merchants" do
+    it "can see top ten sellers this month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 20)
+      item4 = create(:item, user: merchant4, quantity: 20)
+      item5 = create(:item, user: merchant5, quantity: 20)
+      item6 = create(:item, user: merchant6, quantity: 20)
+      item7 = create(:item, user: merchant7, quantity: 20)
+      item8 = create(:item, user: merchant8, quantity: 20)
+      item9 = create(:item, user: merchant9, quantity: 20)
+      item10 = create(:item, user: merchant10, quantity: 20)
+      item11 = create(:item, user: merchant11, quantity: 20)
+
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, item: item1, order: order, quantity: 20)
+      create(:fulfilled_order_item, item: item2, order: order, quantity: 19)
+      create(:fulfilled_order_item, item: item3, order: order, quantity: 18)
+      create(:fulfilled_order_item, item: item4, order: order, quantity: 17)
+      create(:fulfilled_order_item, item: item5, order: order, quantity: 16)
+      create(:fulfilled_order_item, item: item6, order: order, quantity: 15)
+      create(:fulfilled_order_item, item: item7, order: order, quantity: 14)
+      create(:fulfilled_order_item, item: item8, order: order, quantity: 13)
+      create(:fulfilled_order_item, item: item9, order: order, quantity: 12)
+      create(:fulfilled_order_item, item: item10, order: order, quantity: 11)
+      create(:fulfilled_order_item, item: item11, order: order, quantity: 10)
+
+      visit merchants_path
+
+      within "#top-ten-this-month" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+        expect(page.all("#merchant")[5]).to have_content(merchant6.name)
+        expect(page.all("#merchant")[6]).to have_content(merchant7.name)
+        expect(page.all("#merchant")[7]).to have_content(merchant8.name)
+        expect(page.all("#merchant")[8]).to have_content(merchant9.name)
+        expect(page.all("#merchant")[9]).to have_content(merchant10.name)
+        expect(page).to_not have_content(merchant11.name)
+      end
+    end
+
+    it "can see top sellers of last month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 20)
+      item4 = create(:item, user: merchant4, quantity: 20)
+      item5 = create(:item, user: merchant5, quantity: 20)
+      item6 = create(:item, user: merchant6, quantity: 20)
+      item7 = create(:item, user: merchant7, quantity: 20)
+      item8 = create(:item, user: merchant8, quantity: 20)
+      item9 = create(:item, user: merchant9, quantity: 20)
+      item10 = create(:item, user: merchant10, quantity: 20)
+      item11 = create(:item, user: merchant11, quantity: 20)
+
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, item: item1, order: order, quantity: 20, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item2, order: order, quantity: 19, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item3, order: order, quantity: 18, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item4, order: order, quantity: 17, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item5, order: order, quantity: 16, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item6, order: order, quantity: 15, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item7, order: order, quantity: 14, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item8, order: order, quantity: 13, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item9, order: order, quantity: 12, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item10, order: order, quantity: 11, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item11, order: order, quantity: 10, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+
+      visit merchants_path
+
+      within "#top-ten-last-month" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+        expect(page.all("#merchant")[5]).to have_content(merchant6.name)
+        expect(page.all("#merchant")[6]).to have_content(merchant7.name)
+        expect(page.all("#merchant")[7]).to have_content(merchant8.name)
+        expect(page.all("#merchant")[8]).to have_content(merchant9.name)
+        expect(page.all("#merchant")[9]).to have_content(merchant10.name)
+        expect(page).to_not have_content(merchant11.name)
+      end
+    end
+
+    it "can see top ten at fulfilling orders this month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+      item7 = create(:item, user: merchant7, quantity: 100)
+      item8 = create(:item, user: merchant8, quantity: 100)
+      item9 = create(:item, user: merchant9, quantity: 100)
+      item10 = create(:item, user: merchant10, quantity: 100)
+      item11 = create(:item, user: merchant11, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fulfilled_order_item, 10, item: item1, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 9, item: item2, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 8, item: item3, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 7, item: item4, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 6, item: item5, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 5, item: item6, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 4, item: item7, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 3, item: item8, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 2, item: item9, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 1, item: item10, order: order, quantity: 1)
+
+      visit merchants_path
+
+      within "#top-ten-fulfillers-this-month" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+        expect(page.all("#merchant")[5]).to have_content(merchant6.name)
+        expect(page.all("#merchant")[6]).to have_content(merchant7.name)
+        expect(page.all("#merchant")[7]).to have_content(merchant8.name)
+        expect(page.all("#merchant")[8]).to have_content(merchant9.name)
+        expect(page.all("#merchant")[9]).to have_content(merchant10.name)
+        expect(page).to_not have_content(merchant11.name)
+      end
+    end
+
+    it "can see top ten at fulfilling orders last month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+      item7 = create(:item, user: merchant7, quantity: 100)
+      item8 = create(:item, user: merchant8, quantity: 100)
+      item9 = create(:item, user: merchant9, quantity: 100)
+      item10 = create(:item, user: merchant10, quantity: 100)
+      item11 = create(:item, user: merchant11, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fulfilled_order_item, 10, item: item1, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 9, item: item2, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 8, item: item3, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 7, item: item4, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 6, item: item5, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 5, item: item6, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 4, item: item7, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 3, item: item8, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 2, item: item9, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 1, item: item10, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+
+      visit merchants_path
+
+      within "#top-ten-fulfillers-last-month" do
+        expect(page.all("#merchant")[0]).to have_content(merchant1.name)
+        expect(page.all("#merchant")[1]).to have_content(merchant2.name)
+        expect(page.all("#merchant")[2]).to have_content(merchant3.name)
+        expect(page.all("#merchant")[3]).to have_content(merchant4.name)
+        expect(page.all("#merchant")[4]).to have_content(merchant5.name)
+        expect(page.all("#merchant")[5]).to have_content(merchant6.name)
+        expect(page.all("#merchant")[6]).to have_content(merchant7.name)
+        expect(page.all("#merchant")[7]).to have_content(merchant8.name)
+        expect(page.all("#merchant")[8]).to have_content(merchant9.name)
+        expect(page.all("#merchant")[9]).to have_content(merchant10.name)
+        expect(page).to_not have_content(merchant11.name)
+      end
+    end
+
     it "shows top 3 merchants by price and quantity" do
       merchant1 = create(:merchant)
       merchant2 = create(:merchant)

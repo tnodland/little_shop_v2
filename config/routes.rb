@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :destroy, :update, :new, :create, :edit]
     get '/', to: 'orders#index'
     get '/order/:id', to: 'orders#show', as: 'order'
+    get '/download_current/:merchant_id', to: 'orders#current', as: :download_current
+    get '/download_potential/:merchant_id', to: 'orders#potential', as: :download_potential
   end
   patch '/dashboard/:order/:item/fulfill', to: "merchants/orders#update", as: :fulfill_item
 

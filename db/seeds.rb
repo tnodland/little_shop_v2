@@ -1,4 +1,5 @@
 require 'factory_bot_rails'
+include FactoryBot::Syntax::Methods
 
 OrderItem.destroy_all
 Order.destroy_all
@@ -101,3 +102,76 @@ end
   end
   order.update(status: status, created_at: created_at, updated_at: @updated_at)
 end
+
+shopper = create(:user, email: "user7@example.com")
+merchant1 = create(:merchant)
+merchant2 = create(:merchant)
+merchant3 = create(:merchant)
+merchant4 = create(:merchant)
+merchant5 = create(:merchant)
+
+item1 = create(:item, user: merchant1, quantity: 100)
+item2 = create(:item, user: merchant2, quantity: 100)
+item3 = create(:item, user: merchant3, quantity: 100)
+item4 = create(:item, user: merchant4, quantity: 100)
+item5 = create(:item, user: merchant5, quantity: 100)
+
+order = create(:shipped_order, user: shopper)
+
+create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+create(:slow_fulfilled_order_item, item: item2, order: order)
+create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+create(:fast_fulfilled_order_item, item: item4, order: order)
+create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+create(:fast_fulfilled_order_item, item: item5, order: order)
+
+merchant11 = create(:merchant)
+merchant12 = create(:merchant)
+merchant13 = create(:merchant)
+merchant14 = create(:merchant)
+merchant15 = create(:merchant)
+merchant16 = create(:merchant)
+merchant17 = create(:merchant)
+merchant18 = create(:merchant)
+merchant19 = create(:merchant)
+merchant20 = create(:merchant)
+
+item11 = create(:item, user: merchant11, quantity: 500)
+item12 = create(:item, user: merchant12, quantity: 500)
+item13 = create(:item, user: merchant13, quantity: 500)
+item14 = create(:item, user: merchant14, quantity: 500)
+item15 = create(:item, user: merchant15, quantity: 500)
+item16 = create(:item, user: merchant16, quantity: 500)
+item17 = create(:item, user: merchant17, quantity: 500)
+item18 = create(:item, user: merchant18, quantity: 500)
+item19 = create(:item, user: merchant19, quantity: 500)
+item20 = create(:item, user: merchant20, quantity: 500)
+
+order2 = create(:shipped_order, user: shopper)
+
+create(:fulfilled_order_item, item: item11, order: order, quantity: 20, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item12, order: order, quantity: 19, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item13, order: order, quantity: 18, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item14, order: order, quantity: 17, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item15, order: order, quantity: 16, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item16, order: order, quantity: 15, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item17, order: order, quantity: 14, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item18, order: order, quantity: 13, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item19, order: order, quantity: 12, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create(:fulfilled_order_item, item: item20, order: order, quantity: 11, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+
+order3 = create(:shipped_order, user: shopper)
+
+create_list(:fulfilled_order_item, 10, item: item11, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 9, item: item12, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 8, item: item13, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 7, item: item14, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 6, item: item15, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 5, item: item16, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 4, item: item17, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 3, item: item18, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 2, item: item19, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+create_list(:fulfilled_order_item, 1, item: item20, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")

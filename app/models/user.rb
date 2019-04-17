@@ -111,6 +111,112 @@ class User < ApplicationRecord
      .limit(3)
   end
 
+  def self.top_ten_sellers_this_month
+    joins(items: :order_items)
+    .select('users.*, sum(order_items.quantity) AS total_sold')
+    .where('order_items.fulfilled = ?', true)
+    .where('extract(month from order_items.created_at) = ?', Date.today.month)
+    .group(:id)
+    .order('total_sold DESC')
+    .limit(10)
+  end
+
+  def self.top_ten_sellers_last_month
+    joins(items: :order_items)
+    .select('users.*, sum(order_items.quantity) AS total_sold')
+    .where('order_items.fulfilled = ?', true)
+    .where('extract(month from order_items.created_at) = ?', DateTime.now.last_month.month)
+    .group(:id)
+    .order('total_sold DESC')
+    .limit(10)
+  end
+
+  def self.top_ten_fulfillers_this_month
+    joins(items: {order_items: :order})
+    .select("users.*, count(order_items) as total_orders")
+    .where('extract(month from order_items.created_at) = ?', Date.today.month)
+    .where(role: 1)
+    .where("order_items.fulfilled = true")
+    .where.not("orders.status = 3")
+    .group(:id)
+    .order("total_orders DESC")
+    .limit(10)
+  end
+
+  def self.top_ten_fulfillers_last_month
+    joins(items: {order_items: :order})
+    .select("users.*, count(order_items) as total_orders")
+    .where('extract(month from order_items.created_at) = ?', DateTime.now.last_month.month)
+    .where(role: 1)
+    .where("order_items.fulfilled = true")
+    .where.not("orders.status = 3")
+    .group(:id)
+    .order("total_orders DESC")
+    .limit(10)
+  end
+
+  def self.fastest_to_city(city)
+    joins("as merchants JOIN items ON items.merchant_id = merchants.id")
+    .joins("JOIN order_items ON order_items.item_id = items.id")
+    .joins("JOIN orders ON orders.id = order_items.order_id")
+    .joins("JOIN users ON users.id = orders.user_id")
+    .select("merchants.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time")
+    .where("users.city = ?", city)
+    .where("merchants.enabled = true")
+    .where.not("orders.status = 3")
+    .group("merchants.id")
+    .order("fulfillment_time ASC")
+    .limit(5)
+  end
+
+  def self.fastest_to_state(state)
+    joins("as merchants JOIN items ON items.merchant_id = merchants.id")
+    .joins("JOIN order_items ON order_items.item_id = items.id")
+    .joins("JOIN orders ON orders.id = order_items.order_id")
+    .joins("JOIN users ON users.id = orders.user_id")
+    .select("merchants.*, avg(order_items.updated_at - order_items.created_at) AS fulfillment_time")
+    .where("users.state = ?", state)
+    .where("merchants.enabled = true")
+    .where.not("orders.status = 3")
+    .group("merchants.id")
+    .order("fulfillment_time ASC")
+    .limit(5)
+  end
+
+  def self.to_current_csv(users, merchant)
+    attributes = %w{name email total_spent total_spent_on_me}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      users.each do |user|
+        csv << [user.name, user.email, user.total_money_spent, user.total_spent_on_merchant(merchant)]
+      end
+    end
+  end
+
+  def self.to_potential_csv(users, merchant)
+    attributes = %w{name email total_spent total_orders_placed}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      users.each do |user|
+        csv << [user.name, user.email, user.total_money_spent, user.total_orders_placed]
+      end
+    end
+  end
+
+  def self.find_by_shopper(merchant)
+    joins(orders: {order_items: :item})
+    .where("items.merchant_id = #{merchant.id}")
+    .where(role: 0)
+    .distinct
+  end
+
+  def self.find_by_potential(merchant)
+    shopper_ids = User.find_by_shopper(merchant).pluck(:id)
+    User.where.not(id: shopper_ids).where(role: 0)
+  end
+
   def self.top_three_sellers
     joins(items: :order_items)
     .select('users.*, sum(order_items.quantity * order_items.ordered_price) AS total_revenue')
@@ -156,5 +262,22 @@ class User < ApplicationRecord
   def average_time
     items.joins(:order_items)
          .average('order_items.updated_at - order_items.created_at')
+  end
+
+  def total_money_spent
+    orders.joins(:order_items)
+          .pluck("sum(order_items.ordered_price * order_items.quantity)")
+          .first
+  end
+
+  def total_spent_on_merchant(merchant)
+    orders.joins(items: :order_items)
+          .where("items.merchant_id = #{merchant.id}")
+          .pluck("sum(order_items.ordered_price * order_items.quantity)")
+          .first
+  end
+
+  def total_orders_placed
+    orders.count
   end
 end

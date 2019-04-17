@@ -170,6 +170,240 @@ RSpec.describe User, type: :model do
   end
 
   describe "class methods" do
+    it ".top_ten_sellers_this_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 20)
+      item4 = create(:item, user: merchant4, quantity: 20)
+      item5 = create(:item, user: merchant5, quantity: 20)
+      item6 = create(:item, user: merchant6, quantity: 20)
+      item7 = create(:item, user: merchant7, quantity: 20)
+      item8 = create(:item, user: merchant8, quantity: 20)
+      item9 = create(:item, user: merchant9, quantity: 20)
+      item10 = create(:item, user: merchant10, quantity: 20)
+      item11 = create(:item, user: merchant11, quantity: 20)
+
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, item: item1, order: order, quantity: 20)
+      create(:fulfilled_order_item, item: item2, order: order, quantity: 19)
+      create(:fulfilled_order_item, item: item3, order: order, quantity: 18)
+      create(:fulfilled_order_item, item: item4, order: order, quantity: 17)
+      create(:fulfilled_order_item, item: item5, order: order, quantity: 16)
+      create(:fulfilled_order_item, item: item6, order: order, quantity: 15)
+      create(:fulfilled_order_item, item: item7, order: order, quantity: 14)
+      create(:fulfilled_order_item, item: item8, order: order, quantity: 13)
+      create(:fulfilled_order_item, item: item9, order: order, quantity: 12)
+      create(:fulfilled_order_item, item: item10, order: order, quantity: 11)
+      create(:fulfilled_order_item, item: item11, order: order, quantity: 10)
+
+      expect(User.top_ten_sellers_this_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
+
+    it ".top_ten_sellers_last_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 20)
+      item4 = create(:item, user: merchant4, quantity: 20)
+      item5 = create(:item, user: merchant5, quantity: 20)
+      item6 = create(:item, user: merchant6, quantity: 20)
+      item7 = create(:item, user: merchant7, quantity: 20)
+      item8 = create(:item, user: merchant8, quantity: 20)
+      item9 = create(:item, user: merchant9, quantity: 20)
+      item10 = create(:item, user: merchant10, quantity: 20)
+      item11 = create(:item, user: merchant11, quantity: 20)
+
+      order = create(:shipped_order, user: shopper)
+
+      create(:fulfilled_order_item, item: item1, order: order, quantity: 20, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item2, order: order, quantity: 19, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item3, order: order, quantity: 18, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item4, order: order, quantity: 17, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item5, order: order, quantity: 16, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item6, order: order, quantity: 15, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item7, order: order, quantity: 14, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item8, order: order, quantity: 13, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item9, order: order, quantity: 12, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item10, order: order, quantity: 11, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create(:fulfilled_order_item, item: item11, order: order, quantity: 10, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+
+      expect(User.top_ten_sellers_last_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
+
+    it ".top_ten_fulfillers_this_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+      item7 = create(:item, user: merchant7, quantity: 100)
+      item8 = create(:item, user: merchant8, quantity: 100)
+      item9 = create(:item, user: merchant9, quantity: 100)
+      item10 = create(:item, user: merchant10, quantity: 100)
+      item11 = create(:item, user: merchant11, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fulfilled_order_item, 10, item: item1, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 9, item: item2, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 8, item: item3, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 7, item: item4, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 6, item: item5, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 5, item: item6, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 4, item: item7, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 3, item: item8, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 2, item: item9, order: order, quantity: 1)
+      create_list(:fulfilled_order_item, 1, item: item10, order: order, quantity: 1)
+
+      expect(User.top_ten_fulfillers_this_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
+
+    it ".top_ten_fulfillers_last_month" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+      merchant7 = create(:merchant)
+      merchant8 = create(:merchant)
+      merchant9 = create(:merchant)
+      merchant10 = create(:merchant)
+      merchant11 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+      item7 = create(:item, user: merchant7, quantity: 100)
+      item8 = create(:item, user: merchant8, quantity: 100)
+      item9 = create(:item, user: merchant9, quantity: 100)
+      item10 = create(:item, user: merchant10, quantity: 100)
+      item11 = create(:item, user: merchant11, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fulfilled_order_item, 10, item: item1, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 9, item: item2, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 8, item: item3, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 7, item: item4, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 6, item: item5, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 5, item: item6, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 4, item: item7, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 3, item: item8, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 2, item: item9, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+      create_list(:fulfilled_order_item, 1, item: item10, order: order, quantity: 1, created_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00", updated_at: "Sat, 16 Mar 2019 01:34:03 UTC +00:00")
+
+      expect(User.top_ten_fulfillers_last_month).to eq([merchant1, merchant2, merchant3, merchant4, merchant5, merchant6, merchant7, merchant8, merchant9, merchant10])
+    end
+
+    it ".find_by_shopper and .find_by_potential" do
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      shopper1 = create(:user)
+      shopper2 = create(:user)
+      shopper3 = create(:user)
+      item1 = create(:item, user: merchant1, quantity: 20)
+      item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 50)
+      item4 = create(:item, user: merchant4, quantity: 50)
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper3)
+      create(:fulfilled_order_item, item: item1, order: order1)
+      create(:fulfilled_order_item, item: item1, order: order2)
+      create(:fulfilled_order_item, item: item2, order: order3)
+      create(:fulfilled_order_item, item: item3, order: order1)
+      create(:fulfilled_order_item, item: item3, order: order2)
+      create(:fulfilled_order_item, item: item3, order: order3)
+
+      expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
+      expect(User.find_by_shopper(merchant2)).to eq([shopper3])
+      # binding.pry
+      expect(User.find_by_shopper(merchant3)).to eq([shopper1, shopper2, shopper3])
+      expect(User.find_by_shopper(merchant4)).to eq([])
+      expect(User.find_by_potential(merchant1)).to eq([shopper3])
+      expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
+      expect(User.find_by_potential(merchant3)).to eq([])
+    end
+
+    it ".fastest_to_city and .fastest_to_state" do
+      shopper = create(:user)
+      merchant1 = create(:merchant)
+      merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
+      merchant5 = create(:merchant)
+      merchant6 = create(:merchant)
+
+      item1 = create(:item, user: merchant1, quantity: 100)
+      item2 = create(:item, user: merchant2, quantity: 100)
+      item3 = create(:item, user: merchant3, quantity: 100)
+      item4 = create(:item, user: merchant4, quantity: 100)
+      item5 = create(:item, user: merchant5, quantity: 100)
+      item6 = create(:item, user: merchant6, quantity: 100)
+
+      order = create(:shipped_order, user: shopper)
+
+      create_list(:fast_fulfilled_order_item, 4, item: item1, order: order)
+      create_list(:fast_fulfilled_order_item, 3, item: item2, order: order)
+      create(:slow_fulfilled_order_item, item: item2, order: order)
+      create_list(:fast_fulfilled_order_item, 2, item: item3, order: order)
+      create_list(:slow_fulfilled_order_item, 2, item: item3, order: order)
+      create(:fast_fulfilled_order_item, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
+      create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
+      create(:fast_fulfilled_order_item, item: item5, order: order)
+      create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
+
+      expect(User.fastest_to_city(shopper.city)).to eq([merchant1, merchant2, merchant3, merchant4, merchant5])
+      expect(User.fastest_to_state(shopper.state)).to eq([merchant1, merchant2, merchant3, merchant4, merchant5])
+    end
 
     it ".active_merchants", :big_setup  do
       expect(User.active_merchants).to eq([@merchant1, @merchant2, @merchant3, @merchant])
@@ -291,6 +525,49 @@ RSpec.describe User, type: :model do
       create(:slow_fulfilled_order_item, order: order, item: item)
 
       expect(merchant.average_time).to eq(2)
+    end
+
+    it ".total_money_spent" do
+      merchant = create(:merchant)
+      item = create(:item, user: merchant)
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 2)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 3)
+
+      expect(shopper.total_money_spent).to eq(12.5)
+    end
+
+    it ".total_spent_on_merchant" do
+      merchant = create(:merchant)
+      merchant2 = create(:merchant)
+      item = create(:item, user: merchant)
+      item2 = create(:item, user: merchant2)
+      shopper = create(:user)
+      order = create(:shipped_order, user: shopper)
+      create(:fulfilled_order_item, item: item, order: order, ordered_price: 2.5, quantity: 2)
+      create(:fulfilled_order_item, item: item2, order: order, ordered_price: 2.5, quantity: 3)
+
+      expect(shopper.total_spent_on_merchant(merchant)).to eq(5)
+      expect(shopper.total_spent_on_merchant(merchant2)).to eq(7.5)
+    end
+
+    it ".total_orders_placed" do
+      shopper1 = create(:user)
+      shopper2 = create(:user)
+      merchant = create(:merchant)
+      item = create(:item, user: merchant, quantity: 100)
+
+      order1 = create(:shipped_order, user: shopper1)
+      order2 = create(:shipped_order, user: shopper2)
+      order3 = create(:shipped_order, user: shopper1)
+
+      create(:fulfilled_order_item, item: item, order: order1)
+      create(:fulfilled_order_item, item: item, order: order2)
+      create(:fulfilled_order_item, item: item, order: order3)
+
+      expect(shopper1.total_orders_placed).to eq(2)
+      expect(shopper2.total_orders_placed).to eq(1)
     end
   end
 end
