@@ -187,7 +187,7 @@ class User < ApplicationRecord
     attributes = %w{name email total_spent total_spent_on_me}
     CSV.generate(headers: true) do |csv|
       csv << attributes
-
+      
       users.each do |user|
         csv << [user.name, user.email, user.total_money_spent, user.total_spent_on_merchant(merchant)]
       end
@@ -195,7 +195,7 @@ class User < ApplicationRecord
   end
 
   def self.to_potential_csv(users, merchant)
-    attributes = %w{name email total_spent total_spent_on_me}
+    attributes = %w{name email total_spent total_orders_placed}
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
@@ -214,8 +214,9 @@ class User < ApplicationRecord
 
   def self.find_by_potential(merchant)
     joins(orders: {order_items: :item})
-    .where.not("items.merchant_id = #{merchant.id}")
+    .where.not("items.merchant_id = ?", merchant.id)
     .where(role: 0)
+    .distinct
   end
 
   def self.top_three_sellers

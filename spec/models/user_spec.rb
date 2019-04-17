@@ -354,7 +354,7 @@ RSpec.describe User, type: :model do
       create(:fulfilled_order_item, item: item1, order: order1)
       create(:fulfilled_order_item, item: item1, order: order2)
       create(:fulfilled_order_item, item: item2, order: order3)
-
+      binding.pry
       expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
       expect(User.find_by_shopper(merchant2)).to eq([shopper3])
       expect(User.find_by_potential(merchant1)).to eq([shopper3])

@@ -28,19 +28,19 @@ class Merchants::OrdersController < Merchants::BaseController
 
   def current
     merchant = User.find(params[:merchant_id])
-    @users = User.find_by_shopper(merchant)
-
+    users = User.find_by_shopper(merchant)
+    
     respond_to do |format|
-      format.csv { send_data @users.to_current_csv(@users, merchant)}
+      format.csv { send_data User.to_current_csv(users, merchant)}
     end
   end
 
   def potential
     merchant = User.find(params[:merchant_id])
-    @users = User.find_by_potential(merchant)
+    users = User.find_by_potential(merchant)
 
     respond_to do |format|
-      format.csv { send_data @users.to_potential_csv(@users, merchant)}
+      format.csv { send_data User.to_potential_csv(users, merchant)}
     end
   end
 end
