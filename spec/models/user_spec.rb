@@ -343,22 +343,33 @@ RSpec.describe User, type: :model do
     it ".find_by_shopper and .find_by_potential" do
       merchant1 = create(:merchant)
       merchant2 = create(:merchant)
+      merchant3 = create(:merchant)
+      merchant4 = create(:merchant)
       shopper1 = create(:user)
       shopper2 = create(:user)
       shopper3 = create(:user)
       item1 = create(:item, user: merchant1, quantity: 20)
       item2 = create(:item, user: merchant2, quantity: 20)
+      item3 = create(:item, user: merchant3, quantity: 50)
+      item4 = create(:item, user: merchant4, quantity: 50)
       order1 = create(:shipped_order, user: shopper1)
       order2 = create(:shipped_order, user: shopper2)
       order3 = create(:shipped_order, user: shopper3)
       create(:fulfilled_order_item, item: item1, order: order1)
       create(:fulfilled_order_item, item: item1, order: order2)
       create(:fulfilled_order_item, item: item2, order: order3)
-      binding.pry
+      create(:fulfilled_order_item, item: item3, order: order1)
+      create(:fulfilled_order_item, item: item3, order: order2)
+      create(:fulfilled_order_item, item: item3, order: order3)
+
       expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
       expect(User.find_by_shopper(merchant2)).to eq([shopper3])
       expect(User.find_by_potential(merchant1)).to eq([shopper3])
       expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
+      # binding.pry
+      expect(User.find_by_shopper(merchant3)).to eq([shopper1, shopper2, shopper3])
+      expect(User.find_by_shopper(merchant4)).to eq([])
+      expect(User.find_by_potential(merchant3)).to eq([])
     end
 
     it ".fastest_to_city and .fastest_to_state" do

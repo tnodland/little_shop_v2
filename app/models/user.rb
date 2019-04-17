@@ -187,7 +187,7 @@ class User < ApplicationRecord
     attributes = %w{name email total_spent total_spent_on_me}
     CSV.generate(headers: true) do |csv|
       csv << attributes
-      
+
       users.each do |user|
         csv << [user.name, user.email, user.total_money_spent, user.total_spent_on_merchant(merchant)]
       end
@@ -213,8 +213,9 @@ class User < ApplicationRecord
   end
 
   def self.find_by_potential(merchant)
+    # binding.pry
     joins(orders: {order_items: :item})
-    .where.not("items.merchant_id = ?", merchant.id)
+    .where.not("items.merchant_id = #{merchant.id}")
     .where(role: 0)
     .distinct
   end
