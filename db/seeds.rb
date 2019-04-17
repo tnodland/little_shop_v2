@@ -1,4 +1,5 @@
 require 'factory_bot_rails'
+include FactoryBot::Syntax::Methods
 
 OrderItem.destroy_all
 Order.destroy_all
@@ -126,7 +127,6 @@ create(:fast_fulfilled_order_item, item: item4, order: order)
 create_list(:slow_fulfilled_order_item, 3, item: item4, order: order)
 create_list(:slow_fulfilled_order_item, 4, item: item5, order: order)
 create(:fast_fulfilled_order_item, item: item5, order: order)
-create_list(:slow_fulfilled_order_item, 5, item: item6, order: order)
 
 merchant11 = create(:merchant)
 merchant12 = create(:merchant)
@@ -139,16 +139,16 @@ merchant18 = create(:merchant)
 merchant19 = create(:merchant)
 merchant20 = create(:merchant)
 
-item11 = create(:item, user: merchant1, quantity: 500)
-item12 = create(:item, user: merchant2, quantity: 500)
-item13 = create(:item, user: merchant3, quantity: 500)
-item14 = create(:item, user: merchant4, quantity: 500)
-item15 = create(:item, user: merchant5, quantity: 500)
-item16 = create(:item, user: merchant6, quantity: 500)
-item17 = create(:item, user: merchant7, quantity: 500)
-item18 = create(:item, user: merchant8, quantity: 500)
-item19 = create(:item, user: merchant9, quantity: 500)
-item20 = create(:item, user: merchant10, quantity: 500)
+item11 = create(:item, user: merchant11, quantity: 500)
+item12 = create(:item, user: merchant12, quantity: 500)
+item13 = create(:item, user: merchant13, quantity: 500)
+item14 = create(:item, user: merchant14, quantity: 500)
+item15 = create(:item, user: merchant15, quantity: 500)
+item16 = create(:item, user: merchant16, quantity: 500)
+item17 = create(:item, user: merchant17, quantity: 500)
+item18 = create(:item, user: merchant18, quantity: 500)
+item19 = create(:item, user: merchant19, quantity: 500)
+item20 = create(:item, user: merchant20, quantity: 500)
 
 order2 = create(:shipped_order, user: shopper)
 

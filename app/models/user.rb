@@ -213,11 +213,8 @@ class User < ApplicationRecord
   end
 
   def self.find_by_potential(merchant)
-    # binding.pry
-    joins(orders: {order_items: :item})
-    .where.not("items.merchant_id = #{merchant.id}")
-    .where(role: 0)
-    .distinct
+    shopper_ids = User.find_by_shopper(merchant).pluck(:id)
+    User.where.not(id: shopper_ids).where(role: 0)
   end
 
   def self.top_three_sellers

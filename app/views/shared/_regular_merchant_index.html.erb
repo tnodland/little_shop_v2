@@ -6,14 +6,14 @@
     <section id="top-ten-this-month">
       <h3>Top 10 sellers this month</h3>
       <% @top_ten_sellers_this_month.each do |merchant| %>
-        <li id="merchant"><%= merchant.name %></li>
+        <li id="merchant"><%= merchant.name %> has sold <%= merchant.total_sold %> items</li>
       <% end %>
     </section>
 
     <section id="top-ten-last-month">
       <h3>Top 10 sellers last month</h3>
       <% @top_ten_sellers_last_month.each do |merchant| %>
-        <li id="merchant"><%= merchant.name %></li>
+        <li id="merchant"><%= merchant.name %> has sold <%= merchant.total_sold %> items</li>
       <% end %>
     </section>
 

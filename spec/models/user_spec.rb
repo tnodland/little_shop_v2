@@ -364,11 +364,11 @@ RSpec.describe User, type: :model do
 
       expect(User.find_by_shopper(merchant1)).to eq([shopper1, shopper2])
       expect(User.find_by_shopper(merchant2)).to eq([shopper3])
-      expect(User.find_by_potential(merchant1)).to eq([shopper3])
-      expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
       # binding.pry
       expect(User.find_by_shopper(merchant3)).to eq([shopper1, shopper2, shopper3])
       expect(User.find_by_shopper(merchant4)).to eq([])
+      expect(User.find_by_potential(merchant1)).to eq([shopper3])
+      expect(User.find_by_potential(merchant2)).to eq([shopper1, shopper2])
       expect(User.find_by_potential(merchant3)).to eq([])
     end
 
